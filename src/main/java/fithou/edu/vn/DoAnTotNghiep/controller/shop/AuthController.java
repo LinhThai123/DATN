@@ -3,32 +3,19 @@ package fithou.edu.vn.DoAnTotNghiep.controller.shop;
 import fithou.edu.vn.DoAnTotNghiep.auth.commands.forgotPassword.ForgotPasswordCommand;
 import fithou.edu.vn.DoAnTotNghiep.auth.commands.login.LoginRequest;
 import fithou.edu.vn.DoAnTotNghiep.auth.commands.register.RegisterCommand;
+import fithou.edu.vn.DoAnTotNghiep.auth.commands.resetPassword.ResetPasswordCommand;
 import fithou.edu.vn.DoAnTotNghiep.auth.jwt.JwtService;
-import fithou.edu.vn.DoAnTotNghiep.auth.security.CustomUserDetails;
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.ISender;
 import fithou.edu.vn.DoAnTotNghiep.common.dto.NotificationDto;
-import fithou.edu.vn.DoAnTotNghiep.common.response.JwtResponse;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/v1/auth")
@@ -141,6 +128,40 @@ public class AuthController {
         }
         model.addAttribute("error", result.getError());
         return "forgot-password";
+    }
+
+    @GetMapping("/reset-password")
+    public String resetPassword(@RequestParam String token, Model model) {
+        try {
+            var email = jwtService.getValue(token, c -> c.get("email", String.class));
+        } catch (Exception e) {
+            model.addAttribute("error", "Token không hợp lệ");
+            return "forgot-password";
+        }
+        var command = new ResetPasswordCommand();
+        command.setToken(token);
+        model.addAttribute("resetPasswordCommand", command);
+
+        return "reset-password";
+    }
+
+    @PostMapping("/reset-password")
+    public String changePassword(@Valid ResetPasswordCommand resetPasswordCommand, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "reset-password";
+        }
+        var result = sender.send(resetPasswordCommand);
+        if(result.hasError()){
+            model.addAttribute("error", result.getError());
+            return "reset-password";
+        }
+
+        return "redirect:/auth/login";
+    }
+
+    @GetMapping("/reset-password/success")
+    public String resetPasswordSuccess() {
+        return "reset-password-success";
     }
 
 }
