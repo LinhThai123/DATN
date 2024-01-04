@@ -1,5 +1,6 @@
 package fithou.edu.vn.DoAnTotNghiep.controller.shop;
 
+import fithou.edu.vn.DoAnTotNghiep.auth.commands.forgotPassword.ForgotPasswordCommand;
 import fithou.edu.vn.DoAnTotNghiep.auth.commands.login.LoginRequest;
 import fithou.edu.vn.DoAnTotNghiep.auth.commands.register.RegisterCommand;
 import fithou.edu.vn.DoAnTotNghiep.auth.jwt.JwtService;
@@ -10,6 +11,7 @@ import fithou.edu.vn.DoAnTotNghiep.common.response.JwtResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -122,6 +124,23 @@ public class AuthController {
         }
         registerResult.addError(new ObjectError("registerCommand", result.getError()));
         return "register";
+    }
+
+    @GetMapping("/forgot-password")
+    public String forgetPassword (Model model) {
+        return "forgot-password";
+    }
+
+    @PostMapping("/forgot-password")
+    public String createForgotPassword(@RequestParam String email, Model model) {
+        var command = new ForgotPasswordCommand(email);
+        var result = sender.send(command);
+        if (result.isOk()) {
+            model.addAttribute("success", true);
+            return "forgot-password";
+        }
+        model.addAttribute("error", result.getError());
+        return "forgot-password";
     }
 
 }
