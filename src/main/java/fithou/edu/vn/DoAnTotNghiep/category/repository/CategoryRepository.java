@@ -1,6 +1,7 @@
 package fithou.edu.vn.DoAnTotNghiep.category.repository;
 
 import fithou.edu.vn.DoAnTotNghiep.category.entity.Category;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,6 @@ public interface CategoryRepository extends JpaRepository<Category, String> {
     @Modifying
     @Query(value = "DELETE FROM category WHERE category_id = ?1", nativeQuery = true)
     void hardDeleteById(String id);
+
+    Page<Category> findAllByNameContainingIgnoreCase(String name, org.springframework.data.domain.Pageable pageable);
 }
