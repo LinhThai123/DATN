@@ -59,4 +59,9 @@ public class Product extends BaseEntity implements Serializable {
     @JsonBackReference
     private Category category;
 
+    @ManyToOne
+    @JoinColumn(name = "BRAND_ID", nullable = false)
+    @JsonBackReference
+    private Brand brand;
+
 }
