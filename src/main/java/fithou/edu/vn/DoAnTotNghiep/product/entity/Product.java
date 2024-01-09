@@ -10,6 +10,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,6 +27,32 @@ public class Product extends BaseEntity implements Serializable {
     @GeneratedValue(generator = "random_id")
     private String id;
 
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "SLUG")
+    private String slug;
+
+    @Column(name = "MA_SERIAL" , unique = true)
+    private String maSerial;
+
+    @Column(name = "WARRANTY" )
+    private Integer warranty;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @Column(name = "IMAGE_URL")
+    private String imageUrl;
+
+    @Column(name = "STATUS")
+    private Integer status;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "deleted_date")
+    private Timestamp deletedDate = null;
+
+    private int totalSold = 0 ;
 
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID", nullable = false)
