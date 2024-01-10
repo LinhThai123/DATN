@@ -53,10 +53,10 @@ public class SecurityConfig {
                     rememberMe.key("remember-me");
                     rememberMe.tokenValiditySeconds(7 * 24 * 60 * 60); // 7 days
                     rememberMe.tokenRepository(persistentTokenRepository());
-                }).formLogin(login -> {
-                    login.loginPage("/v1/auth/login");
-                    login.failureUrl("/v1/auth/login?error=true");
-                    login.defaultSuccessUrl("/");
+//                }).formLogin(login -> {
+//                    login.loginPage("/v1/auth/login");
+//                    login.failureUrl("/v1/auth/login?error=true");
+//                    login.defaultSuccessUrl("/");
                 }).logout(logout -> {
                     logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
                     logout.logoutSuccessUrl("/");
