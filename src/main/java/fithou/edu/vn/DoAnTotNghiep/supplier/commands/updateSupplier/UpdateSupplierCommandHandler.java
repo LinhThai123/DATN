@@ -29,15 +29,15 @@ public class UpdateSupplierCommandHandler implements IRequestHandler<UpdateSuppl
             if (existWithName.isPresent()) {
                 return HandleResponse.error("Tên nhà cung cấp đã tồn tại");
             }
-            exitsSuppiler.get().setName(command.getName());
-            exitsSuppiler.get().setEmail(command.getEmail());
-            exitsSuppiler.get().setNumberPhone(command.getNumberPhone());
-            exitsSuppiler.get().setBank(command.getBank());
-            exitsSuppiler.get().setAddress(command.getAddress());
-            exitsSuppiler.get().setStatus(command.getStatus());
-            exitsSuppiler.get().setAccountNumber(command.getAccountNumber());
-            exitsSuppiler.get().setModifiedDate(new Timestamp(System.currentTimeMillis()));
         }
+        exitsSuppiler.get().setName(command.getName());
+        exitsSuppiler.get().setEmail(command.getEmail());
+        exitsSuppiler.get().setNumberPhone(command.getNumberPhone());
+        exitsSuppiler.get().setBank(command.getBank());
+        exitsSuppiler.get().setAddress(command.getAddress());
+        exitsSuppiler.get().setStatus(command.getStatus());
+        exitsSuppiler.get().setAccountNumber(command.getAccountNumber());
+        exitsSuppiler.get().setModifiedDate(new Timestamp(System.currentTimeMillis()));
         suppilerRepository.save(exitsSuppiler.get());
         return HandleResponse.ok("Sửa nhà cung cấp thành công");
     }

@@ -31,6 +31,8 @@ public class CreateSupplierCommandHandler implements IRequestHandler<CreateSuppl
         suppiler.setAccountNumber(createSupplierCommand.getAccountNumber());
         suppiler.setCreatedDate(new Timestamp(System.currentTimeMillis()));
         suppiler.setModifiedDate(new Timestamp(System.currentTimeMillis()));
+        suppiler.setDeleteDate(null);
+        suppilerRepository.save(suppiler);
         return HandleResponse.ok("Thêm nhà cung cấp thành công");
     }
 }
