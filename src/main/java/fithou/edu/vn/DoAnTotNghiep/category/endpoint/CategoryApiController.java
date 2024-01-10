@@ -36,7 +36,7 @@ public class CategoryApiController {
     @PutMapping("/update")
 //    @PostAuthorize("hasAuthority('CATEGORY_MANAGEMENT')")
 //    @Secured("CATEGORY_MANAGEMENT")
-    public ResponseEntity<String> createCategory(@Valid @RequestBody UpdateCategoryCommand command) {
+    public ResponseEntity<String> updateCategory(@Valid @RequestBody UpdateCategoryCommand command) {
         var result = sender.send(command);
         return ResponseEntity.ok(result.orThrow());
 
