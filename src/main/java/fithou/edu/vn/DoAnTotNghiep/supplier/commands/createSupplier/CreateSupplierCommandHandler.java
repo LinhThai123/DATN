@@ -2,7 +2,7 @@ package fithou.edu.vn.DoAnTotNghiep.supplier.commands.createSupplier;
 
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.HandleResponse;
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.IRequestHandler;
-import fithou.edu.vn.DoAnTotNghiep.supplier.entity.Suppiler;
+import fithou.edu.vn.DoAnTotNghiep.supplier.entity.Supplier;
 import fithou.edu.vn.DoAnTotNghiep.supplier.repository.SuppilerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class CreateSupplierCommandHandler implements IRequestHandler<CreateSuppl
         if (exitsName.isPresent()) {
             return HandleResponse.error("Tên nhà cung cấp đã tồn tại");
         }
-        var suppiler = new Suppiler();
+        var suppiler = new Supplier();
         suppiler.setName(createSupplierCommand.getName());
         suppiler.setEmail(createSupplierCommand.getEmail());
         suppiler.setNumberPhone(createSupplierCommand.getNumberPhone());

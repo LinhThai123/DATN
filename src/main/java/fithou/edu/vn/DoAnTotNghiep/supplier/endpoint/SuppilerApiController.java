@@ -1,10 +1,14 @@
 package fithou.edu.vn.DoAnTotNghiep.supplier.endpoint;
 
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.ISender;
+import fithou.edu.vn.DoAnTotNghiep.common.dto.Paginated;
 import fithou.edu.vn.DoAnTotNghiep.supplier.commands.createSupplier.CreateSupplierCommand;
 import fithou.edu.vn.DoAnTotNghiep.supplier.commands.deleteSupplier.DeleteSuppilerCommand;
 import fithou.edu.vn.DoAnTotNghiep.supplier.commands.updateSupplier.UpdateSupplierCommand;
+import fithou.edu.vn.DoAnTotNghiep.supplier.dto.SupplierDto;
+import fithou.edu.vn.DoAnTotNghiep.supplier.query.getAllSupplier.GetAllSuppliersQuery;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +18,12 @@ import org.springframework.web.bind.annotation.*;
 public class SuppilerApiController {
     @Autowired
     private ISender sender;
+
+    @GetMapping()
+    public ResponseEntity<Paginated<SupplierDto>> getAllSuppliers(@ParameterObject GetAllSuppliersQuery query) {
+        var result = sender.send(query).orThrow();
+        return ResponseEntity.ok(result);
+    }
 
     @PostMapping("/add")
     public ResponseEntity<String> createSuppiler (@Valid @RequestBody CreateSupplierCommand command) {

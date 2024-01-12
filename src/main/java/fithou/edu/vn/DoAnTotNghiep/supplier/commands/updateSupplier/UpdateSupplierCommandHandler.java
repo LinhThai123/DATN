@@ -2,7 +2,7 @@ package fithou.edu.vn.DoAnTotNghiep.supplier.commands.updateSupplier;
 
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.HandleResponse;
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.IRequestHandler;
-import fithou.edu.vn.DoAnTotNghiep.supplier.entity.Suppiler;
+import fithou.edu.vn.DoAnTotNghiep.supplier.entity.Supplier;
 import fithou.edu.vn.DoAnTotNghiep.supplier.repository.SuppilerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class UpdateSupplierCommandHandler implements IRequestHandler<UpdateSuppl
     private SuppilerRepository suppilerRepository;
     @Override
     public HandleResponse<String> handle(UpdateSupplierCommand command) throws Exception {
-        Optional<Suppiler> exitsSuppiler = suppilerRepository.findById(command.getId());
+        Optional<Supplier> exitsSuppiler = suppilerRepository.findById(command.getId());
         if (exitsSuppiler.isEmpty()) {
             return HandleResponse.error("Nhà cung cấp không tồn tại");
         }

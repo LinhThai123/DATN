@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 @SQLDelete(sql = "UPDATE suppiler SET deleted_date = NOW() WHERE id=?")
 @Where(clause = "deleted_date is null")
 @Table(name = "SUPPILER")
-public class Suppiler extends BaseEntity implements Serializable {
+public class Supplier extends BaseEntity implements Serializable {
     @GenericGenerator(name = "random_id", strategy = "fithou.edu.vn.DoAnTotNghiep.common.custom.RandomIdGenerator")
     @Id
     @GeneratedValue(generator = "random_id")

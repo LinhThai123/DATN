@@ -1,12 +1,12 @@
 package fithou.edu.vn.DoAnTotNghiep.supplier.repository;
 
-import fithou.edu.vn.DoAnTotNghiep.supplier.entity.Suppiler;
+import fithou.edu.vn.DoAnTotNghiep.supplier.entity.Supplier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface SuppilerRepository extends JpaRepository<Suppiler, String> {
-    Optional<Suppiler> findByNameIgnoreCase (String name);
+public interface SuppilerRepository extends JpaRepository<Supplier, String> {
+    Optional<Supplier> findByNameIgnoreCase (String name);
 }
