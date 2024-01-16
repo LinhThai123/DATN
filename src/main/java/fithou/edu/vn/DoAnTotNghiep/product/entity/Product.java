@@ -37,9 +37,6 @@ public class Product extends BaseEntity implements Serializable {
     @Column(name = "MA_SERIAL" , unique = true)
     private String maSerial;
 
-    @Column(name = "WARRANTY" )
-    private Integer warranty;
-
     @Column(name = "DESCRIPTION")
     private String description;
 
@@ -48,6 +45,12 @@ public class Product extends BaseEntity implements Serializable {
 
     @Column(name = "STATUS")
     private Integer status;
+
+    @Column(name = "DISCOUNT")
+    private int discount;
+
+    @Column(name = "PRICE")
+    private int price;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "deleted_date")
