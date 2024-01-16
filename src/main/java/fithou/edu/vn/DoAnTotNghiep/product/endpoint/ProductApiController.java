@@ -2,6 +2,7 @@ package fithou.edu.vn.DoAnTotNghiep.product.endpoint;
 
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.ISender;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.createProduct.CreateProductCommand;
+import fithou.edu.vn.DoAnTotNghiep.product.commands.deleteProduct.DeleteProductCommand;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.updateProduct.UpdateProductCommand;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,13 @@ public class ProductApiController {
     public ResponseEntity<String> updateProduct(@RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody @Valid UpdateProductCommand command) {
         var result = sender.send(command);
         return ResponseEntity.ok(result.orThrow());
+    }
+
+    @DeleteMapping("/delete/{productId}")
+    //@Secured("PRODUCT_MANAGEMENT")
+    @ResponseStatus(org.springframework.http.HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> deleteProduct(@PathVariable String productId) {
+        sender.send(new DeleteProductCommand(productId)).orThrow();
+        return ResponseEntity.noContent().build();
     }
 }
