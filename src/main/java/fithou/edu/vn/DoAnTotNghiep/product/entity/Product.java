@@ -19,7 +19,7 @@ import java.util.List;
 @Setter
 @Builder
 @Entity
-@SQLDelete(sql = "UPDATE product SET deleted_date = NOW() WHERE product_id=?")
+@SQLDelete(sql = "UPDATE product SET deleted_date = NOW() WHERE id=?")
 @Where(clause = "deleted_date is null")
 @Table(name = "PRODUCT")
 public class Product extends BaseEntity implements Serializable {

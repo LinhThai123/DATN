@@ -3,6 +3,7 @@ package fithou.edu.vn.DoAnTotNghiep.product.endpoint;
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.ISender;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.createProduct.CreateProductCommand;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.deleteProduct.DeleteProductCommand;
+import fithou.edu.vn.DoAnTotNghiep.product.commands.recoveryProduct.RecoveryProductCommand;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.updateProduct.UpdateProductCommand;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,16 @@ public class ProductApiController {
     @DeleteMapping("/delete/{productId}")
     //@Secured("PRODUCT_MANAGEMENT")
     @ResponseStatus(org.springframework.http.HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> deleteProduct(@PathVariable String productId) {
-        sender.send(new DeleteProductCommand(productId)).orThrow();
+    public ResponseEntity<String> deleteProduct(@PathVariable String productId) {
+        var result = sender.send(new DeleteProductCommand(productId));
+        return ResponseEntity.ok(result.orThrow());
+    }
+
+    @PatchMapping("/recovery/{productId}")
+    //@Secured("PRODUCT_MANAGEMENT")
+    @ResponseStatus(org.springframework.http.HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> recoveryProduct(@PathVariable String productId) {
+        sender.send(new RecoveryProductCommand(productId)).orThrow();
         return ResponseEntity.noContent().build();
     }
 }

@@ -23,6 +23,6 @@ public class DeleteProductCommandHandler implements IRequestHandler<DeleteProduc
             return HandleResponse.error("Không tìm thấy sản phẩm", HttpStatus.NOT_FOUND);
         }
         productRepository.delete(product.get());
-        return HandleResponse.ok();
+        return HandleResponse.ok("Xóa sản phẩm thành công");
     }
 }
