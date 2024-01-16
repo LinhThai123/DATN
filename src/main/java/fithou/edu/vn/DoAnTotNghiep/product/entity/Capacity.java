@@ -4,6 +4,8 @@ import fithou.edu.vn.DoAnTotNghiep.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,18 +14,20 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
 @Entity
-@Table(name = "COLOR")
-public class Color extends BaseEntity implements Serializable {
+@Builder
+@SQLDelete(sql = "UPDATE capacity SET deleted_date = NOW() WHERE id=?")
+@Where(clause = "deleted_date is null")
+@Table(name = "CAPACITY")
+public class Capacity extends BaseEntity implements Serializable {
     @GenericGenerator(name = "random_id", strategy = "fithou.edu.vn.DoAnTotNghiep.common.custom.RandomIdGenerator")
     @Id
     @GeneratedValue(generator = "random_id")
     private String id;
 
-    @Column(name = "COLOR_NAME")
+    @Column(name = "CAPACITY_NAME")
     private String name;
 
-    @OneToMany(mappedBy = "color", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "capacity", fetch = FetchType.LAZY)
     private List<ProductOption> productOptions;
 }

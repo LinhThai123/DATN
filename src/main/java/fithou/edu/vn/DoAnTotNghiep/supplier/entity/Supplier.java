@@ -1,6 +1,7 @@
 package fithou.edu.vn.DoAnTotNghiep.supplier.entity;
 
 import fithou.edu.vn.DoAnTotNghiep.common.entity.BaseEntity;
+import fithou.edu.vn.DoAnTotNghiep.receipt.entity.Receipt;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.Where;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -50,4 +52,6 @@ public class Supplier extends BaseEntity implements Serializable {
     @Column(name = "DELETED_DATE")
     private Timestamp deleteDate = null;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "supplier")
+    private List<Receipt> receips;
 }

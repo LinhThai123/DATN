@@ -11,6 +11,7 @@ import org.hibernate.annotations.Where;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -63,5 +64,8 @@ public class Product extends BaseEntity implements Serializable {
     @JoinColumn(name = "BRAND_ID", nullable = false)
     @JsonBackReference
     private Brand brand;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    private List<ProductOption> productOptions;
 
 }

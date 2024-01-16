@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class GetAllSuppliersQueryHandler implements IRequestHandler<GetAllSuppliersQuery, Paginated<SupplierDto>> {
 
     private final EntityManager entityManager;
+
     private final ModelMapper modelMapper;
     @Override
     public HandleResponse<Paginated<SupplierDto>> handle(GetAllSuppliersQuery query) throws Exception {
