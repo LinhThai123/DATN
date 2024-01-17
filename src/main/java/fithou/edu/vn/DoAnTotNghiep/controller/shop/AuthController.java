@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@RestController
+@Controller
 @RequestMapping("/v1/auth")
 public class AuthController {
 
@@ -50,41 +50,41 @@ public class AuthController {
         return "register";
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Object> login(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
-
-        // Lấy thông tin người dùng từ form đăng nhập
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
-                )
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("email", userDetails.getUser().getEmail());
-        claims.put("userId", userDetails.getUser().getId());
-        //for 15 minutes
-        String token = jwtService.generateToken(claims, 15 * 60 * 1000);
-
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-
-        JwtResponse jwtResponse;
-
-        if (userDetails.getUser() != null) {
-            jwtResponse = new JwtResponse(token ,userDetails.getUser().getName() ,
-                    userDetails.getUser().getEmail() ,roles );
-            return ResponseEntity.ok(jwtResponse);
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
-        }
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<Object> login(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
+//
+//        // Lấy thông tin người dùng từ form đăng nhập
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        loginRequest.getEmail(),
+//                        loginRequest.getPassword()
+//                )
+//        );
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+//
+//        Map<String, Object> claims = new HashMap<>();
+//        claims.put("email", userDetails.getUser().getEmail());
+//        claims.put("userId", userDetails.getUser().getId());
+//        //for 15 minutes
+//        String token = jwtService.generateToken(claims, 15 * 60 * 1000);
+//
+//        List<String> roles = userDetails.getAuthorities().stream()
+//                .map(GrantedAuthority::getAuthority)
+//                .collect(Collectors.toList());
+//
+//        JwtResponse jwtResponse;
+//
+//        if (userDetails.getUser() != null) {
+//            jwtResponse = new JwtResponse(token ,userDetails.getUser().getName() ,
+//                    userDetails.getUser().getEmail() ,roles );
+//            return ResponseEntity.ok(jwtResponse);
+//        }
+//        else {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
+//        }
+//    }
 
 //    @GetMapping("/login")
 //    public String Login(Model model,
@@ -93,20 +93,20 @@ public class AuthController {
 //        return "login";
 //    }
 
-//    @GetMapping("/login")
-//    public String login(Model model, Authentication authentication) {
-//        model.addAttribute("loginRequest", LoginRequest.builder().build());
-//        if (authentication != null) {
-//            var redirectUrl = "redirect:/?" + NotificationDto.builder()
-//                    .title("Đăng nhập thành công")
-//                    .type("success")
-//                    .content("")
-//                    .build().toParams();
-//
-//            return redirectUrl;
-//        }
-//        return "login";
-//    }
+    @GetMapping("/login")
+    public String login(Model model, Authentication authentication) {
+        model.addAttribute("loginRequest", LoginRequest.builder().build());
+        if (authentication != null) {
+            var redirectUrl = "redirect:/?" + NotificationDto.builder()
+                    .title("Đăng nhập thành công")
+                    .type("success")
+                    .content("")
+                    .build().toParams();
+
+            return redirectUrl;
+        }
+        return "login";
+    }
 
     @PostMapping("/register")
     public String processLoginRegister(@Valid @ModelAttribute("registerCommand") RegisterCommand registerCommand, BindingResult registerResult,
