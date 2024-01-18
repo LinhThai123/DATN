@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/css/login.css}"/>
+    <link rel="stylesheet" th:href="@{/lib/toastr/toastr.min.css}">
     <title>Sign in & Sign up Form</title>
 </head>
 
@@ -12,17 +13,19 @@
 <div class="container">
     <div class="forms-container">
         <div class="signin-signup">
-            <form th:action="@{/v1/auth/login}" method="post" class="sign-in-form">
+            <form id="login-form" th:action="@{/login}" method="post" class="sign-in-form">
                 <h2 class="title">Đăng nhập</h2>
-                <div class="input-field">
+                <div class="input-field sign-in_email">
                     <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Email"/>
+                    <input id="email_login" type="text" placeholder="Email"/>
+                    <span class="email_login_err error"></span>
                 </div>
-                <div class="input-field">
+                <div class="input-field sign-in_password">
                     <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Mật khẩu"/>
+                    <input id="password_login" type="password" placeholder="Mật khẩu" />
+                    <span class="password_login_err error"></span>
                 </div>
-                <input type="submit" value="Đăng Nhập" class="btn solid"/>
+                <input type="submit" value="Đăng Nhập" class="btn solid btn_login-submit"/>
                 <p class="social-text">Or Sign in with social platforms</p>
                 <div class="social-media">
                     <a href="#" class="social-icon">
@@ -48,7 +51,7 @@
                 <p>
                     Đăng ký tài khoản và khám phá mọi tiện ích mà chúng tôi mang lại!
                 </p>
-                <a th:href="@{/v1/auth/register}" class="btn transparent" id="sign-up-btn">
+                <a th:href="@{/register}" class="btn transparent" id="sign-up-btn">
                     Đăng ký
                 </a>
             </div>
@@ -57,6 +60,9 @@
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script th:src="@{/lib/toastr/toastr.min.js}"></script>
+<script th:src="@{/js/login.js}"></script>
 </body>
 
 </html>

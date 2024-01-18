@@ -38,6 +38,15 @@ input {
     grid-template-columns: 1fr;
     z-index: 5;
 }
+span.error {
+    margin-top: 10px;
+    width: 220px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #f54f29;
+    margin-left: 20px;
+    font-style: italic;
+}
 
 form {
     display: flex;
@@ -59,8 +68,15 @@ form.sign-up-form {
     font-size: 2.2rem;
     color: #444;
     margin-bottom: 10px;
+    z-index: 1;
+}
+.sign-up_user {
+    margin-top: 0!important;
 }
 
+.sign-up_password {
+    margin-bottom: 22px!important;
+}
 .input-field {
     max-width: 380px;
     width: 100%;
@@ -72,6 +88,7 @@ form.sign-up-form {
     grid-template-columns: 15% 85%;
     padding: 0 0.4rem;
     position: relative;
+    margin-top: 22px;
 }
 
 .input-field i {

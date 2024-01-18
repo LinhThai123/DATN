@@ -1,7 +1,9 @@
 package fithou.edu.vn.DoAnTotNghiep.product.endpoint;
 
+import fithou.edu.vn.DoAnTotNghiep.category.commands.updateCategory.UpdateCategoryCommand;
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.ISender;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.createColor.CreateColorCommand;
+import fithou.edu.vn.DoAnTotNghiep.product.commands.updateColor.UpdateColorCommand;
 import fithou.edu.vn.DoAnTotNghiep.product.dto.ColorDto;
 import fithou.edu.vn.DoAnTotNghiep.product.query.getAllColors.GetAllColorQuery;
 import jakarta.validation.Valid;
@@ -27,5 +29,14 @@ public class ColorApiController {
     public ResponseEntity<String> createColor (@Valid @RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody CreateColorCommand command) {
         var result = sender.send(command);
         return ResponseEntity.ok(result.orThrow());
+    }
+
+    @PutMapping("/update")
+//    @PostAuthorize("hasAuthority('CATEGORY_MANAGEMENT')")
+//    @Secured("CATEGORY_MANAGEMENT")
+    public ResponseEntity<String> updateColor(@Valid @RequestBody UpdateColorCommand command) {
+        var result = sender.send(command);
+        return ResponseEntity.ok(result.orThrow());
+
     }
 }

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/css/register.css}" />
+    <link rel="stylesheet" th:href="@{/lib/toastr/toastr.min.css}">
     <title>Sign in & Sign up Form</title>
 </head>
 
@@ -12,25 +13,29 @@
 <div class="container">
     <div class="forms-container">
         <div class="signin-signup">
-            <form th:action="@{/v1/auth/register}" method="post" class="sign-up-form">
+            <form id="register-form" th:action="@{/register}" method="post" class="sign-up-form">
                 <h2 class="title">Đăng ký</h2>
-                <div class="input-field">
+                <div class="input-field sign-up_user">
                     <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Họ và tên" th:field="${registerCommand.name}"/>
+                    <input id="user_register" type="text" placeholder="Họ và tên"/>
+                    <span class="user_register_err error"></span>
                 </div>
-                <div class="input-field">
+                <div class="input-field sign-up_account">
                     <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Tên tài khoản" th:field="${registerCommand.accountName}" />
+                    <input id="account_register" type="text" placeholder="Tên tài khoản"  />
+                    <span class="account_register_err error"></span>
                 </div>
-                <div class="input-field">
+                <div class="input-field sign-up_email">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" placeholder="Email" th:field="${registerCommand.email}" />
+                    <input id="email_register" type="email" placeholder="Email" />
+                    <span class="email_register_err error"></span>
                 </div>
-                <div class="input-field">
+                <div class="input-field sign-up_password">
                     <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Mật khẩu"  th:field="${registerCommand.password}"/>
+                    <input id="password_register" type="password" placeholder="Mật khẩu" />
+                    <span class="password_register_err error"></span>
                 </div>
-                <input type="submit" class="btn" value="Đăng Ký" />
+                <input type="submit" class="btn btn_register-submit" value="Đăng Ký" />
                 <p class="social-text">Or Sign up with social platforms</p>
                 <div class="social-media">
                     <a href="#" class="social-icon">
@@ -58,7 +63,7 @@
                     Đăng nhập tài khoản và khám phá mọi tiện ích mà chúng tôi mang lại!
                 </p>
 
-                <a th:href="@{/v1/auth/login}" class="btn transparent" id="sign-up-btn">
+                <a th:href="@{/login}" class="btn transparent" id="sign-up-btn">
                     Đăng nhập
                 </a>
             </div>
@@ -66,7 +71,9 @@
         </div>
     </div>
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script th:src="@{/lib/toastr/toastr.min.js}"></script>
+<script th:src="@{/js/register.js}"></script>
 </body>
 
 </html>

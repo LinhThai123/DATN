@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -12,4 +14,6 @@ import lombok.Setter;
 public class CategoryDto {
     private String id;
     private String name;
+    private Timestamp createdDate;
+    private Timestamp modifiedDate;
 }

@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping("/v1/auth")
 public class AuthController {
 
@@ -43,87 +43,64 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @GetMapping("/register")
-    public String Register(Model model,
-                           @ModelAttribute("registerCommand") RegisterCommand registerCommand) {
-        model.addAttribute("registerCommand", registerCommand);
-        return "register";
-    }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<Object> login(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
-//
-//        // Lấy thông tin người dùng từ form đăng nhập
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        loginRequest.getEmail(),
-//                        loginRequest.getPassword()
-//                )
-//        );
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-//
-//        Map<String, Object> claims = new HashMap<>();
-//        claims.put("email", userDetails.getUser().getEmail());
-//        claims.put("userId", userDetails.getUser().getId());
-//        //for 15 minutes
-//        String token = jwtService.generateToken(claims, 15 * 60 * 1000);
-//
-//        List<String> roles = userDetails.getAuthorities().stream()
-//                .map(GrantedAuthority::getAuthority)
-//                .collect(Collectors.toList());
-//
-//        JwtResponse jwtResponse;
-//
-//        if (userDetails.getUser() != null) {
-//            jwtResponse = new JwtResponse(token ,userDetails.getUser().getName() ,
-//                    userDetails.getUser().getEmail() ,roles );
-//            return ResponseEntity.ok(jwtResponse);
-//        }
-//        else {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
-//        }
-//    }
 
-//    @GetMapping("/login")
-//    public String Login(Model model,
-//                        @ModelAttribute("loginRequest") LoginRequest loginRequest) {
-//        model.addAttribute("loginRequest", loginRequest);
-//        return "login";
-//    }
+    @RequestMapping(value = "/login", method = {RequestMethod.POST, RequestMethod.GET})
+    public ResponseEntity<Object> login(@Valid @RequestBody LoginRequest loginRequest) {
 
-    @GetMapping("/login")
-    public String login(Model model, Authentication authentication) {
-        model.addAttribute("loginRequest", LoginRequest.builder().build());
-        if (authentication != null) {
-            var redirectUrl = "redirect:/?" + NotificationDto.builder()
-                    .title("Đăng nhập thành công")
-                    .type("success")
-                    .content("")
-                    .build().toParams();
+        // Lấy thông tin người dùng từ form đăng nhập
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getEmail(),
+                        loginRequest.getPassword()
+                )
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            return redirectUrl;
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("email", userDetails.getUser().getEmail());
+        claims.put("userId", userDetails.getUser().getId());
+        //for 15 minutes
+        String token = jwtService.generateToken(claims, 15 * 60 * 1000);
+
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
+        JwtResponse jwtResponse;
+
+        if (userDetails.getUser() != null) {
+            jwtResponse = new JwtResponse(token ,userDetails.getUser().getName() ,
+                    userDetails.getUser().getEmail() ,roles );
+            return ResponseEntity.ok(jwtResponse);
         }
-        return "login";
+        else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
+        }
     }
+
 
     @PostMapping("/register")
-    public String processLoginRegister(@Valid @ModelAttribute("registerCommand") RegisterCommand registerCommand, BindingResult registerResult,
-                                       Model model) {
+    public ResponseEntity<Object> processRegister(@Valid @RequestBody RegisterCommand registerCommand, BindingResult registerResult) {
+        if (registerResult.hasErrors()) {
+            return ResponseEntity.badRequest().body("Invalid registration data");
+        }
 
         // Process registration
         var result = sender.send(registerCommand);
         if (result.isOk()) {
-            model.addAttribute("notification", NotificationDto.builder()
-                    .title("Đăng ký thành công")
-                    .content("Vui lòng kiểm tra email để kích hoạt tài khoản")
-                    .build());
-            // Redirect to login page
-            return "redirect:/v1/auth/login";
+            // Registration successful
+            return ResponseEntity.ok().body(
+                    NotificationDto.builder()
+                            .title("Đăng ký thành công")
+                            .content("Vui lòng kiểm tra email để kích hoạt tài khoản")
+                            .build()
+            );
         }
-        registerResult.addError(new ObjectError("registerCommand", result.getError()));
-        return "register";
+        // Registration failed
+        return ResponseEntity.badRequest().body(result.getError());
     }
 
     @GetMapping("/forgot-password")

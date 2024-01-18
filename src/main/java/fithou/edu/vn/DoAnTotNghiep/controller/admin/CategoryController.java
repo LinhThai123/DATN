@@ -29,8 +29,22 @@ public class CategoryController {
 //        model.addAttribute("updateCategoryRequest", new UpdateCategoryCommand());
 //        return "admin/category/index";
 //    }
-    @GetMapping()
-    public String getCategories(Model model) {
-        return "admin/category/index";
+@GetMapping()
+public String getCategories(Model model, CreateCategoryCommand createCategoryCommand) {
+    var page = new GetAllCategoriesQueries();
+    page.setPageSize(100);
+    var allCategories = sender.send(page).get();
+
+    if (allCategories != null && !allCategories.getData().isEmpty()) {
+        model.addAttribute("categories", allCategories);
+        model.addAttribute("createCategoryRequest", createCategoryCommand);
+        model.addAttribute("updateCategoryRequest", new UpdateCategoryCommand());
+    } else {
+        // Nếu allCategories rỗng hoặc null, bạn có thể xử lý hoặc log thông báo tùy thuộc vào yêu cầu của bạn.
+        // Ví dụ: log.warn("Danh sách allCategories trống.");
+        model.addAttribute("emptyCategoriesMessage", "Danh sách trống.");
     }
+
+    return "admin/category/index";
+}
 }
