@@ -81,10 +81,10 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
             data: myJSON,
             success: function (data) {
-                toastr.success("Đăng ký thành công", "", { timeOut: 2000 });
+                toastr.success("Đăng ký thành công", "", { timeOut: 1000 });
                 setTimeout(function() {
                     window.location.href = "/login";
-                }, 2000);
+                }, 1000);
             },
             error: function (error) {
                 toastr.error("Đăng ký thất bại");

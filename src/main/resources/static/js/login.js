@@ -51,10 +51,10 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
             data: myJSON,
             success: function (data) {
-                toastr.success("Đăng nhập thành công", "", { timeOut: 2000 });
+                toastr.success("Đăng nhập thành công", "", { timeOut: 1000 });
                 setTimeout(function() {
                     window.location.href = "/";
-                }, 2000);
+                }, 1000);
             },
             error: function (error) {
                 toastr.error("Đăng nhập thất bại");
