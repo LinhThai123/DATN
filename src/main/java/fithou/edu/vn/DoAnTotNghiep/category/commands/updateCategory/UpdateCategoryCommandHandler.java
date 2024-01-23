@@ -25,24 +25,15 @@ public class UpdateCategoryCommandHandler implements IRequestHandler<UpdateCateg
             return HandleResponse.error("Danh mục không tồn tại");
         }
         var isUpdateName = exist.get().getName().equals(updateCategoryCommand.getName());
-        var isUpdateParent = exist.get().getParent() == null && updateCategoryCommand.getParentId().isEmpty() || exist.get().getParent() != null && exist.get().getParent().getId() == updateCategoryCommand.getParentId();
-        if (isUpdateName && isUpdateParent) {
+        if (isUpdateName) {
             return HandleResponse.error("Không có gì thay đổi");
         }
-
         if (!isUpdateName) {
             var existWithName = categoryRepository.findByName(updateCategoryCommand.getName());
             if (existWithName.isPresent()) {
                 return HandleResponse.error("Tên danh mục đã tồn tại");
             }
             exist.get().setName(updateCategoryCommand.getName());
-        }
-        if (!isUpdateParent) {
-            var parentCategory = categoryRepository.findById(updateCategoryCommand.getParentId());
-            if (updateCategoryCommand.getParentId() != null && parentCategory.isEmpty()) {
-                return HandleResponse.error("Danh mục cha không tồn tại");
-            }
-            exist.get().setParent(parentCategory.orElse(null));
         }
         categoryRepository.save(exist.get());
         return HandleResponse.ok("Sửa danh mục thành công");

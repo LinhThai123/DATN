@@ -17,6 +17,4 @@ public class CreateCategoryCommand implements IRequest<String> {
     @NotEmpty(message = "Tên danh mục không được để trống")
     @Length(min = 1, max = 50, message = "Tên danh mục phải từ 1 đến 50 ký tự")
     private String name;
-
-    private String parentId = "0";
 }

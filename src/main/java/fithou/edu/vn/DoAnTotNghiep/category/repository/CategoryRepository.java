@@ -17,7 +17,7 @@ public interface CategoryRepository extends JpaRepository<Category, String> {
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM category WHERE id = ?1", nativeQuery = true)
+    @Query(value = "UPDATE category SET deleted_date = NOW() WHERE id=?", nativeQuery = true)
     void hardDeleteById(String id);
 
     Page<Category> findByNameContaining (String name, Pageable pageable);

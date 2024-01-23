@@ -23,7 +23,7 @@ public class DeleteCategoryCommandHandler implements IRequestHandler<DeleteCateg
         if (exitsCategory.isEmpty()) {
             return HandleResponse.error("Danh mục không tồn tại");
         }
-        if (exitsCategory.get().getChildren().isEmpty() && exitsCategory.get().getProducts().isEmpty()) {
+        if (exitsCategory.get().getProducts().isEmpty()) {
             categoryRepository.hardDeleteById(command.getId());
             return HandleResponse.ok();
         }

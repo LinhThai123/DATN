@@ -12,7 +12,6 @@ import java.sql.Timestamp;
 public class CategoryDto {
     private String id;
     private String name;
-    private CategoryDto parent;
     private Timestamp createdDate;
     private Timestamp modifiedDate;
 

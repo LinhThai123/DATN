@@ -41,10 +41,5 @@ public class Category extends BaseEntity implements Serializable {
     @JsonIgnore
     private List<Product> products;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = true, cascade = CascadeType.ALL)
-    private Category parent;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
-    private java.util.List<Category> children;
 
 }
