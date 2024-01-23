@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fithou.edu.vn.DoAnTotNghiep.common.entity.BaseEntity;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.Product;
 import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Table;
 import jdk.jfr.Enabled;
 import lombok.*;
@@ -39,5 +40,11 @@ public class Category extends BaseEntity implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<Product> products;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = true, cascade = CascadeType.ALL)
+    private Category parent;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
+    private java.util.List<Category> children;
 
 }

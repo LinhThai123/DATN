@@ -1,9 +1,7 @@
 package fithou.edu.vn.DoAnTotNghiep.category.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import fithou.edu.vn.DoAnTotNghiep.category.entity.Category;
+import lombok.*;
 
 import java.sql.Timestamp;
 
@@ -14,6 +12,8 @@ import java.sql.Timestamp;
 public class CategoryDto {
     private String id;
     private String name;
+    private CategoryDto parent;
     private Timestamp createdDate;
     private Timestamp modifiedDate;
+
 }

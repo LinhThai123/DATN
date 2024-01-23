@@ -2,49 +2,41 @@ package fithou.edu.vn.DoAnTotNghiep.controller.admin;
 
 import fithou.edu.vn.DoAnTotNghiep.category.commands.createCategory.CreateCategoryCommand;
 import fithou.edu.vn.DoAnTotNghiep.category.commands.updateCategory.UpdateCategoryCommand;
+import fithou.edu.vn.DoAnTotNghiep.category.dto.CategoryDto;
+import fithou.edu.vn.DoAnTotNghiep.category.entity.Category;
 import fithou.edu.vn.DoAnTotNghiep.category.query.getAllCategories.GetAllCategoriesQueries;
+import fithou.edu.vn.DoAnTotNghiep.category.service.CategoryService;
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.ISender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin/category")
 public class CategoryController {
 
     @Autowired
-    private ISender sender;
+    private CategoryService categoryService;
 
-//    @GetMapping()
-//    //@Secured("CATEGORY_MANAGEMENT")
-//    public String getCategories(Model model, CreateCategoryCommand createCategoryCommand) {
-//        var page = new GetAllCategoriesQueries();
-//        page.setPageSize(100);
-//        var allCategories = sender.send(page).get();
-//        model.addAttribute("categories", allCategories);
-//        model.addAttribute("createCategoryRequest", createCategoryCommand);
-//        model.addAttribute("updateCategoryRequest", new UpdateCategoryCommand());
-//        return "admin/category/index";
-//    }
-@GetMapping()
-public String getCategories(Model model, CreateCategoryCommand createCategoryCommand) {
-    var page = new GetAllCategoriesQueries();
-    page.setPageSize(100);
-    var allCategories = sender.send(page).get();
+    // Hiện thị danh mục tìm kiếm theo tên và phân trang
+    @GetMapping()
+    public String getCategories(Model model,
+                           @RequestParam(defaultValue = "", required = false) String name,
+                           @RequestParam(defaultValue = "1", required = false) Integer page) {
+        Page<Category> category = categoryService.adminGetListCategory(name, page);
+        List<Category> categories = category.getContent();
+        model.addAttribute("categories", categories);
+        model.addAttribute("totalPages", category.getTotalPages());
+        model.addAttribute("currentPage", category.getPageable().getPageNumber() + 1);
 
-    if (allCategories != null && !allCategories.getData().isEmpty()) {
-        model.addAttribute("categories", allCategories);
-        model.addAttribute("createCategoryRequest", createCategoryCommand);
-        model.addAttribute("updateCategoryRequest", new UpdateCategoryCommand());
-    } else {
-        // Nếu allCategories rỗng hoặc null, bạn có thể xử lý hoặc log thông báo tùy thuộc vào yêu cầu của bạn.
-        // Ví dụ: log.warn("Danh sách allCategories trống.");
-        model.addAttribute("emptyCategoriesMessage", "Danh sách trống.");
+        return "admin/category/index";
     }
-
-    return "admin/category/index";
-}
 }

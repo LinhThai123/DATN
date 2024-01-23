@@ -19,4 +19,6 @@ public class UpdateCategoryCommand implements IRequest<String> {
     @NotEmpty(message = "Tên danh mục không được để trống")
     @Length(min = 3, max = 50, message = "Tên danh mục phải từ 3 đến 50 ký tự")
     private String name;
+
+    private String parentId = "0";
 }

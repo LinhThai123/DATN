@@ -8,4 +8,5 @@ import lombok.Getter;
 
 @Getter
 public class GetAllCategoriesQueries extends PaginationRequest implements IRequest<Paginated<CategoryDto>> {
+
 }
