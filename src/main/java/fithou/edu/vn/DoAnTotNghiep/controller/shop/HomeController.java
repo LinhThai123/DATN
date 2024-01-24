@@ -2,6 +2,8 @@ package fithou.edu.vn.DoAnTotNghiep.controller.shop;
 
 import fithou.edu.vn.DoAnTotNghiep.auth.commands.login.LoginRequest;
 import fithou.edu.vn.DoAnTotNghiep.auth.commands.register.RegisterCommand;
+import fithou.edu.vn.DoAnTotNghiep.common.dto.NotificationDto;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,8 @@ public class HomeController {
         model.addAttribute("loginRequest", loginRequest);
         return "login";
     }
+
+
 
     @GetMapping("/register")
     public String Register(Model model,

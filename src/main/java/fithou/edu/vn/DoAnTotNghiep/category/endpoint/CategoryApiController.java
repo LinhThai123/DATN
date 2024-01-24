@@ -28,14 +28,15 @@ public class CategoryApiController {
         return sender.send(paginationRequest).get();
     }
     @PostMapping("/add")
+    @PostAuthorize("hasAuthority('CATEGORY_MANAGEMENT')")
     public ResponseEntity<String> createCategory (@Valid @RequestBody CreateCategoryCommand command) {
         var result = sender.send(command);
         return ResponseEntity.ok(result.orThrow());
     }
 
     @PutMapping("/update")
-//    @PostAuthorize("hasAuthority('CATEGORY_MANAGEMENT')")
-//    @Secured("CATEGORY_MANAGEMENT")
+    @PostAuthorize("hasAuthority('CATEGORY_MANAGEMENT')")
+    @Secured("CATEGORY_MANAGEMENT")
     public ResponseEntity<String> updateCategory(@Valid @RequestBody UpdateCategoryCommand command) {
         var result = sender.send(command);
         return ResponseEntity.ok(result.orThrow());
@@ -44,7 +45,7 @@ public class CategoryApiController {
 
     @DeleteMapping("/delete/{id}")
     @ResponseBody
-//    @PostAuthorize("hasAuthority('CATEGORY_MANAGEMENT')")
+    @PostAuthorize("hasAuthority('CATEGORY_MANAGEMENT')")
     public ResponseEntity<String> deleteCategory(@PathVariable String id) {
         if (id.isBlank()) throw new IllegalArgumentException("id is null");
         sender.send(new DeleteCategoryCommand(id));

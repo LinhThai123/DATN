@@ -1,9 +1,13 @@
 package fithou.edu.vn.DoAnTotNghiep.auth.security;
 
 import fithou.edu.vn.DoAnTotNghiep.auth.entity.Permissions;
+import fithou.edu.vn.DoAnTotNghiep.auth.entity.Role;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -44,9 +48,7 @@ public class SecurityConfig {
         http.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
         http.getSharedObject(AuthenticationManagerBuilder.class).authenticationProvider(daoAuthenticationProvider());
         http.authorizeHttpRequests(authConfig -> {
-//                    authConfig.requestMatchers(new AntPathRequestMatcher("/admin/**"))
-//                            .hasAuthority(Permissions.ADMIN_DASHBOARD.toString());
-
+                    authConfig.requestMatchers(HttpMethod.GET, "/admin/**").hasAuthority(Permissions.ADMIN_DASHBOARD.toString());
                     authConfig.anyRequest().permitAll();
 
                 }).rememberMe(rememberMe -> {
@@ -54,17 +56,14 @@ public class SecurityConfig {
                     rememberMe.tokenValiditySeconds(7 * 24 * 60 * 60); // 7 days
                     rememberMe.tokenRepository(persistentTokenRepository());
 //                }).formLogin(login -> {
-//                    login.loginPage("/v1/auth/login");
-//                    login.failureUrl("/v1/auth/login?error=true");
+//                    login.loginPage("/login");
+//                    login.failureUrl("/login?error=true");
 //                    login.defaultSuccessUrl("/");
                 }).logout(logout -> {
                     logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
                     logout.logoutSuccessUrl("/");
                     logout.deleteCookies("JSESSIONID");
                     logout.invalidateHttpSession(true);
-                })
-                .cors(httpSecurityCorsConfigurer -> {
-                    httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource());
                 })
                 .csrf(AbstractHttpConfigurer::disable);
         return http.build();

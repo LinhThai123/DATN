@@ -44,7 +44,6 @@ $(document).ready(function () {
             password: $("#password_login").val()
         };
         var myJSON = JSON.stringify(formData);
-        // Make an AJAX request to the server
         $.ajax({
             url: "/v1/auth/login",
             type: "POST",

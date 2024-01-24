@@ -9,7 +9,10 @@ import fithou.edu.vn.DoAnTotNghiep.auth.security.CustomUserDetails;
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.ISender;
 import fithou.edu.vn.DoAnTotNghiep.common.dto.NotificationDto;
 import fithou.edu.vn.DoAnTotNghiep.common.response.JwtResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @RestController
@@ -46,7 +51,7 @@ public class AuthController {
 
 
     @RequestMapping(value = "/login", method = {RequestMethod.POST, RequestMethod.GET})
-    public ResponseEntity<Object> login(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<Object> login(@Valid @RequestBody LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) {
 
         // Lấy thông tin người dùng từ form đăng nhập
         Authentication authentication = authenticationManager.authenticate(
@@ -74,6 +79,16 @@ public class AuthController {
         if (userDetails.getUser() != null) {
             jwtResponse = new JwtResponse(token ,userDetails.getUser().getName() ,
                     userDetails.getUser().getEmail() ,roles );
+
+            request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+
+            // Lưu token vào cookie
+            Cookie cookie = new Cookie("JWT_TOKEN", token);
+            cookie.setSecure(true);
+            cookie.setHttpOnly(true);
+            cookie.setMaxAge((int) TimeUnit.MILLISECONDS.toSeconds(15 * 60 * 1000)); // 15 minutes
+            cookie.setPath("/"); // Đảm bảo rằng cookie có thể được truy cập trên mọi đường dẫn
+            response.addCookie(cookie);
             return ResponseEntity.ok(jwtResponse);
         }
         else {

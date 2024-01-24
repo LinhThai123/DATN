@@ -10,6 +10,7 @@ import fithou.edu.vn.DoAnTotNghiep.common.cqrs.ISender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,7 @@ public class CategoryController {
 
     // Hiện thị danh mục tìm kiếm theo tên và phân trang
     @GetMapping()
+    @Secured("CATEGORY_MANAGEMENT")
     public String getCategories(Model model,
                            @RequestParam(defaultValue = "", required = false) String name,
                            @RequestParam(defaultValue = "1", required = false) Integer page) {
