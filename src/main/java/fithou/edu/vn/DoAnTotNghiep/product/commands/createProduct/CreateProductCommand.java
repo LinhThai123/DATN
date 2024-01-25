@@ -34,7 +34,7 @@ public class CreateProductCommand implements IRequest<String> {
     @URL(message = "Ảnh sản phẩm không hợp lệ")
     private String imageUrl;
 
-    @NotEmpty(message = "Danh mục sản phẩm không được để trống")
+    @NotNull(message = "Danh mục sản phẩm không được để trống")
     private String categoryId;
 
     @NotEmpty(message = "Thương hiệu sản phẩm không được để trống")

@@ -35,6 +35,7 @@ function pagination(totalPages, currentPage) {
     $('#pagination .disabled .current.next').addClass('page-link')
 }
 
+
 // Sắp xếp
 $('.thuy-sort-area').click(function () {
     var newOrder = this.dataset.order

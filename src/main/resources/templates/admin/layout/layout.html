@@ -13,6 +13,8 @@
   <link rel="stylesheet" th:href="@{/styles/admin/adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
   <!-- Theme style -->
   <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/adminlte.min.css}">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <!-- Toastr CSS -->
@@ -88,24 +90,28 @@
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="/admin/orders" class="nav-link">
-              <i class="nav-icon fas fa-shopping-cart"></i>
-              <p>
-                Quản lý đơn hàng
-                <i class="fas fa-angle-left right"></i>
-              </p>
+            <a href="" class="nav-link">
+              <i class="nav-icon fas fa-layer-group"></i>
+              <p>Quản lý danh mục</p>
+              <i class="fas fa-angle-left right"></i>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/admin/orders" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Danh sách đơn hàng</p>
+                <a href="" class="nav-link">
+                  <i class="fa-solid fa-plus nav-icon"></i>
+                  <p>Quản lý nhà cung cấp</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/admin/orders/create" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Tạo đơn hàng</p>
+                <a href="" class="nav-link">
+                  <i class="fa-solid fa-plus nav-icon"></i>
+                  <p>Quản lý tin tức </p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="fa-solid fa-plus nav-icon"></i>
+                  <p>Quản lý khuyến  mãi </p>
                 </a>
               </li>
             </ul>
@@ -121,82 +127,83 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="/admin/products" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Danh sách sản phẩm</p>
+                  <i class="fa-solid fa-plus nav-icon"></i>
+                  <p>Quản lý category</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/admin/products/create" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Thêm mới sản phẩm</p>
+                  <i class="fa-solid fa-plus nav-icon"></i>
+                  <p>Quản lý sản phẩm</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="fa-solid fa-plus nav-icon"></i>
+                  <p>Quản lý màu sắc</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="fa-solid fa-plus nav-icon"></i>
+                  <p>Quản lý dung lượng</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="fa-solid fa-plus nav-icon"></i>
+                  <p>Quản lý thương hiệu</p>
                 </a>
               </li>
             </ul>
           </li>
           <li class="nav-item has-treeview">
-            <a href="/admin/promotions" class="nav-link">
-              <i class="nav-icon fas fa-ad"></i>
-              <p>
-                Quản lý khuyến mãi
-                <i class="fas fa-angle-left right"></i>
-              </p>
+            <a href="" class="nav-link">
+              <i class="nav-icon fa-solid fa-cart-shopping"></i>
+              <p>Quản lý bán hàng</p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/admin/promotions" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Danh sách khuyến mãi</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/admin/promotions/create" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Thêm mới khuyến mãi</p>
-                </a>
-              </li>
-            </ul>
           </li>
           <li class="nav-item has-treeview">
             <a href="/admin/brands" class="nav-link">
               <i class='nav-icon fab fa-centos'></i>
-              <p>
-                Quản lý nhãn hiệu
-              </p>
+              <p>Quản lý nhập kho</p>
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="/admin/categories" class="nav-link">
-              <i class="nav-icon fas fa-layer-group"></i>
-              <p>
-                Quản lý category
-              </p>
+            <a href="" class="nav-link">
+              <i class="nav-icon fa-solid fa-award"></i>
+              <p>Quản lý bảo hành</p>
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="/admin/posts" class="nav-link">
-              <i class="nav-icon fas fa-file"></i>
-              <p>
-                Quản lý blog
-                <i class="fas fa-angle-left right"></i>
-              </p>
+            <a href="" class="nav-link">
+              <i class=" nav-icon fa-solid fa-chart-simple"></i>
+              <p>Báo cáo thống kê</p>
+              <i class="fas fa-angle-left right"></i>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/admin/posts" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Danh sách bài viết</p>
+                <a href="" class="nav-link">
+                  <i class="fa-solid fa-plus nav-icon"></i>
+                  <p>Báo cáo doanh thu</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/admin/posts/create" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Tạo bài viết mới</p>
+                <a href="" class="nav-link">
+                  <i class="fa-solid fa-plus nav-icon"></i>
+                  <p>Báo cáo sản phẩm</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/admin/promotions/create" class="nav-link">
+                  <i class="fa-solid fa-plus nav-icon"></i>
+                  <p>Báo cáo khách hàng</p>
                 </a>
               </li>
             </ul>
           </li>
           <li class="nav-item has-treeview">
-            <a href="/admin/users" class="nav-link">
+            <a href="" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Quản lý user
@@ -208,7 +215,7 @@
             </ul>
           </li>
           <li class="nav-item has-treeview">
-            <a href="/admin/config" class="nav-link">
+            <a href="" class="nav-link">
               <i class="nav-icon fas fa-wrench"></i>
               <p>
                 Cấu hình hệ thống
@@ -216,7 +223,6 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-
             </ul>
           </li>
         </ul>
@@ -237,6 +243,8 @@
 
 <!-- jQuery -->
 <script type="text/javascript" th:src="@{/styles/admin/vendor/jquery/jquery-3.4.1.min.js}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script type="text/javascript" th:src="@{/styles/admin/adminlte/dist/js/table.js}"></script>
 <!-- Bootstrap -->

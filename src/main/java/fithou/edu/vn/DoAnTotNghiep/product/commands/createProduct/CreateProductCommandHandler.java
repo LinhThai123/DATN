@@ -1,6 +1,7 @@
 package fithou.edu.vn.DoAnTotNghiep.product.commands.createProduct;
 
 import com.github.slugify.Slugify;
+import fithou.edu.vn.DoAnTotNghiep.category.entity.Category;
 import fithou.edu.vn.DoAnTotNghiep.category.repository.CategoryRepository;
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.HandleResponse;
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.IRequestHandler;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 

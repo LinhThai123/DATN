@@ -11,11 +11,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Override
+    public List<Category> getListCategory() {
+        return categoryRepository.findAll();
+    }
+
     @Override
     public Page<Category> adminGetListCategory(String name, int page) {
         page--;

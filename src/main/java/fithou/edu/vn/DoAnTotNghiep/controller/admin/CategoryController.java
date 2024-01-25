@@ -25,6 +25,9 @@ import java.util.stream.Collectors;
 public class CategoryController {
 
     @Autowired
+    private ISender sender;
+
+    @Autowired
     private CategoryService categoryService;
 
     // Hiện thị danh mục tìm kiếm theo tên và phân trang
@@ -41,4 +44,6 @@ public class CategoryController {
 
         return "admin/category/index";
     }
+
+
 }
