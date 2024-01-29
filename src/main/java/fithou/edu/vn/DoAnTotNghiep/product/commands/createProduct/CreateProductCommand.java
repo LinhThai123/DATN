@@ -13,7 +13,6 @@ import org.hibernate.validator.constraints.URL;
 public class CreateProductCommand implements IRequest<String> {
 
     @NotEmpty(message = "Tên sản phẩm không được để trống")
-    @Size(min = 5, max = 100, message = "Tên sản phẩm phải tu 5 đến 100 ký tự")
     private String name;
 
     @NotEmpty(message = "Mô tả sản phẩm không được để trống")
@@ -30,8 +29,8 @@ public class CreateProductCommand implements IRequest<String> {
     @Builder.Default
     private int discount = 0;
 
-    @NotEmpty(message = "Hình ảnh của sản phẩm không không được để trống")
-    @URL(message = "Ảnh sản phẩm không hợp lệ")
+//    @NotEmpty(message = "Hình ảnh của sản phẩm không không được để trống")
+//    @URL(message = "Ảnh sản phẩm không hợp lệ")
     private String imageUrl;
 
     @NotNull(message = "Danh mục sản phẩm không được để trống")

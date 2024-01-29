@@ -48,12 +48,14 @@ public class CreateProductCommandHandler implements IRequestHandler<CreateProduc
         var product = new Product() ;
         product.setName(command.getName());
         product.setSlug(slug);
-        product.setDescription(command.getDescription());
+        String descriptionWithoutHtml = command.getDescription().replaceAll("<[^>]*>", "");
+        product.setDescription(descriptionWithoutHtml);
         product.setMaSerial(UUID.randomUUID().toString());
         product.setPrice(command.getPrice());
         product.setDeletedDate(null);
         product.setImageUrl(command.getImageUrl());
         product.setStatus(command.getStatus());
+        product.setDiscount(command.getDiscount());
         product.setCategory(exitsCategory.get());
         product.setBrand(exitsBrand.get());
         product.setCreatedDate(new Timestamp(System.currentTimeMillis()));

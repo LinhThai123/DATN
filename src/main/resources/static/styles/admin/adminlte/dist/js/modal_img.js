@@ -53,7 +53,7 @@ $("#upload-thumbnail").change(function (){
 	fd.append('file',file);
 
 	$.ajax({
-	    url: '/api/upload-file',
+	    url: '/api/file/uploads',
 	    type: 'post',
 	    data: fd,
 	    contentType: false,

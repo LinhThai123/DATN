@@ -24,9 +24,13 @@ public class FileController {
     }
 
     @PostMapping("/uploads")
-    public ResponseEntity<Collection<String>> uploadFiles(@RequestParam("files") MultipartFile[] files) {
+    public ResponseEntity<String[]> uploadFiles(@RequestParam("files") MultipartFile[] files) {
         var command = new UploadMultipartFileCommand(files);
         var result = sender.send(command);
-        return ResponseEntity.ok(result.orThrow());
+
+        // Assuming result.orThrow() returns a Collection<String>
+        String[] array = result.orThrow().toArray(new String[0]);
+
+        return ResponseEntity.ok(array);
     }
 }
