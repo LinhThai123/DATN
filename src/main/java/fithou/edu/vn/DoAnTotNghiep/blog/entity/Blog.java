@@ -50,7 +50,7 @@ public class Blog extends BaseEntity implements Serializable {
     private Integer total;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name ="PUBLIC DATE")
+    @Column(name ="PUBLIC_DATE")
     private Timestamp publibDate;
 
     @Temporal(TemporalType.TIMESTAMP)

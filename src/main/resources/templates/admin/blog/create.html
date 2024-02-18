@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:x-on="http://www.w3.org/1999/xhtml" th:replace="~{/admin/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Page</title>
+    <th:block id="css-resources">
+        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/plugins/summernote/summernote-bs4.css}">
+        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/list_image_product.css}">
+        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/modal_img.css}">
+        <link rel="stylesheet" th:href="@{/styles/admin/css/upload_file.css}">
+        <!--    <link rel="stylesheet" th:href="@{/adminlte/plugins/summernote/summernote.css}">-->
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    </th:block>
+
+</head>
+<body>
+<main id="main-content">
+    <!-- Breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/admin/products">Danh sách bài viết</a></li>
+                <li class="breadcrumb-item active">Thêm bài viết</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <a role="button" class="btn btn-default" href="/admin/blog">
+            <span class="fas fa-chevron-left" style="margin-right:0.5rem;"></span>
+            <span>Trở về</span>
+        </a>
+        <button class="btn btn-success btn-create-blog">
+            <span class="fa fa-plus" style="margin-right:0.5rem;"></span>
+            <span>Thêm bài viết</span>
+        </button>
+        <div class="clear"></div>
+    </div>
+
+    <!-- Main content -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-outline">
+                <div class="card-body pad">
+                    <div class="row">
+                        <div class="col-lg-9 col-md-8">
+                            <div class="form-group">
+                                <div>
+                                    <label class="required-label" for="title">Tiêu đề</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-title">Độ dài tiêu đề từ 1 - 300 ký tự</span>
+                                </div>
+                                <input type="text" class="form-control" id="title">
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label class="required-label" for="content">Nội dung</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-content">Nội dung bài viết trống</span>
+                                </div>
+                                <textarea class="textarea" id="content" name="content"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Mô tả</label>
+                                <textarea class="form-control" rows="4" name="description"
+                                          id="description"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4">
+                            <div class="form-group">
+                                <label for="status" class="required-label">Trạng thái</label>
+                                <select class="form-control" id="status">
+                                    <option value="0">Nháp</option>
+                                    <option value="1">Công khai</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="required-label">Ảnh thumbnail</label>
+                                <div class="thumbnail-container">
+                                    <div class="img-div">
+                                        <img id="preview-img" th:src="@{/images/noimage.png}" alt="Thumbnail post">
+                                    </div>
+                                </div>
+                                <input type="file" id="file-input" style="display: none;">
+                                <button type="button" class="btn btn-info" id="choose-image-btn">
+                                    Chọn ảnh
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<th:block id="js-resources">
+    <script th:src="@{/js/generateApi.js}"></script>
+    <script th:src="@{/js/upload_file.js}"></script>
+    <script th:src="@{/styles/admin/adminlte/plugins/summernote/summernote-bs4.js}"></script>
+    <script th:src="@{/styles/admin/adminlte/plugins/list/list.min.js}"></script>
+    <script th:inline="javascript">
+        $(function () {
+            $('#content').summernote(
+                {
+                    height: 450,
+                    focus: true
+                }
+            )
+        })
+        $(document).ready(function() {
+            $('#choose-image-btn').click(function() {
+                $('#file-input').click();
+            });
+
+            $('#file-input').change(function() {
+                var file = this.files[0];
+                var formData = new FormData();
+                formData.append('files', file);
+
+                $.ajax({
+                    url: '/api/file/uploads',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        var preview = $('#preview-img');
+                        preview.attr('src', URL.createObjectURL(file));
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Upload failed: ', error);
+                    }
+                });
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>

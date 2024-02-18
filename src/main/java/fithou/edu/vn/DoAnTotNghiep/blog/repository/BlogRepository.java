@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BlogRepository extends JpaRepository<Blog, String> {
-
     Page<Blog> findAllByTitleContainingIgnoreCase(String title, org.springframework.data.domain.Pageable pageable);
 
 }
