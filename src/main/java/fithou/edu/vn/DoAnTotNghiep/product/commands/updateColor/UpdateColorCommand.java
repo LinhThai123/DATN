@@ -15,7 +15,7 @@ public class UpdateColorCommand implements IRequest<String> {
     @NotNull
     private String id;
 
-    @NotNull(message = "Tên màu không được để trống")
-    @NotEmpty(message = "Tên màu không được để trống")
+    @NotNull(message = "Tên màu sắc  không được để trống")
+    @NotEmpty(message = "Tên màu sắc không được để trống")
     private String name;
 }

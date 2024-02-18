@@ -20,7 +20,7 @@ public class UpdateColorCommandHandler implements IRequestHandler<UpdateColorCom
             return HandleResponse.error("Không tìm thấy màu", HttpStatus.NOT_FOUND);
         }
         boolean isUpdateName = exitsColor.get().getName().equals(updateColorCommand.getName());
-        if (isUpdateName) {
+        if (!isUpdateName) {
             var existWithName = colorRepository.findByNameIgnoreCase(updateColorCommand.getName());
             if (existWithName.isPresent()) {
                 return HandleResponse.error("Tên màu sắc đã tồn tại");

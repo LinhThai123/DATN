@@ -7,7 +7,7 @@
                                                )}">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title> Màu sắc </title>
     <th:block id="css-resources">
     </th:block>
 
@@ -19,15 +19,15 @@
         <div class="col-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                <li class="breadcrumb-item active">Danh sách danh mục</li>
+                <li class="breadcrumb-item active">Danh sách màu sắc</li>
             </ol>
         </div>
     </div>
     <!-- Toolbar -->
     <div class="toolbar">
-        <button class="btn btn-success" data-toggle="modal" data-target="#modal-add-new-category">
+        <button class="btn btn-success" data-toggle="modal" data-target="#modal-add-new-color">
             <span class="fa fa-plus" style="margin-right:0.5rem;"></span>
-            <span>Thêm danh mục</span>
+            <span>Thêm màu sắc</span>
         </button>
         <div class="clear"></div>
     </div>
@@ -42,7 +42,7 @@
                             <thead>
                             <tr class="heading">
                                 <th width="35%">
-                                    Tên danh mục
+                                    Tên màu sắc
                                 </th>
                                 <th width="35%">
                                     Ngày cập nhật
@@ -63,16 +63,16 @@
                                 </form>
                             </tr>
                             </thead>
-                            <tbody class="list-category">
-                            <th:block th:each="category : ${categories}">
+                            <tbody class="list-color">
+                            <th:block th:each="color : ${colors}">
                                 <tr>
-                                    <td class="category-name" th:data-id="${category.id}"
-                                        th:text="${category.name}"></td>
-                                    <td th:text="${#dates.format(category.modifiedDate, 'dd-MM-yyyy') ?: #dates.format(category.createdDate, 'dd-MM-yyyy')}"></td>
+                                    <td class="color-name" th:data-id="${color.id}"
+                                        th:text="${color.name}"></td>
+                                    <td th:text="${#dates.format(color.modifiedDate, 'dd-MM-yyyy') ?: #dates.format(color.createdDate, 'dd-MM-yyyy')}"></td>
                                     <td>
-                                        <button class="btn" onclick="updateCategory(this)" th:data-id="${category.id}">
+                                        <button class="btn" onclick="updateColor(this)" th:data-id="${color.id}">
                                             <i class="fas fa-edit"></i></button>
-                                        <button class="btn" onclick="deleteCategory(this)" th:data-id="${category.id}">
+                                        <button class="btn" onclick="deleteColor(this)" th:data-id="${color.id}">
                                             <i class="fas fa-trash-alt"></i></button>
                                     </td>
                                 </tr>
@@ -89,76 +89,76 @@
         </div>
     </div>
 
-    <!-- Modal add new category-->
-    <div class="modal fade" id="modal-add-new-category" tabindex="-1" role="dialog"
-         aria-labelledby="modalAddNewCategory" aria-hidden="true">
+    <!-- Modal add new color-->
+    <div class="modal fade" id="modal-add-new-color" tabindex="-1" role="dialog"
+         aria-labelledby="modalAddNewColor" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Thêm danh mục</h5>
+                    <h5 class="modal-title">Thêm màu sắc</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="new-category">Tên danh mục</label>
-                        <input type="text" class="form-control" id="new-category" placeholder="Nhập danh mục mới">
-                        <span class="invalid-feedback" id="invalid-feedback-new-category">Độ dài tên danh mục từ 1 - 300 ký tự</span>
+                        <label for="new-color">Tên màu sắc</label>
+                        <input type="text" class="form-control" id="new-color" placeholder="Nhập màu sắc mới">
+                        <span class="invalid-feedback" id="invalid-feedback-new-color">Độ dài tên màu săc từ 1 - 300 ký tự</span>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary btn-add-new-category">Thêm</button>
+                    <button type="button" class="btn btn-primary btn-add-new-color">Thêm</button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Modal update category-->
-    <div class="modal fade" id="modal-update-category" tabindex="-1" role="dialog" aria-labelledby="modalUpdateCategory"
+    <!-- Modal update color-->
+    <div class="modal fade" id="modal-update-color" tabindex="-1" role="dialog" aria-labelledby="modalUpdateColor"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Chỉnh sửa danh mục</h5>
+                    <h5 class="modal-title">Chỉnh sửa màu sắc</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="update-category-id">
+                    <input type="hidden" id="update-color-id">
                     <div class="form-group">
-                        <label for="new-category">Tên danh mục</label>
-                        <input type="text" class="form-control" id="update-category" placeholder="Nhập danh mục mới">
-                        <span class="invalid-feedback" id="invalid-feedback-update-category">Độ dài tên danh mục từ 1 - 300 ký tự</span>
+                        <label for="update-color">Tên màu sắc</label>
+                        <input type="text" class="form-control" id="update-color" placeholder="Nhập màu sắc mới">
+                        <span class="invalid-feedback" id="invalid-feedback-update-color">Độ dài tên màu sắc từ 1 - 300 ký tự</span>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary btn-update-category">Lưu</button>
+                    <button type="button" class="btn btn-primary btn-update-color">Lưu</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal delete category-->
-    <div class="modal fade" id="modal-delete-category" tabindex="-1" role="dialog" aria-labelledby="modalDeleteCategory"
+    <!-- Modal delete color-->
+    <div class="modal fade" id="modal-delete-color" tabindex="-1" role="dialog" aria-labelledby="modalDeleteColor"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Xác nhận xóa danh mục</h5>
+                    <h5 class="modal-title">Xác nhận xóa màu sắc</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" hidden id="delete-category-id">
-                    <span>Bạn chắc chắn muốn xóa danh mục?</span>
+                    <input type="text" hidden id="delete-color-id">
+                    <span>Bạn chắc chắn muốn xóa màu sắc?</span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-danger btn-delete-category">Xóa</button>
+                    <button type="button" class="btn btn-danger btn-delete-color">Xóa</button>
                 </div>
             </div>
         </div>
@@ -177,93 +177,94 @@
             $('#name').val(name)
             pagination([[${totalPages}]], [[${currentPage}]]);
         });
-        $('.btn-add-new-category').click(function () {
-            let newCategory = $('#new-category').val();
+        $('.btn-add-new-color').click(function () {
+            let newColor = $('#new-color').val();
 
-            if (newCategory.length == 0) {
-                $('#invalid-feedback-new-category').show();
+            if (newColor.length == 0) {
+                $('#invalid-feedback-new-color').show();
                 return;
             }
             var req = {
-                name: newCategory
+                name: newColor
             };
-            callApi('POST', '/v1/category/add', req,
+            callApi('POST', '/v1/color/add', req,
                 function (data) {
-                    toastr.success("Tạo danh mục thành công", "", {timeOut: 2000});
-                    $('.list-category').append(`
+                    toastr.success("Tạo màu sắc thành công", "", {timeOut: 2000});
+                    $('.list-color').append(`
                         <tr>
-                            <td class="category-name" data-id="${data.id}">${data.name}</td>
+                            <td class="color-name" data-id="${data.id}">${data.name}</td>
                             <td data-id="${data.id}">${data.createdDate}</td>
                             <td>
-                                <button class="btn" onclick="updateCategory(this)" data-id="${data.id}"><i class="fas fa-edit"></i></button>
-                                <button class="btn" onclick="deleteCategory(this)" data-id="${data.id}"><i class="fas fa-trash-alt"></i></button>
+                                <button class="btn" onclick="updateColor(this)" data-id="${data.id}"><i class="fas fa-edit"></i></button>
+                                <button class="btn" onclick="deleteColor(this)" data-id="${data.id}"><i class="fas fa-trash-alt"></i></button>
                             </td>
                         </tr>
                     `);
                     $('.modal').modal('hide');
-                    $('#new-category').val('');
+                    $('#new-color').val('');
                     location.reload();
                 },
                 function (data) {
                     toastr.warning(data.responseJSON.message);
                 },
                 function (data) {
-                    $('#invalid-feedback-new-category').hide();
+                    $('#invalid-feedback-new-color').hide();
                 }
             )
         })
 
-        function updateCategory(btn) {
+        function updateColor(btn) {
             let id = $(btn).data('id');
-            let name = $('.category-name[data-id=' + id + ']').text();
-            $('#update-category').val(name);
-            $('#update-category-id').val(id);
-            $('#modal-update-category').modal('show');
+            let name = $('.color-name[data-id=' + id + ']').text();
+            $('#update-color').val(name);
+            $('#update-color-id').val(id);
+            $('#modal-update-color').modal('show');
         }
 
-        $('.btn-update-category').click(function () {
-            let updateCategory = $('#update-category').val().trim().replace(/\s+/g, ' ');
-            let idCategory = $('#update-category-id').val();
-            if (updateCategory.length == 0) {
-                $('#invalid-feedback-update-category').show();
+        $('.btn-update-color').click(function () {
+            let updateColor = $('#update-color').val().trim().replace(/\s+/g, ' ');
+            let idColor = $('#update-color-id').val();
+            if (updateColor.length == 0) {
+                $('#invalid-feedback-update-color').show();
                 return;
             }
             req = {
-                id: idCategory,
-                name: updateCategory
+                id: idColor,
+                name: updateColor
             }
-            callApi('PUT', '/v1/category/update', req
+            callApi('PUT', '/v1/color/update', req
                 , function (data) {
                     toastr.success("Cập nhật thành công");
-                    $('.category-name[data-id=' + idCategory + ']').text(updateCategory);
+                    $('.color-name[data-id=' + idcolor + ']').text(updatecolor);
                     $('.modal').modal('hide');
-                    $('#update-category').val('');
-                    $('#update-category-id').val('');
+                    $('#update-color').val('');
+                    $('#update-color-id').val('');
+                    location.reload();
                 },
                 function (data) {
                     toastr.warning(data.responseJSON.message);
                 }, function (data) {
-                    $('#invalid-feedback-update-category').hide();
+                    $('#invalid-feedback-update-color').hide();
                 })
         })
 
-        function deleteCategory(btn) {
+        function deleteColor(btn) {
             let id = $(btn).data('id');
-            $('#delete-category-id').val(id);
-            $('#modal-delete-category').modal('show');
+            $('#delete-color-id').val(id);
+            $('#modal-delete-color').modal('show');
         }
 
-        $('.btn-delete-category').click(function () {
-            let idCategory = $('#delete-category-id').val();
+        $('.btn-delete-color').click(function () {
+            let idColor = $('#delete-color-id').val();
             $.ajax({
-                url: '/v1/category/delete/' + idCategory,
+                url: '/v1/color/delete/' + idColor,
                 type: 'DELETE',
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     toastr.success("Xóa thành công");
-                    $('.category-name[data-id=' + idCategory + ']').parent().remove();
+                    $('.color-name[data-id=' + idColor + ']').parent().remove();
                     $('.modal').modal('hide');
-                    $('#delete-category-id').val('');
+                    $('#delete-color-id').val('');
                 },
                 error: function (data) {
                     toastr.warning(data.responseJSON.message);

@@ -6,7 +6,7 @@ import fithou.edu.vn.DoAnTotNghiep.product.entity.Product;
 import jakarta.persistence.*;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Table;
-import jdk.jfr.Enabled;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.*;
 

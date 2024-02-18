@@ -6,7 +6,9 @@ public class Contant {
     public static final int DRAFT_BLOG = 0;
 
     public static final int LIMIT_CATEGORY = 10;
-    public static final int LIMIT_BRAND = 5;
+    public static final int LIMIT_BRAND = 10;
+
+    public static final int LIMIT_COLOR = 10;
 
     public static final int LIMIT_PRODUCT = 10;
 }
