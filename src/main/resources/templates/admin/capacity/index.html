@@ -7,7 +7,7 @@
                                                )}">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Dung lượng</title>
     <th:block id="css-resources">
     </th:block>
 
@@ -25,7 +25,7 @@
     </div>
     <!-- Toolbar -->
     <div class="toolbar">
-        <button class="btn btn-success" data-toggle="modal" data-target="#modal-add-new-category">
+        <button class="btn btn-success" data-toggle="modal" data-target="#modal-add-new-capacity">
             <span class="fa fa-plus" style="margin-right:0.5rem;"></span>
             <span>Thêm dung lượng</span>
         </button>
@@ -63,16 +63,16 @@
                                 </form>
                             </tr>
                             </thead>
-                            <tbody class="list-category">
-                            <th:block th:each="category : ${categories}">
+                            <tbody class="list-capacity">
+                            <th:block th:each="capacity : ${capacities}">
                                 <tr>
-                                    <td class="category-name" th:data-id="${category.id}"
-                                        th:text="${category.name}"></td>
-                                    <td th:text="${#dates.format(category.modifiedDate, 'dd-MM-yyyy') ?: #dates.format(category.createdDate, 'dd-MM-yyyy')}"></td>
+                                    <td class="capacity-name" th:data-id="${capacity.id}"
+                                        th:text="${capacity.name}"></td>
+                                    <td th:text="${#dates.format(capacity.modifiedDate, 'dd-MM-yyyy') ?: #dates.format(capacity.createdDate, 'dd-MM-yyyy')}"></td>
                                     <td>
-                                        <button class="btn" onclick="updateCategory(this)" th:data-id="${category.id}">
+                                        <button class="btn" onclick="updateCapacity(this)" th:data-id="${capacity.id}">
                                             <i class="fas fa-edit"></i></button>
-                                        <button class="btn" onclick="deleteCategory(this)" th:data-id="${category.id}">
+                                        <button class="btn" onclick="deleteCapacity(this)" th:data-id="${capacity.id}">
                                             <i class="fas fa-trash-alt"></i></button>
                                     </td>
                                 </tr>
@@ -89,33 +89,33 @@
         </div>
     </div>
 
-    <!-- Modal add new category-->
-    <div class="modal fade" id="modal-add-new-category" tabindex="-1" role="dialog"
-         aria-labelledby="modalAddNewCategory" aria-hidden="true">
+    <!-- Modal add new capacity-->
+    <div class="modal fade" id="modal-add-new-capacity" tabindex="-1" role="dialog"
+         aria-labelledby="modalAddNewCapacity" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Thêm danh mục</h5>
+                    <h5 class="modal-title">Thêm dung lượng</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="new-category">Tên danh mục</label>
-                        <input type="text" class="form-control" id="new-category" placeholder="Nhập danh mục mới">
-                        <span class="invalid-feedback" id="invalid-feedback-new-category">Độ dài tên danh mục từ 1 - 300 ký tự</span>
+                        <label for="new-capacity">Tên dung lượng</label>
+                        <input type="text" class="form-control" id="new-capacity" placeholder="Nhập dung lượng mới">
+                        <span class="invalid-feedback" id="invalid-feedback-new-capacity">Độ dài tên dung lượng từ 1 - 300 ký tự</span>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary btn-add-new-category">Thêm</button>
+                    <button type="button" class="btn btn-primary btn-add-new-capacity">Thêm</button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Modal update category-->
-    <div class="modal fade" id="modal-update-category" tabindex="-1" role="dialog" aria-labelledby="modalUpdateCategory"
+    <!-- Modal update capacity-->
+    <div class="modal fade" id="modal-update-capacity" tabindex="-1" role="dialog" aria-labelledby="modalUpdatecapacity"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -126,23 +126,23 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="update-category-id">
+                    <input type="hidden" id="update-capacity-id">
                     <div class="form-group">
-                        <label for="new-category">Tên danh mục</label>
-                        <input type="text" class="form-control" id="update-category" placeholder="Nhập danh mục mới">
-                        <span class="invalid-feedback" id="invalid-feedback-update-category">Độ dài tên danh mục từ 1 - 300 ký tự</span>
+                        <label for="new-capacity">Tên danh mục</label>
+                        <input type="text" class="form-control" id="update-capacity" placeholder="Nhập danh mục mới">
+                        <span class="invalid-feedback" id="invalid-feedback-update-capacity">Độ dài tên danh mục từ 1 - 300 ký tự</span>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary btn-update-category">Lưu</button>
+                    <button type="button" class="btn btn-primary btn-update-capacity">Lưu</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal delete category-->
-    <div class="modal fade" id="modal-delete-category" tabindex="-1" role="dialog" aria-labelledby="modalDeleteCategory"
+    <!-- Modal delete capacity-->
+    <div class="modal fade" id="modal-delete-capacity" tabindex="-1" role="dialog" aria-labelledby="modalDeletecapacity"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -153,12 +153,12 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" hidden id="delete-category-id">
+                    <input type="text" hidden id="delete-capacity-id">
                     <span>Bạn chắc chắn muốn xóa danh mục?</span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-danger btn-delete-category">Xóa</button>
+                    <button type="button" class="btn btn-danger btn-delete-capacity">Xóa</button>
                 </div>
             </div>
         </div>
@@ -177,93 +177,94 @@
             $('#name').val(name)
             pagination([[${totalPages}]], [[${currentPage}]]);
         });
-        $('.btn-add-new-category').click(function () {
-            let newCategory = $('#new-category').val();
+        $('.btn-add-new-capacity').click(function () {
+            let newCapacity = $('#new-capacity').val();
 
-            if (newCategory.length == 0) {
-                $('#invalid-feedback-new-category').show();
+            if (newCapacity.length == 0) {
+                $('#invalid-feedback-new-capacity').show();
                 return;
             }
             var req = {
-                name: newCategory
+                name: newCapacity
             };
-            callApi('POST', '/v1/category/add', req,
+            callApi('POST', '/v1/capacity/add', req,
                 function (data) {
-                    toastr.success("Tạo danh mục thành công", "", {timeOut: 2000});
-                    $('.list-category').append(`
+                    toastr.success("Tạo dung lượng thành công", "", {timeOut: 2000});
+                    $('.list-capacity').append(`
                         <tr>
-                            <td class="category-name" data-id="${data.id}">${data.name}</td>
+                            <td class="capacity-name" data-id="${data.id}">${data.name}</td>
                             <td data-id="${data.id}">${data.createdDate}</td>
                             <td>
-                                <button class="btn" onclick="updateCategory(this)" data-id="${data.id}"><i class="fas fa-edit"></i></button>
-                                <button class="btn" onclick="deleteCategory(this)" data-id="${data.id}"><i class="fas fa-trash-alt"></i></button>
+                                <button class="btn" onclick="updateCapacity(this)" data-id="${data.id}"><i class="fas fa-edit"></i></button>
+                                <button class="btn" onclick="deleteCapacity(this)" data-id="${data.id}"><i class="fas fa-trash-alt"></i></button>
                             </td>
                         </tr>
                     `);
                     $('.modal').modal('hide');
-                    $('#new-category').val('');
+                    $('#new-capacity').val('');
                     location.reload();
                 },
                 function (data) {
                     toastr.warning(data.responseJSON.message);
                 },
                 function (data) {
-                    $('#invalid-feedback-new-category').hide();
+                    $('#invalid-feedback-new-capacity').hide();
                 }
             )
         })
 
-        function updateCategory(btn) {
+        function updateCapacity(btn) {
             let id = $(btn).data('id');
-            let name = $('.category-name[data-id=' + id + ']').text();
-            $('#update-category').val(name);
-            $('#update-category-id').val(id);
-            $('#modal-update-category').modal('show');
+            let name = $('.capacity-name[data-id=' + id + ']').text();
+            $('#update-capacity').val(name);
+            $('#update-capacity-id').val(id);
+            $('#modal-update-capacity').modal('show');
         }
 
-        $('.btn-update-category').click(function () {
-            let updateCategory = $('#update-category').val().trim().replace(/\s+/g, ' ');
-            let idCategory = $('#update-category-id').val();
-            if (updateCategory.length == 0) {
-                $('#invalid-feedback-update-category').show();
+        $('.btn-update-capacity').click(function () {
+            let updateCapacity = $('#update-capacity').val().trim().replace(/\s+/g, ' ');
+            let idCapacity = $('#update-capacity-id').val();
+            if (updateCapacity.length == 0) {
+                $('#invalid-feedback-update-capacity').show();
                 return;
             }
             req = {
-                id: idCategory,
-                name: updateCategory
+                id: idCapacity,
+                name: updateCapacity
             }
-            callApi('PUT', '/v1/category/update', req
+            callApi('PUT', '/v1/capacity/update', req
                 , function (data) {
                     toastr.success("Cập nhật thành công");
-                    $('.category-name[data-id=' + idCategory + ']').text(updateCategory);
+                    $('.capacity-name[data-id=' + idcapacity + ']').text(updateCapacity);
                     $('.modal').modal('hide');
-                    $('#update-category').val('');
-                    $('#update-category-id').val('');
+                    $('#update-capacity').val('');
+                    $('#update-capacity-id').val('');
+                    location.reload();
                 },
                 function (data) {
                     toastr.warning(data.responseJSON.message);
                 }, function (data) {
-                    $('#invalid-feedback-update-category').hide();
+                    $('#invalid-feedback-update-capacity').hide();
                 })
         })
 
-        function deleteCategory(btn) {
+        function deleteCapacity(btn) {
             let id = $(btn).data('id');
-            $('#delete-category-id').val(id);
-            $('#modal-delete-category').modal('show');
+            $('#delete-capacity-id').val(id);
+            $('#modal-delete-capacity').modal('show');
         }
 
-        $('.btn-delete-category').click(function () {
-            let idCategory = $('#delete-category-id').val();
+        $('.btn-delete-capacity').click(function () {
+            let idCapacity = $('#delete-capacity-id').val();
             $.ajax({
-                url: '/v1/category/delete/' + idCategory,
+                url: '/v1/capacity/delete/' + idCapacity,
                 type: 'DELETE',
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     toastr.success("Xóa thành công");
-                    $('.category-name[data-id=' + idCategory + ']').parent().remove();
+                    $('.capacity-name[data-id=' + idCapacity + ']').parent().remove();
                     $('.modal').modal('hide');
-                    $('#delete-category-id').val('');
+                    $('#delete-capacity-id').val('');
                 },
                 error: function (data) {
                     toastr.warning(data.responseJSON.message);

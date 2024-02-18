@@ -10,5 +10,7 @@ public class Contant {
 
     public static final int LIMIT_COLOR = 10;
 
+    public static final int LIMIT_CAPCITY = 10;
+
     public static final int LIMIT_PRODUCT = 10;
 }

@@ -23,7 +23,7 @@ public class UpdateCapacityCommandHandler implements IRequestHandler<UpdateCapac
         }
         boolean isUpdateName = exitsCapacity.get().getName().equals(command.getName());
 
-        if (isUpdateName) {
+        if (!isUpdateName) {
             var existWithName = capacityRepository.findByNameIgnoreCase(command.getName());
             if (existWithName.isPresent()) {
                 return HandleResponse.error("Tên dung lượng đã tồn tại");

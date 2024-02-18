@@ -8,6 +8,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 @AllArgsConstructor
@@ -27,6 +28,10 @@ public class Capacity extends BaseEntity implements Serializable {
 
     @Column(name = "CAPACITY_NAME")
     private String name;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DELETED_DATE")
+    private Timestamp deleteDate = null;
 
     @OneToMany(mappedBy = "capacity", fetch = FetchType.LAZY)
     private List<ProductOption> productOptions;
