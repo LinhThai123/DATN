@@ -138,6 +138,56 @@
                 });
             });
         });
+        $('.btn-create-blog').click(function () {
+            $('.invalid-feedback').hide();
+            let title = $('#title').val();
+            let description = $('#description').val();
+            let content = $('#content').val();
+            let status = $('#status').val();
+            if (status != "0" && status != "1") {
+                toastr.warning("Trạng thái bài viết không hợp lệ");
+                return;
+            }
+            let image = $('#preview-img').attr('src');
+            alert(image)
+            if (image == "/image/noimage.png") {
+                image = "";
+            }
+            isValid = true;
+
+            if (title.length == 0 || title.length > 300) {
+                $('#invalid-feedback-title').show();
+                isValid = false;
+            }
+
+            if (content.length == 0) {
+                $('#invalid-feedback-content').show();
+                isValid = false;
+            }
+
+            if (isValid) {
+                req = {
+                    title: title,
+                    content: content,
+                    description: description,
+                    status: parseInt(status),
+                    image: image
+                }
+                callApi('POST', '/v1/blog/add', req,
+                    function (data) {
+                        toastr.success("Tạo bài viết thành công", "", {timeOut: 1000});
+                        location.href = "/admin/blog";
+
+                    },
+                    function (data) {
+                        toastr.warning(data.responseJSON.message);
+                    },
+                    function (data) {
+                        $('#invalid-feedback-new-category').hide();
+                    }
+                )
+            }
+        })
     </script>
 </th:block>
 </body>

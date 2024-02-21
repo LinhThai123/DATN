@@ -31,12 +31,9 @@ public class CreateBlogCommandHandler implements IRequestHandler<CreateBlogComma
             if (command.getDescription().isEmpty()) {
                 return HandleResponse.error("Để công khai bài viết vui lòng thêm mô tả cho bài viết");
             }
-            if (command.getImageUrl().isEmpty()) {
-                return HandleResponse.error("Thêm hình ảnh cho bài viết");
-            }
             blog.setPublibDate(new Timestamp(System.currentTimeMillis()));
         }
-        blog.setDescription(command.getDescription());
+        blog.setDescription(command.getDescription().replaceAll("<[^>]*>", ""));
         blog.setStatus(command.getStatus());
         blog.setImageUrl(command.getImageUrl());
         blogRepository.save(blog);
