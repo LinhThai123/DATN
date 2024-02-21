@@ -23,6 +23,7 @@ public class ProductOption extends BaseEntity implements Serializable {
 
     @GenericGenerator(name = "random_id", strategy = "fithou.edu.vn.DoAnTotNghiep.common.custom.RandomIdGenerator")
     @Id
+    @Column(updatable = false, nullable = false, name = "product_option_id")
     @GeneratedValue(generator = "random_id")
     private String id;
 

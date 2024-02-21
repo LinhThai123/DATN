@@ -1,9 +1,12 @@
 package fithou.edu.vn.DoAnTotNghiep.promotion.entity;
 
 import fithou.edu.vn.DoAnTotNghiep.common.entity.BaseEntity;
+import fithou.edu.vn.DoAnTotNghiep.order.entity.Order;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -53,6 +56,10 @@ public class Promotion extends BaseEntity implements Serializable {
 
     @Column(nullable = false)
     private int stock;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "promotion")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private java.util.List<Order> orders;
 
     public int getFinalDiscount(int totalPrice) {
         if (promotionType == PromotionType.PERCENTAGE) {
