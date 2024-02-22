@@ -107,23 +107,17 @@
                                 </div>
                                 <input type="text" class="form-control text-price-input" id="discount">
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <h3>Hiển thị nhiều ảnh trước khi upload</h3>
-                            <div class="dandev-reviews">
-                                <div class="form_upload">
-                                    <label class="dandev_insert_attach">
-                                        <span>Đính kèm ảnh</span>
-                                    </label>
+                            <div class="form-group">
+                                <label class="required-label">Ảnh bài viết</label>
+                                <div class="thumbnail-container">
+                                    <div class="img-div">
+                                        <img id="preview-img" th:src="@{/images/noimage.png}" alt="Thumbnail post">
+                                    </div>
                                 </div>
-                                <div class="list_attach">
-                                    <ul class="dandev_attach_view"></ul>
-                                    <span class="dandev_insert_attach">
-                                        <i class="dandev-plus">+</i>
-                                    </span>
-                                </div>
+                                <input type="file" id="file-input" style="display: none;">
+                                <button type="button" class="btn btn-info" id="choose-image-btn">
+                                    Chọn ảnh
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -145,18 +139,34 @@
                     focus: true
                 }
             )
-        })
+        });
 
-        function getSelectedImagesData() {
-            var imageData = [];
-            $('.dandev_attach_view li:not(.li_file_hide)').each(function () {
-                var imgSrc = $(this).find('img').attr('src');
-                if (imgSrc) {
-                    imageData.push(imgSrc);
-                }
+        $(document).ready(function() {
+            $('#choose-image-btn').click(function() {
+                $('#file-input').click();
             });
-            return imageData;
-        }
+
+            $('#file-input').change(function() {
+                var file = this.files[0];
+                var formData = new FormData();
+                formData.append('files', file);
+
+                $.ajax({
+                    url: '/api/file/uploads',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        var preview = $('#preview-img');
+                        preview.attr('src', response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Upload failed: ', error);
+                    }
+                });
+            });
+        });
 
         $('.btn-create-product').click(function () {
             $('.invalid-feedback').hide();
@@ -167,7 +177,11 @@
             let discount = $('#discount').val();
             let category = $('#category').val();
             let price = parseInt($('#price').val());
-            let productImgs = getSelectedImagesData();
+
+            let image = $('#preview-img').attr('src');
+            if (image == "/images/noimage.png") {
+                image = "";
+            }
             isValid = true;
 
             if (name.length == 0 || name.length > 300) {
@@ -190,11 +204,6 @@
                 isValid = false;
             }
 
-            if (productImgs.length == 0) {
-                $('#invalid-feedback-product-img').show();
-                isValid = false;
-            }
-
             if (isValid) {
                 req = {
                     name: name,
@@ -204,7 +213,7 @@
                     status: status,
                     price: price,
                     discount: discount,
-                    imageUrl: JSON.stringify(productImgs)
+                    imageUrl: image
                 }
                 callApi('POST', '/v1/products/create', req,
                     function (data) {

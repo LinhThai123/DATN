@@ -19,9 +19,12 @@ public class CreateBlogCommandHandler implements IRequestHandler<CreateBlogComma
     private BlogRepository blogRepository;
     @Override
     public HandleResponse<String> handle(CreateBlogCommand command) throws Exception {
+        if (blogRepository.existsByTitle(command.getTitle())) {
+            return HandleResponse.error("Tiêu đề bài viết đã tồn tại, vui lòng chọn tiêu đề khác");
+        }
         Blog blog = new Blog() ;
         blog.setTitle(command.getTitle());
-        blog.setContent(command.getContent());
+        blog.setContent(command.getContent().replaceAll("<[^>]*>", ""));
 
         Slugify slg = new Slugify() ;
         blog.setSlug(slg.slugify(command.getTitle()));

@@ -26,7 +26,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="/admin/products">Danh sách bài viết</a></li>
-                <li class="breadcrumb-item active">Thêm bài viết</li>
+                <li class="breadcrumb-item active">Chi tiết bài viết</li>
             </ol>
         </div>
     </div>
@@ -37,10 +37,11 @@
             <span class="fas fa-chevron-left" style="margin-right:0.5rem;"></span>
             <span>Trở về</span>
         </a>
-        <button class="btn btn-success btn-create-blog">
+        <button class="btn btn-success btn-update-blog">
             <span class="fa fa-plus" style="margin-right:0.5rem;"></span>
-            <span>Thêm bài viết</span>
+            <span>Cập nhật</span>
         </button>
+        <button class="btn btn-danger float-right" data-toggle="modal" data-target="#modal-delete-blog"><i class="fas fa-trash-alt"></i> Xóa</button>
         <div class="clear"></div>
     </div>
 
@@ -51,43 +52,55 @@
                 <div class="card-body pad">
                     <div class="row">
                         <div class="col-lg-9 col-md-8">
+                            <input type="hidden" class="form-control" id="id" name="id"
+                                   th:value="${id}">
                             <div class="form-group">
                                 <div>
-                                    <label class="required-label" for="title">Tiêu đề</label>
+                                    <label for="title" class="required-label">Tiêu đề</label>
                                     <span class="invalid-feedback" id="invalid-feedback-title">Độ dài tiêu đề từ 1 - 300 ký tự</span>
                                 </div>
-                                <input type="text" class="form-control" id="title">
+                                <input type="text" class="form-control" id="title" name="title"
+                                       th:value="${blog.title}">
                             </div>
                             <div class="form-group">
                                 <div>
                                     <label class="required-label" for="content">Nội dung</label>
-                                    <span class="invalid-feedback" id="invalid-feedback-content">Nội dung bài viết trống</span>
+                                    <span class="invalid-feedback"
+                                          id="invalid-feedback-content">Nội dung bài viết trống</span>
                                 </div>
-                                <textarea class="textarea" id="content" name="content"></textarea>
+                                <textarea class="textarea" id="content" name="content"
+                                          th:text="${blog.content}"></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="description">Mô tả</label>
-                                <textarea class="form-control" rows="4" name="description"
-                                          id="description"></textarea>
+                                <div>
+                                    <label class="required-label">Mô tả</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-description">Thêm mô tả trước khi công khai</span>
+                                </div>
+                                <textarea class="form-control" rows="4" name="description" id="description"
+                                          th:text="${blog.description}"></textarea>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-4">
                             <div class="form-group">
                                 <label for="status" class="required-label">Trạng thái</label>
-                                <select class="form-control" id="status">
-                                    <option value="0">Nháp</option>
-                                    <option value="1">Công khai</option>
+                                <select class="form-control" id="status" name="status">
+                                    <option th:value="0" th:selected="${blog.status == 0}">Nháp</option>
+                                    <option th:value="1" th:selected="${blog.status == 1}">Công Khai</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="required-label">Ảnh bài viết</label>
+                                <div>
+                                    <label class="required-label">Ảnh bài viết</label>
+                                </div>
                                 <div class="thumbnail-container">
                                     <div class="img-div">
-                                        <img id="preview-img" th:src="@{/images/noimage.png}" alt="Thumbnail post">
+                                        <img id="preview-img"
+                                             th:src="${(blog.imageUrl != null && !#strings.isEmpty(blog.imageUrl)) ? blog.imageUrl : '/images/noimage.png'}"
+                                             alt="Thumbnail post">
                                     </div>
                                 </div>
-                                <input type="file" id="file-input" style="display: none;">
-                                <button type="button" class="btn btn-info" id="choose-image-btn">
+                                <button type="button" class="btn btn-info" data-toggle="modal"
+                                        data-target="#choose-img-modal">
                                     Chọn ảnh
                                 </button>
                             </div>
@@ -97,6 +110,27 @@
             </div>
         </div>
     </div>
+    <!-- Modal delete post -->
+    <div class="modal fade" id="modal-delete-blog" tabindex="-1" role="dialog" aria-labelledby="modalDeleteBlog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xác nhận xóa bài viết</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span>Bạn chắc chắn muốn xóa bài viết?</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger btn-delete-blog">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </main>
 <th:block id="js-resources">
     <script th:src="@{/js/generateApi.js}"></script>
@@ -111,13 +145,13 @@
                     focus: true
                 }
             )
-        })
-        $(document).ready(function() {
-            $('#choose-image-btn').click(function() {
+        });
+        $(document).ready(function () {
+            $('#choose-image-btn').click(function () {
                 $('#file-input').click();
             });
 
-            $('#file-input').change(function() {
+            $('#file-input').change(function () {
                 var file = this.files[0];
                 var formData = new FormData();
                 formData.append('files', file);
@@ -128,30 +162,30 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(response) {
+                    success: function (response) {
                         var preview = $('#preview-img');
                         preview.attr('src', response);
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         console.error('Upload failed: ', error);
                     }
                 });
             });
         });
-        $('.btn-create-blog').click(function () {
+        $('.btn-update-blog').click(function() {
             $('.invalid-feedback').hide();
+            let idBlog = $('#id').val();
             let title = $('#title').val();
             let description = $('#description').val();
             let content = $('#content').val();
             let status = $('#status').val();
+
+
             if (status != "0" && status != "1") {
                 toastr.warning("Trạng thái bài viết không hợp lệ");
                 return;
             }
             let image = $('#preview-img').attr('src');
-            if (image == "/images/noimage.png") {
-                image = "";
-            }
             isValid = true;
 
             if (title.length == 0 || title.length > 300) {
@@ -164,17 +198,30 @@
                 isValid = false;
             }
 
+            if (status == "1") {
+                if (description.length == 0) {
+                    $('#invalid-feedback-description').show();
+                    isValid = false;
+                }
+
+                if (image == "/images/noimage.png") {
+                    $('#invalid-feedback-image').show();
+                    isValid = false;
+                }
+            }
+
             if (isValid) {
                 req = {
+                    id: idBlog,
                     title: title,
                     content: content,
                     description: description,
                     status: parseInt(status),
                     imageUrl: image
                 }
-                callApi('POST', '/v1/blog/add', req,
+                callApi('PUT', '/v1/blog/update', req,
                     function (data) {
-                        toastr.success("Tạo bài viết thành công", "", {timeOut: 1000});
+                        toastr.success("Cập nhật bài viết thành công", "", {timeOut: 1000});
                         location.href = "/admin/blog";
 
                     },
@@ -182,10 +229,31 @@
                         toastr.warning(data.responseJSON.message);
                     },
                     function (data) {
-                        $('#invalid-feedback-new-category').hide();
+                        $('#invalid-feedback-title').hide();
+                        $('#invalid-feedback-content').hide();
+                        $('#invalid-feedback-description').hide();
+                        $('#invalid-feedback-image').hide();
+
+
                     }
                 )
             }
+        });
+        $('.btn-delete-blog').click(function() {
+            $.ajax({
+                url: '/v1/blog/delete/'+[[${blog.id}]],
+                type: 'DELETE',
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    toastr.success("Xóa bài viết thành công");
+                    setTimeout(function() {
+                        location.href = "/admin/blog";
+                    }, 1000);
+                },
+                error: function(data) {
+                    toastr.warning(data.responseJSON.message);
+                },
+            });
         })
     </script>
 </th:block>

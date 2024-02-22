@@ -85,7 +85,7 @@
                             <th:block th:each="blog : ${blogs}">
                                 <tr>
                                     <td>
-                                        <a th:text="${blog.title}"></a>
+                                        <a th:href="@{/admin/blog/{slug}(slug=${blog.slug})}" th:text="${blog.title}"></a>
                                     </td>
                                     <td>
                                         <span th:text="${blog.status == 0 ? 'Nháp' : 'Công khai'}"></span>

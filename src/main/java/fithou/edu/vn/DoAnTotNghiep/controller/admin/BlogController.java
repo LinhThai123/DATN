@@ -7,12 +7,14 @@ import fithou.edu.vn.DoAnTotNghiep.category.entity.Category;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.createProduct.CreateProductCommand;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.Brand;
 import fithou.edu.vn.DoAnTotNghiep.product.service.BrandService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -44,4 +46,11 @@ public class BlogController {
         return "admin/blog/create";
     }
 
+    @GetMapping("/{slug}")
+    public String getBlogDetailPage (Model model, @PathVariable String slug) throws NotFoundException {
+        Blog blog = blogService.getBlogBySlug(slug);
+        model.addAttribute("id", blog.getId());
+        model.addAttribute("blog", blog);
+        return "admin/blog/detail" ;
+    }
 }

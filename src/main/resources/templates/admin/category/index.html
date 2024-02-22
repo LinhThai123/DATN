@@ -254,7 +254,7 @@
         }
 
         $('.btn-delete-category').click(function () {
-            let idCategory = $('#delete-category-id').val();
+            let idBlog = $('#delete-category-id').val();
             $.ajax({
                 url: '/v1/category/delete/' + idCategory,
                 type: 'DELETE',
