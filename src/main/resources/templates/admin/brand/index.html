@@ -9,9 +9,7 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <th:block id="css-resources">
-        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/modal_img.css}">
         <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/brand.css}">
-        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/list_image_product.css}">
     </th:block>
 
 </head>
@@ -36,6 +34,7 @@
         <div class="clear"></div>
     </div>
 
+    </div>
     <!-- Main content -->
     <div class="row">
         <div class="col-12">
@@ -47,12 +46,23 @@
                             <thead>
                             <tr class="heading">
                                 <th width="45%">
-                                    Nhãn hiệu
+                                    Thương hiệu
                                 </th>
                                 <th width="20%">
                                     Logo
                                 </th>
                                 <th>Hành động</th>
+                            </tr>
+                            <tr class="heading-search">
+                                <form method="GET" id="search-form">
+                                    <th>
+                                        <input type="text" name="name" id="name"
+                                               class="form-control thuy-search-input">
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+                                    <input type="hidden" name="page" id="page">
+                                </form>
                             </tr>
                             </thead>
                             <tbody class="list-brand">
@@ -61,11 +71,13 @@
                                     <td class="brand-name" th:data-id="${brand.id}" th:text="${brand.name}"></td>
                                     <td>
                                         <div class="logo-div">
-                                            <img th:src="${brand.imageUrl}" alt="logo" class="brand-thumbnail" th:data-id="${brand.id}">
+                                            <img style="width: 50%;" th:src="${brand.imageUrl.substring(2, brand.imageUrl.length() - 2)}"
+                                                 alt="logo" class="brand-thumbnail" th:data-id="${brand.id}">
                                         </div>
                                     </td>
                                     <td>
-                                        <button class="btn" onclick="updateBrand(this)" th:data-id="${brand.id}"><i class="fas fa-edit"></i></button>
+                                        <button class="btn" onclick="updateBrand(this)" th:data-id="${brand.id}">
+                                            <i class="fas fa-edit"></i></button>
                                         <button class="btn" onclick="deleteBrand(this)" th:data-id="${brand.id}"><i class="fas fa-trash-alt"></i></button>
                                     </td>
                                 </tr>
@@ -73,6 +85,10 @@
                             </tbody>
                         </table>
                     </div>
+                    <!-- Pagination -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination" id="pagination"></ul>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -95,14 +111,16 @@
                         <span class="invalid-feedback" id="invalid-feedback-new-brand">Độ dài tên nhãn hiệu từ 1 - 255 ký tự</span>
                     </div>
                     <div class="form-group">
-                        <label class="required-label">Logo</label>
-                        <div class="thumbnail-container" style="display:none">
+                        <label class="required-label">Ảnh sản phẩm</label>
+                        <div class="thumbnail-container">
                             <div class="img-div">
-                                <img class="preview-img" alt="Thumbnail post">
+                                <img id="preview-img" th:src="@{/images/noimage.png}" alt="Thumbnail post">
                             </div>
                         </div>
-                        <div class="invalid-feedback invalid-feedback-thumbnail">Bạn chưa chọn logo</div>
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#choose-img-modal">Chọn ảnh</button>
+                        <input type="file" id="file-input" style="display: none;">
+                        <button type="button" class="btn btn-info" id="choose-image-btn">
+                            Chọn ảnh
+                        </button>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -112,7 +130,6 @@
             </div>
         </div>
     </div>
-
     <!-- Modal update brand-->
     <div class="modal fade" id="modal-update-brand" tabindex="-1" role="dialog" aria-labelledby="modalUpdateBrand" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -131,14 +148,13 @@
                         <span class="invalid-feedback" id="invalid-feedback-update-brand">Độ dài tên nhãn hiệu từ 1 - 255 ký tự</span>
                     </div>
                     <div class="form-group">
-                        <label class="required-label">Logo</label>
-                        <div class="thumbnail-container" style="display:none">
-                            <div class="img-div">
-                                <img class="preview-img" alt="Thumbnail post">
-                            </div>
+                        <input type="file" id="file" accept="image/*" hidden>
+                        <div class="img-area" data-img="">
+                            <i class='bx bxs-cloud-upload icon'></i>
+                            <h3>Upload Image</h3>
+                            <p>Image size must be less than <span>2MB</span></p>
                         </div>
-                        <div class="invalid-feedback invalid-feedback-thumbnail">Bạn chưa chọn logo</div>
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#choose-img-modal">Chọn ảnh</button>
+                        <button class="select-image">Select Image</button>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -148,197 +164,81 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal delete brand-->
-    <div class="modal fade" id="modal-delete-brand" tabindex="-1" role="dialog" aria-labelledby="modalDeleteBrand" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Xác nhận xóa nhãn hiệu</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="text" hidden id="delete-brand-id">
-                    <span>Bạn chắc chắn muốn xóa nhãn hiệu?</span>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-danger btn-delete-brand">Xóa</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <th:block th:replace="~{fragment/choose_img_modal :: choose-img-modal}"></th:block>
 </main>
 <th:block id="js-resources">
     <script th:src="@{/js/generateApi.js}"></script>
-    <script th:src="@{/styles/admin/adminlte/dist/js/modal_img.js}"></script>
-    <script th:src="@{/styles/admin/adminlte/plugins/list/list.min.js}"></script>
-    <script th:inline="javascript">
+    <script>
+        let name, page;
         $(function () {
-            let imgs = [[${images}]];
-            let tmp = [];
-            for (img of imgs) {
-                tmp.push({"grid-item-img":img})
-            }
-            initListImg(tmp);
-        })
-
-        $('.btn-choose-img').click(function() {
-            let url = $('#list-user-img .grid-item.choosen .grid-item-img').attr('src');
-            if (url == "" || url == null) {
-                toastr.warning("Bạn chưa chọn ảnh");
-                return;
-            }
-            closeChooseImgModal();
-            $('.thumbnail-container').show();
-            $('.invalid-feedback-thumbnail').hide();
-            $('.preview-img').attr('src', url);
-        })
-
-        $("#modal-add-new-brand").on("hidden.bs.modal", function () {
-            closeModalInsertUpdate();
+            let vars = parseUrl();
+            name = vars["name"] || ""
+            page = vars["page"] || "1"
+            $('#page').val(page)
+            $('#name').val(name)
+            pagination([[${totalPages}]], [[${currentPage}]]);
         });
 
-        $("#modal-update-brand").on("hidden.bs.modal", function () {
-            closeModalInsertUpdate();
+        $(document).ready(function () {
+            $("#btn-add-brand").click(function () {
+                $("#modal-add-new-brand").modal("show");
+            });
         });
+        $(document).ready(function() {
+            $('#choose-image-btn').click(function() {
+                $('#file-input').click();
+            });
 
-        function closeModalInsertUpdate() {
-            $('.thumbnail-container').hide();
-            $('#new-brand').val('');
-            $('#update-brand').val('');
-            $('#update-brand-id').val('');
-            $('.preview-img').attr('src', '');
-            $('.invalid-feedback').hide();
-        }
+            $('#file-input').change(function() {
+                var file = this.files[0];
+                var formData = new FormData();
+                formData.append('files', file);
 
+                $.ajax({
+                    url: '/api/file/uploads',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        var preview = $('#preview-img');
+                        preview.attr('src', response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Upload failed: ', error);
+                    }
+                });
+            });
+        });
         $('.btn-add-new-brand').click(function() {
             let newBrand = $('#new-brand').val();
-            let thumbnail = $('.preview-img').attr('src');
+            let productImgs = getSelectedImagesData();
             isValid = true;
 
             if (newBrand.length == 0) {
                 $('#invalid-feedback-new-brand').show();
                 isValid = false;
             }
-            if (typeof thumbnail == 'undefined' || thumbnail == '') {
-                $('.invalid-feedback-thumbnail').show();
+            if (productImgs.length == 0) {
+                $('#invalid-feedback-product-img').show();
                 isValid = false;
             }
 
             if (isValid) {
                 req = {
                     name: newBrand,
-                    thumbnail: thumbnail
+                    imageUrl: JSON.stringify(productImgs)
                 }
-                var myJSON = JSON.stringify(req);
-                $.ajax({
-                    url: '/api/admin/brands',
-                    type: 'POST',
-                    data: myJSON,
-                    contentType: "application/json; charset=utf-8",
-                    success: function(data) {
+                callApi('POST', '/v1/brand/add', req,
+                    function (data) {
                         toastr.success("Tạo nhãn hiệu thành công");
-                        $('.list-brand').append(`
-                            <tr>
-                                <td class="brand-name" data-id="${data.id}">${data.name}</td>
-                                <td>
-                                    <div class="logo-div">
-                                        <img src="${data.thumbnail}" alt="logo" class="brand-thumbnail" data-id="${data.id}">
-                                    </div>
-                                </td>
-                                <td>0</td>
-                                <td>
-                                    <button class="btn" onclick="updateBrand(this)" data-id="${data.id}"><i class="fas fa-edit"></i></button>
-                                    <button class="btn" onclick="deleteBrand(this)" data-id="${data.id}"><i class="fas fa-trash-alt"></i></button>
-                                </td>
-                            </tr>
-                        `);
                         $('.modal').modal('hide');
+                        window.location.href
                     },
-                    error: function(data) {
+                    function (data) {
                         toastr.warning(data.responseJSON.message);
-                    }
-                });
-            }
-        })
-
-        function updateBrand(btn) {
-            let id = $(btn).data('id');
-            let name = $('.brand-name[data-id='+id+']').text();
-            let thumbnail = $('.brand-thumbnail[data-id='+id+']').attr('src');
-            $('.thumbnail-container').show();
-            $('#update-brand').val(name);
-            $('#update-brand-id').val(id);
-            $('.preview-img').attr('src',thumbnail);
-            $('#modal-update-brand').modal('show');
-        }
-
-        $('.btn-update-brand').click(function() {
-            let updateBrand = $('#update-brand').val().trim().replace(/\s+/g,' ');
-            let idBrand = $('#update-brand-id').val();
-            let thumbnail = $('.preview-img').attr('src');
-            isValid = true;
-
-            if (updateBrand.length == 0) {
-                $('#invalid-feedback-update-brand').show();
-                isValid = false;
-            }
-            if (typeof thumbnail == 'undefined' || thumbnail == '') {
-                $('.invalid-feedback-thumbnail').show();
-                isValid = false;
-            }
-
-            if (isValid) {
-                req = {
-                    name: updateBrand,
-                    imageUrl: thumbnail
-                }
-                var myJSON = JSON.stringify(req);
-                $.ajax({
-                    url: '/api/admin/brands/'+idBrand,
-                    type: 'PUT',
-                    data: myJSON,
-                    contentType: "application/json; charset=utf-8",
-                    success: function(data) {
-                        toastr.success("Cập nhật thành công");
-                        $('.brand-name[data-id='+idBrand+']').text(updateBrand);
-                        $('.brand-thumbnail[data-id='+idBrand+']').attr('src',thumbnail);
-                        $('.modal').modal('hide');
                     },
-                    error: function(data) {
-                        toastr.warning(data.responseJSON.message);
-                    }
-                });
+                )
             }
-        })
-
-        function deleteBrand(btn) {
-            let id = $(btn).data('id');
-            $('#delete-brand-id').val(id);
-            $('#modal-delete-brand').modal('show');
-        }
-
-        $('.btn-delete-brand').click(function() {
-            let idBrand = $('#delete-brand-id').val();
-            $.ajax({
-                url: '/api/admin/brands/'+idBrand,
-                type: 'DELETE',
-                contentType: "application/json; charset=utf-8",
-                success: function(data) {
-                    toastr.success("Xóa thành công");
-                    $('.brand-name[data-id='+idBrand+']').parent().remove();
-                    $('.modal').modal('hide');
-                    $('#delete-brand-id').val('');
-                },
-                error: function(data) {
-                    toastr.warning(data.responseJSON.message);
-                }
-            });
         })
     </script>
 </th:block>
