@@ -1,19 +1,17 @@
 package fithou.edu.vn.DoAnTotNghiep.product.service.impl;
 
+import fithou.edu.vn.DoAnTotNghiep.common.cqrs.HandleResponse;
 import fithou.edu.vn.DoAnTotNghiep.common.dto.PaginatedDto;
-import fithou.edu.vn.DoAnTotNghiep.config.Contant;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.Product;
 import fithou.edu.vn.DoAnTotNghiep.product.repository.ProductRepository;
 import fithou.edu.vn.DoAnTotNghiep.product.service.ProductService;
 import fithou.edu.vn.DoAnTotNghiep.util.PageUtil;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ProductServiceImpl implements ProductService {
@@ -32,5 +30,14 @@ public class ProductServiceImpl implements ProductService {
         int totalPages = pageInfo.calculateTotalPage(totalItems);
 
         return new PaginatedDto(products, totalPages, pageInfo.getPage());
+    }
+
+    @Override
+    public Product getProductBySlug(String slug) throws NotFoundException {
+        Optional<Product> rs = productRepository.findBySlug(slug);
+        if (!rs.isPresent()) {
+            throw new NotFoundException("Không tìm thấy sản phẩm");
+        }
+        return rs.get();
     }
 }

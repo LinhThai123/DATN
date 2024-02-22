@@ -1,5 +1,6 @@
 package fithou.edu.vn.DoAnTotNghiep.product.repository;
 
+import fithou.edu.vn.DoAnTotNghiep.blog.entity.Blog;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.Brand;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.Product;
 import org.springframework.data.domain.Page;

@@ -52,7 +52,7 @@ public class CreateProductCommandHandler implements IRequestHandler<CreateProduc
         product.setDescription(descriptionWithoutHtml);
         product.setMaSerial(UUID.randomUUID().toString());
         product.setPrice(command.getPrice());
-        product.setDeletedDate(null);
+//        product.setDeletedDate(null);
         product.setImageUrl(command.getImageUrl());
         product.setStatus(command.getStatus());
         product.setDiscount(command.getDiscount());

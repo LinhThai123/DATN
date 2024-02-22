@@ -1,17 +1,21 @@
 package fithou.edu.vn.DoAnTotNghiep.controller.admin;
 
+import fithou.edu.vn.DoAnTotNghiep.blog.entity.Blog;
 import fithou.edu.vn.DoAnTotNghiep.category.entity.Category;
 import fithou.edu.vn.DoAnTotNghiep.category.service.CategoryService;
 import fithou.edu.vn.DoAnTotNghiep.common.dto.PaginatedDto;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.createProduct.CreateProductCommand;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.Brand;
+import fithou.edu.vn.DoAnTotNghiep.product.entity.Product;
 import fithou.edu.vn.DoAnTotNghiep.product.service.BrandService;
 import fithou.edu.vn.DoAnTotNghiep.product.service.ProductService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -73,6 +77,20 @@ public class ProductController {
         model.addAttribute("brands", brands);
         model.addAttribute("product", rep);
         return "admin/product/create";
+    }
+    @GetMapping("/{slug}")
+    public String getProductDetailPage (Model model, @PathVariable String slug) throws NotFoundException {
+        Product product = productService.getProductBySlug(slug);
+
+        model.addAttribute("id", product.getId());
+        // Get list category
+        List<Category> categories = categoryService.getListCategory();
+        model.addAttribute("categories", categories);
+        // Get list brand
+        List<Brand> brands = brandService.getListBrand();
+        model.addAttribute("brands", brands);
+        model.addAttribute("product", product);
+        return "admin/product/detail" ;
     }
 
 }

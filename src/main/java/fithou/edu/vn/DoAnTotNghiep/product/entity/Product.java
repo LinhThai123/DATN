@@ -19,8 +19,6 @@ import java.util.List;
 @Setter
 @Builder
 @Entity
-@SQLDelete(sql = "UPDATE product SET deleted_date = NOW() WHERE id=?")
-@Where(clause = "deleted_date is null")
 @Table(name = "PRODUCT")
 public class Product extends BaseEntity implements Serializable {
     @GenericGenerator(name = "random_id", strategy = "fithou.edu.vn.DoAnTotNghiep.common.custom.RandomIdGenerator")
@@ -52,9 +50,9 @@ public class Product extends BaseEntity implements Serializable {
     @Column(name = "PRICE")
     private int price;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "deleted_date")
-    private Timestamp deletedDate = null;
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @Column(name = "deleted_date")
+//    private Timestamp deletedDate = null;
 
     private int totalSold = 0 ;
 

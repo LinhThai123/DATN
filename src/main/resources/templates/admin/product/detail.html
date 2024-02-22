@@ -13,7 +13,6 @@
         <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/list_image_product.css}">
         <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/modal_img.css}">
         <link rel="stylesheet" th:href="@{/styles/admin/css/upload_file.css}">
-        <!--    <link rel="stylesheet" th:href="@{/adminlte/plugins/summernote/summernote.css}">-->
         <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     </th:block>
 
@@ -26,7 +25,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="/admin/product">Danh sách sản phẩm</a></li>
-                <li class="breadcrumb-item active">Thêm sản phẩm mới</li>
+                <li class="breadcrumb-item active">Chi tiết sản phẩm</li>
             </ol>
         </div>
     </div>
@@ -37,10 +36,11 @@
             <span class="fas fa-chevron-left" style="margin-right:0.5rem;"></span>
             <span>Trở về</span>
         </a>
-        <button class="btn btn-success btn-create-product">
+        <button class="btn btn-success btn-update-product">
             <span class="fa fa-plus" style="margin-right:0.5rem;"></span>
-            <span>Thêm sản phẩm</span>
+            <span>Cập nhật</span>
         </button>
+        <button class="btn btn-danger float-right" data-toggle="modal" data-target="#modal-delete-product"><i class="fas fa-trash-alt"></i> Xóa</button>
         <div class="clear"></div>
     </div>
 
@@ -51,34 +51,36 @@
                 <div class="card-body pad">
                     <div class="row">
                         <div class="col-lg-9 col-md-8">
+                            <input type="hidden" class="form-control" id="id" name="id"
+                                   th:value="${id}">
                             <div class="form-group">
                                 <div>
                                     <label class="required-label" for="name">Tên sản phẩm</label>
                                     <span class="invalid-feedback" id="invalid-feedback-name">Độ dài tên từ 1 - 300 ký tự</span>
                                 </div>
-                                <input type="text" class="form-control" id="name">
+                                <input type="text" class="form-control" id="name" th:value="${product.name}">
                             </div>
                             <div class="form-group">
                                 <div>
                                     <label class="required-label" for="description">Mô tả</label>
                                     <span class="invalid-feedback" id="invalid-feedback-description">Mô tả sản phẩm trống</span>
                                 </div>
-                                <textarea class="textarea" id="description" name="description"></textarea>
+                                <textarea class="textarea" id="description" name="description" th:text="${product.description}"></textarea>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-4">
                             <div class="form-group">
                                 <label for="status" class="required-label">Trạng thái</label>
-                                <select class="form-control" id="status">
-                                    <option value="1">Mở bán</option>
-                                    <option value="0">Không bán</option>
+                                <select class="form-control" id="status" name="status">
+                                    <option th:value="0" th:selected="${product.status == 0}">Không bán</option>
+                                    <option th:value="1" th:selected="${product.status == 1}">Mở bán</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="brand" class="required-label">Thương hiệu</label>
                                 <select class="form-control" id="brand">
                                     <th:block th:each="brand : ${brands}">
-                                        <option th:value="${brand.id}" th:text="${brand.name}"></option>
+                                        <option th:value="${brand.id}" th:text="${brand.name}" th:selected="${product.brand.id == brand.id}"></option>
                                     </th:block>
                                 </select>
                             </div>
@@ -89,7 +91,7 @@
                                 </div>
                                 <select class="select2bs4" style="width: 100%;" id="category">
                                     <th:block th:each="category : ${categories}">
-                                        <option th:value="${category.id}" th:text="${category.name}"></option>
+                                        <option th:value="${category.id}" th:text="${category.name}" ></option>
                                     </th:block>
                                 </select>
                             </div>
@@ -98,29 +100,53 @@
                                     <label class="required-label" for="price">Giá bán (VNĐ)</label>
                                     <span class="invalid-feedback" id="invalid-feedback-price">Khoảng giá sản phẩm: 1.000 - 1.000.000.000</span>
                                 </div>
-                                <input type="text" class="form-control text-price-input" id="price">
+                                <input type="text" class="form-control text-price-input" id="price" th:value="${product.price}">
                             </div>
                             <div class="form-group">
                                 <div>
                                     <label class="required-label" for="discount">Giảm giá (VNĐ)</label>
                                     <span class="invalid-feedback" id="invalid-feedback-discount">Khoảng giá sản phẩm: 1.000 - 1.000.000.000</span>
                                 </div>
-                                <input type="text" class="form-control text-price-input" id="discount">
+                                <input type="text" class="form-control text-price-input" id="discount" th:value="${product.discount}">
                             </div>
                             <div class="form-group">
-                                <label class="required-label">Ảnh bài viết</label>
+                                <div>
+                                    <label class="required-label">Ảnh sản phẩm</label>
+                                </div>
                                 <div class="thumbnail-container">
                                     <div class="img-div">
-                                        <img id="preview-img" th:src="@{/images/noimage.png}" alt="Thumbnail post">
+                                        <img id="preview-img"
+                                             th:src="${(product.imageUrl != null && !#strings.isEmpty(product.imageUrl)) ? product.imageUrl : '/images/noimage.png'}"
+                                             alt="Thumbnail post">
                                     </div>
                                 </div>
-                                <input type="file" id="file-input" style="display: none;">
-                                <button type="button" class="btn btn-info" id="choose-image-btn">
+                                <button type="button" class="btn btn-info" data-toggle="modal"
+                                        data-target="#choose-img-modal">
                                     Chọn ảnh
                                 </button>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal delete product -->
+    <div class="modal fade" id="modal-delete-product" tabindex="-1" role="dialog" aria-labelledby="modalDeleteProduct" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xác nhận xóa sản phẩm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span>Bạn chắc chắn muốn xóa sản phẩm này?</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger btn-delete-product">Xóa</button>
                 </div>
             </div>
         </div>
@@ -168,8 +194,9 @@
             });
         });
 
-        $('.btn-create-product').click(function () {
+        $('.btn-update-product').click(function () {
             $('.invalid-feedback').hide();
+            let idProduct = $('#id').val();
             let name = $('#name').val();
             let description = $('#description').val();
             let brand = $('#brand').val();
@@ -206,6 +233,7 @@
 
             if (isValid) {
                 req = {
+                    id: idProduct,
                     name: name,
                     description: description,
                     brandId: brand,
@@ -215,9 +243,9 @@
                     discount: discount,
                     imageUrl: image
                 }
-                callApi('POST', '/v1/products/create', req,
+                callApi('PUT', '/v1/products/update', req,
                     function (data) {
-                        toastr.success("Tạo sản phẩm thành công");
+                        toastr.success("Cập nhật sản phẩm thành công");
                         setTimeout(function () {
                             location.href = "/admin/product";
                         }, 1000);
@@ -228,6 +256,23 @@
                     },
                 )
             }
+        })
+        $('.btn-delete-product').click(function() {
+            req = {
+
+            }
+            callApi('DELETE', '/v1/products/delete/'+[[${product.id}]], req,
+                function (data) {
+                    toastr.success("Xóa sản phẩm thành công");
+                    setTimeout(function () {
+                        location.href = "/admin/product";
+                    }, 1000);
+                },
+                function (data) {
+                    console.log(data.responseJSON.message);
+                    toastr.warning(data.responseJSON.message);
+                },
+            )
         })
     </script>
 </th:block>
