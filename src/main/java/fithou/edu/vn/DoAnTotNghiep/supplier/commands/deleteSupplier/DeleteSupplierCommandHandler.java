@@ -12,11 +12,11 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class DeleteSuppilerCommandHandler implements IRequestHandler<DeleteSuppilerCommand, String> {
+public class DeleteSupplierCommandHandler implements IRequestHandler<DeleteSupplierCommand, String> {
     @Autowired
     private SuppilerRepository suppilerRepository;
     @Override
-    public HandleResponse<String> handle(DeleteSuppilerCommand command) throws Exception {
+    public HandleResponse<String> handle(DeleteSupplierCommand command) throws Exception {
         Optional<Supplier> exitsSuppiler = suppilerRepository.findById(command.getId());
         if (exitsSuppiler.isEmpty()) {
             return HandleResponse.error("Nhà cung cấp không tồn tại");

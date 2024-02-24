@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DeleteSuppilerCommand implements IRequest<String> {
+public class DeleteSupplierCommand implements IRequest<String> {
     private String id;
 }

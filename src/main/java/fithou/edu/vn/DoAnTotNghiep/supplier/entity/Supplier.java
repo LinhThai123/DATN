@@ -18,9 +18,9 @@ import java.util.List;
 @Setter
 @Builder
 @Entity
-@SQLDelete(sql = "UPDATE suppiler SET deleted_date = NOW() WHERE id=?")
+@SQLDelete(sql = "UPDATE supplier SET deleted_date = NOW() WHERE id=?")
 @Where(clause = "deleted_date is null")
-@Table(name = "SUPPILER")
+@Table(name = "SUPPLIER")
 public class Supplier extends BaseEntity implements Serializable {
     @GenericGenerator(name = "random_id", strategy = "fithou.edu.vn.DoAnTotNghiep.common.custom.RandomIdGenerator")
     @Id
