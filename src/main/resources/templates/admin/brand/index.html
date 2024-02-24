@@ -71,7 +71,7 @@
                                     <td class="brand-name" th:data-id="${brand.id}" th:text="${brand.name}"></td>
                                     <td>
                                         <div class="logo-div">
-                                            <img style="width: 50%;" th:src="${brand.imageUrl.substring(2, brand.imageUrl.length() - 2)}"
+                                            <img style="width: 50%;" th:src="${brand.imageUrl}"
                                                  alt="logo" class="brand-thumbnail" th:data-id="${brand.id}">
                                         </div>
                                     </td>
@@ -111,7 +111,7 @@
                         <span class="invalid-feedback" id="invalid-feedback-new-brand">Độ dài tên nhãn hiệu từ 1 - 255 ký tự</span>
                     </div>
                     <div class="form-group">
-                        <label class="required-label">Ảnh sản phẩm</label>
+                        <label class="required-label">Logo</label>
                         <div class="thumbnail-container">
                             <div class="img-div">
                                 <img id="preview-img" th:src="@{/images/noimage.png}" alt="Thumbnail post">
@@ -130,7 +130,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal update brand-->
+    <!-- Modal add brand-->
     <div class="modal fade" id="modal-update-brand" tabindex="-1" role="dialog" aria-labelledby="modalUpdateBrand" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -160,6 +160,27 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
                     <button type="button" class="btn btn-primary btn-update-brand">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal delete brand-->
+    <div class="modal fade" id="modal-delete-brand" tabindex="-1" role="dialog" aria-labelledby="modalDeleteBrand" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xác nhận xóa thương hiệu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" hidden id="delete-brand-id">
+                    <span>Bạn chắc chắn muốn xóa thương hiệu?</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger btn-delete-brand">Xóa</button>
                 </div>
             </div>
         </div>
@@ -211,14 +232,17 @@
         });
         $('.btn-add-new-brand').click(function() {
             let newBrand = $('#new-brand').val();
-            let productImgs = getSelectedImagesData();
+            let image = $('#preview-img').attr('src');
+            if (image == "/images/noimage.png") {
+                image = "";
+            }
             isValid = true;
 
             if (newBrand.length == 0) {
                 $('#invalid-feedback-new-brand').show();
                 isValid = false;
             }
-            if (productImgs.length == 0) {
+            if (image.length == 0) {
                 $('#invalid-feedback-product-img').show();
                 isValid = false;
             }
@@ -226,19 +250,43 @@
             if (isValid) {
                 req = {
                     name: newBrand,
-                    imageUrl: JSON.stringify(productImgs)
+                    imageUrl: image
                 }
                 callApi('POST', '/v1/brand/add', req,
                     function (data) {
-                        toastr.success("Tạo nhãn hiệu thành công");
+                        toastr.success("Tạo thương hiệu thành công", "", {timeOut: 1000});
                         $('.modal').modal('hide');
-                        window.location.href
+                        location.href = "/admin/brand";
                     },
                     function (data) {
                         toastr.warning(data.responseJSON.message);
                     },
                 )
             }
+        });
+
+        function deleteBrand(btn) {
+            let id = $(btn).data('id');
+            $('#delete-brand-id').val(id);
+            $('#modal-delete-brand').modal('show');
+        }
+
+        $('.btn-delete-brand').click(function() {
+            let idBrand = $('#delete-brand-id').val();
+            $.ajax({
+                url: '/v1/brand/delete/'+ idBrand,
+                type: 'DELETE',
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    toastr.success("Xóa thương hiệu thành công");
+                    setTimeout(function() {
+                        location.href = "/admin/brand";
+                    }, 1000);
+                },
+                error: function(data) {
+                    toastr.warning(data.responseJSON.message);
+                },
+            });
         })
     </script>
 </th:block>
