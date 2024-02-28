@@ -411,14 +411,14 @@
           status: parseInt(statusSupplier)
         }
         callApi('PUT', '/v1/supplier/update', req,
-                function (data) {
-                  toastr.success("Cập nhật nhà cung cấp thành công", "", {timeOut: 1000});
-                  $('.modal').modal('hide');
-                  location.href = "/admin/supplier";
-                },
-                function (data) {
-                  toastr.warning(data.responseJSON.message);
-                },
+          function (data) {
+            toastr.success("Cập nhật nhà cung cấp thành công", "", {timeOut: 1000});
+            $('.modal').modal('hide');
+            location.href = "/admin/supplier";
+          },
+          function (data) {
+            toastr.warning(data.responseJSON.message);
+          },
         )
       }
     });
