@@ -12,6 +12,5 @@ import java.util.List;
 public interface BlogService {
     List<Blog> getListBlog() ;
     Page<Blog> adminGetListBlog(String title, int page);
-
     public Blog getBlogBySlug (String slug) throws NotFoundException;
 }

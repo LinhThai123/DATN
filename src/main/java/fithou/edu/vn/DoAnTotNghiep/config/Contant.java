@@ -5,6 +5,8 @@ public class Contant {
     public static final int PUBLIC_BLOG = 1;
     public static final int DRAFT_BLOG = 0;
 
+    public static final int LIMIT_SUPPILER = 10;
+
     public static final int LIMIT_CATEGORY = 10;
     public static final int LIMIT_BRAND = 10;
 

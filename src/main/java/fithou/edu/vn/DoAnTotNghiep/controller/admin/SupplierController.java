@@ -1,12 +1,15 @@
 package fithou.edu.vn.DoAnTotNghiep.controller.admin;
 
+import fithou.edu.vn.DoAnTotNghiep.blog.entity.Blog;
 import fithou.edu.vn.DoAnTotNghiep.supplier.entity.Supplier;
 import fithou.edu.vn.DoAnTotNghiep.supplier.service.SupplierService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,5 +33,13 @@ public class SupplierController {
         model.addAttribute("currentPage", supplier.getPageable().getPageNumber() + 1);
 
         return "admin/supplier/index";
+    }
+
+    @GetMapping("/{id}")
+    public String getSupplierDetailPage (Model model, @PathVariable String id) throws NotFoundException {
+        Supplier supplier = supplierService.getSupplierById(id);
+        model.addAttribute("id", supplier.getId());
+        model.addAttribute("supplier", supplier);
+        return "admin/supplier/index" ;
     }
 }

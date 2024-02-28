@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:x-on="http://www.w3.org/1999/xhtml" th:replace="~{/admin/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <th:block id="css-resources">
+    <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/brand.css}">
+  </th:block>
+
+</head>
+<body>
+<main id="main-content">
+  <!-- Breadcrumb -->
+  <div class="row">
+    <div class="col-12">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+        <li class="breadcrumb-item active">Danh sách nhà cung cấp</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <button class="btn btn-success" data-toggle="modal" data-target="#modal-add-new-supplier">
+      <span class="fa fa-plus" style="margin-right:0.5rem;"></span>
+      <span>Thêm nhà cung cấp</span>
+    </button>
+    <div class="clear"></div>
+  </div>
+
+  </div>
+  <!-- Main content -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card card-outline">
+        <div class="card-body pad">
+          <div class="table-responsive">
+            <!-- Table data -->
+            <table class="table table-striped table-bordered table-hover">
+              <thead>
+              <tr class="heading">
+                <th width="40%">
+                  Tên nhà cung cấp
+                </th>
+                <th width="20%">
+                  Số điện thoại
+                </th>
+                <th width="20%">
+                  Trạng thái
+                </th>
+                <th>Hành động</th>
+              </tr>
+              <tr class="heading-search">
+                <form method="GET" id="search-form">
+                  <th>
+                    <input type="text" name="name" id="name"
+                           class="form-control thuy-search-input">
+                  </th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <input type="hidden" name="page" id="page">
+                </form>
+              </tr>
+              </thead>
+              <tbody class="list-supplier">
+              <th:block th:each="supplier : ${suppliers}">
+                <tr>
+                  <td class="supplier-name" th:data-id="${supplier.id}" th:text="${supplier.name}"></td>
+                  <td class="supplier-phone" th:data-id="${supplier.id}" th:text="${supplier.numberPhone}"></td>
+                  <td class="supplier-status">
+                    <span th:data-id="${supplier.id}" th:text="${supplier.status == 0 ? 'Không hoạt động' : 'Đang hoạt động'}"></span>
+                  </td>
+                  <td>
+                    <button class="btn" onclick="updateSupplier(this)" th:data-id="${supplier.id}">
+                      <i class="fas fa-edit"></i></button>
+                    <button class="btn" onclick="deleteSupplier(this)" th:data-id="${supplier.id}"><i class="fas fa-trash-alt"></i></button>
+                  </td>
+                  <td class="supplier-address" th:data-id="${supplier.id}" th:text="${supplier.address}" style="display: none;"></td>
+                  <td class="supplier-account" th:data-id="${supplier.id}" th:text="${supplier.accountNumber}" style="display: none;"></td>
+                  <td class="supplier-bank" th:data-id="${supplier.id}" th:text="${supplier.bank}" style="display: none;"></td>
+                  <td class="supplier-email" th:data-id="${supplier.id}" th:text="${supplier.email}" style="display: none;"></td>
+                </tr>
+              </th:block>
+              </tbody>
+            </table>
+          </div>
+          <!-- Pagination -->
+          <nav aria-label="Page navigation">
+            <ul class="pagination" id="pagination"></ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal add new supplier-->
+  <div class="modal fade" id="modal-add-new-supplier" tabindex="-1" role="dialog" aria-labelledby="modalAddNewSupplier" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Thêm nhà cung cấp</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="required-label" for="new-name-supplier">Tên nhà cung cấp</label>
+            <input type="text" class="form-control" id="new-name-supplier" placeholder="Họ và tên">
+            <span class="invalid-feedback" id="invalid-feedback-new-name-supplier">Độ dài tên nhà cung cấp từ 1 - 255 ký tự</span>
+          </div>
+          <div class="form-group">
+            <label class="required-label" for="new-address-supplier">Địa chỉ</label>
+            <input type="text" class="form-control" id="new-address-supplier" placeholder="Số nhà, phường xã,...">
+            <span class="invalid-feedback" id="invalid-feedback-new-address-supplier">Độ dài địa chỉ từ 1 - 255 ký tự</span>
+          </div>
+          <div class="form-group">
+            <label class="required-label" for="new-email-supplier">Email</label>
+            <input type="text" class="form-control" id="new-email-supplier" placeholder="Email">
+            <span class="invalid-feedback" id="invalid-feedback-new-email-supplier">Email không được để trống</span>
+          </div>
+          <div class="row">
+                <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
+                  <label class="required-label" for="new-phone-supplier">Số điện thoại</label>
+                  <input type="text" class="form-control" id="new-phone-supplier" placeholder="Số điện thoại">
+                  <span class="invalid-feedback" id="invalid-feedback-new-phone-supplier">Số điện thoại không được để trống</span>
+                </div>
+                <div class="form-group" style="width: 50%; margin-left: 5px; ">
+                  <label for="new-status-supplier" class="required-label">Trạng thái</label>
+                  <select class="form-control" id="new-status-supplier">
+                    <option value="1">Đang hoạt động</option>
+                    <option value="0">Không hoạt động</option>
+                  </select>
+                </div>
+          </div>
+
+          <div class="form-group">
+            <label class="required-label" for="new-account-supplier">Số tài khoản</label>
+            <input type="text" class="form-control" id="new-account-supplier" placeholder="Số tài khoản">
+            <span class="invalid-feedback" id="invalid-feedback-new-account-supplier">Số tài khoản không được để trống</span>
+          </div>
+          <div class="form-group">
+            <label class="required-label" for="new-bank-supplier">Ngân hàng</label>
+            <input type="text" class="form-control" id="new-bank-supplier" placeholder="Ngân hàng">
+            <span class="invalid-feedback" id="invalid-feedback-new-bank-supplier">Ngân hàng không được để trống</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+          <button type="button" class="btn btn-primary btn-add-new-supplier">Thêm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal update supplier-->
+  <div class="modal fade" id="modal-update-supplier" tabindex="-1" role="dialog" aria-labelledby="modalUpdateSupplier" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cập nhật nhà cung cấp</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" class="form-control" id="update-supplier-id" name="id"
+                 th:value="${id}">
+          <div class="form-group">
+            <label class="required-label" for="update-name-supplier">Tên nhà cung cấp</label>
+            <input type="text" class="form-control" id="update-name-supplier">
+            <span class="invalid-feedback" id="invalid-feedback-update-name-supplier">Độ dài tên nhà cung cấp từ 1 - 255 ký tự</span>
+          </div>
+          <div class="form-group">
+            <label class="required-label" for="update-address-supplier">Địa chỉ</label>
+            <input type="text" class="form-control" id="update-address-supplier">
+            <span class="invalid-feedback" id="invalid-feedback-update-address-supplier">Độ dài địa chỉ từ 1 - 255 ký tự</span>
+          </div>
+          <div class="form-group">
+            <label class="required-label" for="update-email-supplier">Email</label>
+            <input type="text" class="form-control" id="update-email-supplier" >
+            <span class="invalid-feedback" id="invalid-feedback-update-email-supplier">Email không được để trống</span>
+          </div>
+          <div class="row">
+            <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px; ">
+              <label class="required-label" for="update-phone-supplier">Số điện thoại</label>
+              <input type="text" class="form-control" id="update-phone-supplier" >
+              <span class="invalid-feedback" id="invalid-feedback-update-phone-supplier">Số điện thoại không được để trống</span>
+            </div>
+            <div class="form-group" style="width: 50%; margin-left: 5px;">
+              <label for="update-status-supplier" class="required-label">Trạng thái</label>
+              <select class="form-control" id="update-status-supplier">
+                <option value="1">Đang hoạt động</option>
+                <option value="0">Không hoạt động</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="required-label" for="update-account-supplier">Số tài khoản</label>
+            <input type="text" class="form-control" id="update-account-supplier">
+            <span class="invalid-feedback" id="invalid-feedback-update-account-supplier">Số tài khoản không được để trống</span>
+          </div>
+          <div class="form-group">
+            <label class="required-label" for="update-bank-supplier">Ngân hàng</label>
+            <input type="text" class="form-control" id="update-bank-supplier" >
+            <span class="invalid-feedback" id="invalid-feedback-update-bank-supplier">Ngân hàng không được để trống</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+          <button type="button" class="btn btn-primary btn-update-supplier">Cập nhật</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--   Modal delete suppiler-->
+  <div class="modal fade" id="modal-delete-supplier" tabindex="-1" role="dialog" aria-labelledby="modalDeleteSupplier" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Xác nhận xóa nhà cung cấp</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="text" hidden id="delete-supplier-id">
+          <span>Bạn chắc chắn muốn xóa nhà cung cấp?</span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+          <button type="button" class="btn btn-danger btn-delete-supplier">Xóa</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<th:block id="js-resources">
+  <script th:src="@{/js/generateApi.js}"></script>
+  <script>
+    let name, page;
+    $(function () {
+      let vars = parseUrl();
+      name = vars["name"] || ""
+      page = vars["page"] || "1"
+      $('#page').val(page)
+      $('#name').val(name)
+      pagination([[${totalPages}]], [[${currentPage}]]);
+    });
+
+    $(document).ready(function () {
+      $("#btn-add-supplier").click(function () {
+        $("#modal-add-new-supplier").modal("show");
+      });
+    });
+    $('.btn-add-new-supplier').click(function() {
+      let nameSupplier = $('#new-name-supplier').val();
+      let addressSupplier = $('#new-address-supplier').val();
+      let emailSupplier = $('#new-email-supplier').val();
+      let phoneSupplier = $('#new-phone-supplier').val();
+      let accountSupplier = $('#new-account-supplier').val();
+      let bankSupplier = $('#new-bank-supplier').val();
+      let statusSupplier = $('#new-status-supplier').val();
+
+      let isValid = true;
+      if (nameSupplier.length === 0) {
+        $('#invalid-feedback-new-name-supplier').show();
+        isValid = false;
+      }
+      if (addressSupplier.length === 0) {
+        $('#invalid-feedback-new-address-supplier').show();
+        isValid = false;
+      }
+      if (emailSupplier.length === 0) {
+        $('#invalid-feedback-new-email-supplier').show();
+        isValid = false;
+      }
+      if (phoneSupplier.length === 0) {
+        $('#invalid-feedback-new-phone-supplier').show();
+        isValid = false;
+      }
+      if (accountSupplier.length === 0) {
+        $('#invalid-feedback-new-account-supplier').show();
+        isValid = false;
+      }
+      if (bankSupplier.length === 0) {
+        $('#invalid-feedback-new-bank-supplier').show();
+        isValid = false;
+      }
+
+      if (isValid) {
+        req = {
+          name: nameSupplier,
+          address: addressSupplier,
+          numberPhone: phoneSupplier,
+          email: emailSupplier,
+          accountNumber: accountSupplier,
+          bank: bankSupplier,
+          status: parseInt(statusSupplier)
+        }
+        callApi('POST', '/v1/supplier/add', req,
+                function (data) {
+                  toastr.success("Thêm nhà cung cấp thành công", "", {timeOut: 1000});
+                  $('.modal').modal('hide');
+                  location.href = "/admin/supplier";
+                },
+                function (data) {
+                  toastr.warning(data.responseJSON.message);
+                },
+        )
+      }
+    });
+
+    function updateSupplier(btn) {
+      let id = $(btn).data('id');
+      let name = $('.supplier-name[data-id='+id+']').text();
+      let address = $('.supplier-address[data-id='+id+']').text();
+      let phone = $('.supplier-phone[data-id='+id+']').text();
+      let bank = $('.supplier-bank[data-id='+id+']').text();
+      let email = $('.supplier-email[data-id='+id+']').text();
+      let status = $('.supplier-status[data-id='+id+']').text();
+      let account =  $('.supplier-account[data-id='+id+']').text();
+      $('#update-supplier-id').val(id);
+      $('#update-name-supplier').val(name);
+      $('#update-address-supplier').val(address);
+      $('#update-email-supplier').val(email);
+      $('#update-phone-supplier').val(phone);
+      $('#update-account-supplier').val(account);
+      $('#update-bank-supplier').val(bank);
+      $('#update-status-supplier option').filter(function() {
+        return $(this).text() == status;
+      }).prop('selected', true);
+      $('#modal-update-supplier').modal('show');
+    }
+
+    $('.btn-update-supplier').click(function () {
+      let idSupplier = $('#update-supplier-id').val();
+      let nameSupplier = $('#update-name-supplier').val().trim().replace(/\s+/g,' ');
+      let addressSupplier = $('#update-address-supplier').val().trim().replace(/\s+/g,' ');
+      let emailSupplier = $('#update-email-supplier').val().trim().replace(/\s+/g,' ');
+      let accountSupplier = $('#update-account-supplier').val().trim().replace(/\s+/g,' ');
+      let phoneSupplier = $('#update-phone-supplier').val().trim().replace(/\s+/g,' ');
+      let bankSupplier = $('#update-bank-supplier').val().trim().replace(/\s+/g,' ');
+      let statusSupplier = $('#update-status-supplier').val().trim().replace(/\s+/g,' ');
+      const phoneRegex = /^\d{10,15}$/;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      let isValid = true;
+
+      if (statusSupplier !== "0" && statusSupplier !== "1") {
+        toastr.warning("Trạng thái nhà cung cấp không hợp lệ");
+        return;
+      }
+      else if (nameSupplier.length === 0 || nameSupplier.length > 300) {
+        $('#invalid-feedback-update-name-supplier').show();
+        isValid = false;
+      }
+      else if (addressSupplier.length === 0 || addressSupplier.length > 300) {
+        $('#invalid-feedback-update-address-supplier').show()
+        isValid = false;
+      }
+      else if (emailSupplier.length === 0) {
+        $('#invalid-feedback-update-email-supplier').show();
+        isValid = false;
+      }
+      else if (!emailRegex.test(emailSupplier)) {
+        $('#invalid-feedback-update-email-supplier').text('Email không hợp lệ');
+        $('#invalid-feedback-update-email-supplier').show();
+        isValid = false;
+      }
+      else if (phoneSupplier.length === 0 || addressSupplier.length > 300) {
+        $('#invalid-feedback-update-address-supplier').show()
+        isValid = false;
+      }
+
+
+      else if (phoneSupplier.length === 0) {
+        $('#invalid-feedback-update-phone-supplier').show();
+        isValid = false;
+      }
+      else if (!phoneRegex.test(phoneSupplier)) {
+        $('#invalid-feedback-update-phone-supplier').text('Số điện thoại không hợp lệ');
+        $('#invalid-feedback-update-phone-supplier').show();
+        isValid = false;
+      }
+      else if (accountSupplier.length === 0) {
+        $('#invalid-feedback-update-account-supplier').show();
+        isValid = false;
+      }
+      else if (bankSupplier.length === 0) {
+        $('#invalid-feedback-update-bank-supplier').show();
+        isValid = false;
+      }
+
+      if (isValid) {
+        req = {
+          id: idSupplier,
+          name: nameSupplier,
+          address: addressSupplier,
+          numberPhone: phoneSupplier,
+          email: emailSupplier,
+          accountNumber: accountSupplier,
+          bank: bankSupplier,
+          status: parseInt(statusSupplier)
+        }
+        callApi('PUT', '/v1/supplier/update', req,
+                function (data) {
+                  toastr.success("Cập nhật nhà cung cấp thành công", "", {timeOut: 1000});
+                  $('.modal').modal('hide');
+                  location.href = "/admin/supplier";
+                },
+                function (data) {
+                  toastr.warning(data.responseJSON.message);
+                },
+        )
+      }
+    });
+
+    function deleteSupplier(btn) {
+      let id = $(btn).data('id');
+      $('#delete-supplier-id').val(id);
+      $('#modal-delete-supplier').modal('show');
+    }
+
+    $('.btn-delete-supplier').click(function() {
+      let idSupplier = $('#delete-supplier-id').val();
+      $.ajax({
+        url: '/v1/supplier/delete/'+ idSupplier,
+        type: 'DELETE',
+        contentType: "application/json; charset=utf-8",
+        success: function(data) {
+          toastr.success("Xóa nhà cung cấp thành công");
+          setTimeout(function() {
+            location.href = "/admin/supplier";
+          }, 1000);
+        },
+        error: function(data) {
+          toastr.warning(data.responseJSON.message);
+        },
+      });
+    })
+  </script>
+</th:block>
+</body>
+</html>
