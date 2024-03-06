@@ -66,7 +66,7 @@ public class Product extends BaseEntity implements Serializable {
     @JsonBackReference
     private Brand brand;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product" , cascade = CascadeType.ALL , orphanRemoval = true)
     private List<ProductOption> productOptions;
 
 }

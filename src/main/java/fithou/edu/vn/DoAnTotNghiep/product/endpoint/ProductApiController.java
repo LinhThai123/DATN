@@ -5,6 +5,8 @@ import fithou.edu.vn.DoAnTotNghiep.product.commands.createProduct.CreateProductC
 import fithou.edu.vn.DoAnTotNghiep.product.commands.deleteProduct.DeleteProductCommand;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.recoveryProduct.RecoveryProductCommand;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.updateProduct.UpdateProductCommand;
+import fithou.edu.vn.DoAnTotNghiep.product.entity.Product;
+import fithou.edu.vn.DoAnTotNghiep.product.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 public class ProductApiController {
     @Autowired
     private ISender sender;
+
+    @Autowired
+    private ProductService productService ;
 
 //    @Secured("PRODUCT_MANAGEMENT")
     @PostMapping("/create")
@@ -46,4 +51,5 @@ public class ProductApiController {
         sender.send(new RecoveryProductCommand(productId)).orThrow();
         return ResponseEntity.noContent().build();
     }
+
 }

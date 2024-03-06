@@ -2,6 +2,7 @@ package fithou.edu.vn.DoAnTotNghiep.product.commands.deleteProduct;
 
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.HandleResponse;
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.IRequestHandler;
+import fithou.edu.vn.DoAnTotNghiep.product.repository.ProductOptionRepository;
 import fithou.edu.vn.DoAnTotNghiep.product.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,10 @@ public class DeleteProductCommandHandler implements IRequestHandler<DeleteProduc
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ProductOptionRepository productOptionRepository;
+
     @Override
     @Transactional
     public HandleResponse<String> handle(DeleteProductCommand command) throws Exception {
@@ -22,6 +27,7 @@ public class DeleteProductCommandHandler implements IRequestHandler<DeleteProduc
         if (product.isEmpty()) {
             return HandleResponse.error("Không tìm thấy sản phẩm", HttpStatus.NOT_FOUND);
         }
+        productOptionRepository.deleteByProductId(product.get().getId());
         productRepository.delete(product.get());
         return HandleResponse.ok("Xóa sản phẩm thành công");
     }

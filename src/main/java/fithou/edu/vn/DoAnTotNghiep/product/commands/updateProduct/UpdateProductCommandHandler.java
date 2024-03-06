@@ -48,6 +48,6 @@ public class UpdateProductCommandHandler implements IRequestHandler<UpdateProduc
         existProduct.get().setImageUrl(updateProductCommand.getImageUrl());
         existProduct.get().setStatus(updateProductCommand.getStatus());
         productRepository.save(existProduct.get());
-        return HandleResponse.ok("Sửa sản phẩm thành công");
+        return HandleResponse.ok(existProduct.get().getId());
     }
 }

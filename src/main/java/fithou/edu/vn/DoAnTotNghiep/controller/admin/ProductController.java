@@ -7,7 +7,9 @@ import fithou.edu.vn.DoAnTotNghiep.common.dto.PaginatedDto;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.createProduct.CreateProductCommand;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.Brand;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.Product;
+import fithou.edu.vn.DoAnTotNghiep.product.entity.ProductOption;
 import fithou.edu.vn.DoAnTotNghiep.product.service.BrandService;
+import fithou.edu.vn.DoAnTotNghiep.product.service.ProductOptionService;
 import fithou.edu.vn.DoAnTotNghiep.product.service.ProductService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class ProductController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private ProductOptionService productOptionService;
 
     @Autowired
     private BrandService brandService;
@@ -80,7 +85,12 @@ public class ProductController {
     }
     @GetMapping("/{slug}")
     public String getProductDetailPage (Model model, @PathVariable String slug) throws NotFoundException {
+
         Product product = productService.getProductBySlug(slug);
+
+        List<ProductOption> productOptions = productOptionService.getProductOptionsByProductId(product.getId());
+
+        product.setProductOptions(productOptions);
 
         model.addAttribute("id", product.getId());
         // Get list category
@@ -88,8 +98,11 @@ public class ProductController {
         model.addAttribute("categories", categories);
         // Get list brand
         List<Brand> brands = brandService.getListBrand();
+
         model.addAttribute("brands", brands);
+
         model.addAttribute("product", product);
+
         return "admin/product/detail" ;
     }
 

@@ -40,4 +40,18 @@ public class ProductServiceImpl implements ProductService {
         }
         return rs.get();
     }
+
+    @Override
+    public Product getProductById(String id) throws NotFoundException {
+        Optional<Product> rs = productRepository.findById(id);
+        if (!rs.isPresent()) {
+            throw new NotFoundException("Không tìm thấy sản phẩm");
+        }
+        return rs.get();
+    }
+
+    @Override
+    public List<Product> getListProduct() {
+        return productRepository.findAll();
+    }
 }

@@ -125,11 +125,126 @@
                                 </button>
                             </div>
                         </div>
+                        <button class="btn btn-success btn-product-option" >
+                            <span class="fa fa-plus" style="margin-right:0.5rem; "></span>
+                            <span>Xem chi tiết sản phẩm</span>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modal-update-product-option" tabindex="-1" role="dialog" aria-labelledby="modalUpdateProductOption" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Sửa chi tiết sản phẩm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" class="form-control" id="idProductOption" name="idProductOption"
+                           th:value="${product.getProductOptions().get(0).id}">
+                    <div class="form-group">
+                        <label class="required-label" for="screen-size">Kích thước màn hình</label>
+                        <input type="text" class="form-control" id="screen-size" th:value="${product.getProductOptions().get(0).screen_size}">
+                        <span class="invalid-feedback" id="invalid-feedback-screen-size">Độ dài kích thước màn hình cấp từ 1 - 255 ký tự</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="required-label" for="color">Màu sắc</label>
+                        <input type="text" class="form-control" id="color" th:value="${product.getProductOptions().get(0).color}">
+                        <span class="invalid-feedback" id="invalid-feedback-color">Độ dài màu sắc cấp từ 1 - 255 ký tự</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="required-label" for="resolution-screen">Độ phân giải màn hình</label>
+                        <input type="text" class="form-control" id="resolution-screen" th:value="${product.getProductOptions().get(0).resolution_screen}">
+                        <span class="invalid-feedback" id="invalid-feedback-resolution-screen">Độ dài độ phân giải màn hình từ 1 - 255 ký tự</span>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
+                            <label class="required-label" for="rom">Bộ nhớ trong</label>
+                            <input type="text" class="form-control" id="rom" th:value="${product.getProductOptions().get(0).rom}">
+                            <span class="invalid-feedback" id="invalid-feedback-rom">Bộ nhớ trong không được để trống</span>
+                        </div>
+                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
+                            <label for="ram" class="required-label">Bộ nhớ ngoài</label>
+                            <input type="text" class="form-control" id="ram" th:value="${product.getProductOptions().get(0).ram}">
+                            <span class="invalid-feedback" id="invalid-feedback-ram">Bộ nhớ ngoài không được để trống</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
+                            <label class="required-label" for="chipset">ChipSet</label>
+                            <input type="text" class="form-control" id="chipset" th:value="${product.getProductOptions().get(0).chip}">
+                            <span class="invalid-feedback" id="invalid-feedback-chip-set">Chipset không được để trống</span>
+                        </div>
+                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
+                            <label for="cpu" class="required-label">CPU</label>
+                            <input type="text" class="form-control" id="cpu" th:value="${product.getProductOptions().get(0).cpu}">
+                            <span class="invalid-feedback" id="invalid-feedback-cpu">Cpu không được để trống</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
+                            <label class="required-label" for="size">Kích thước</label>
+                            <input type="text" class="form-control" id="size" th:value="${product.getProductOptions().get(0).size}">
+                            <span class="invalid-feedback" id="invalid-feedback-size">Kích thước không được để trống</span>
+                        </div>
+                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
+                            <label for="weight" class="required-label">Trọng lượng</label>
+                            <input type="text" class="form-control" id="weight" th:value="${product.getProductOptions().get(0).weight}">
+                            <span class="invalid-feedback" id="invalid-feedback-weight">Trọng lượng không được để trống</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
+                            <label class="required-label" for="charging-port">Cổng sạc</label>
+                            <input type="text" class="form-control" id="charging-port" th:value="${product.getProductOptions().get(0).charging_port}">
+                            <span class="invalid-feedback" id="invalid-feedback-charging-port">Cổng sạc không được để trống</span>
+                        </div>
+                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
+                            <label for="bluetooth" class="required-label">Bluetooth</label>
+                            <input type="text" class="form-control" id="bluetooth" th:value="${product.getProductOptions().get(0).bluetooth}">
+                            <span class="invalid-feedback" id="invalid-feedback-bluetooth">Bluetooth không được để trống</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required-label" for="camera-before">Camera trước</label>
+                        <input type="text" class="form-control" id="camera-before" th:value="${product.getProductOptions().get(0).camera_before}">
+                        <span class="invalid-feedback" id="invalid-feedback-camera-before">Camera trước không được để trống</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="required-label" for="camera-after">Camera sau</label>
+                        <input type="text" class="form-control" id="camera-after" th:value="${product.getProductOptions().get(0).camera_after}">
+                        <span class="invalid-feedback" id="invalid-feedback-camera-after">Camera sau không được để trống</span>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
+                            <label class="required-label" for="pin">PIN</label>
+                            <input type="text" class="form-control" id="pin" th:value="${product.getProductOptions().get(0).pin}">
+                            <span class="invalid-feedback" id="invalid-feedback-pin">Pin không được để trống</span>
+                        </div>
+                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
+                            <label for="os" class="required-label">Hệ điều hành</label>
+                            <input type="text" class="form-control" id="os" th:value="${product.getProductOptions().get(0).os}">
+                            <span class="invalid-feedback" id="invalid-feedback-os">Hệ điều hành không được để trống</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary btn-update-product-option">Cập nhật</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal delete product -->
     <div class="modal fade" id="modal-delete-product" tabindex="-1" role="dialog" aria-labelledby="modalDeleteProduct" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -242,11 +357,8 @@
                     imageUrl: image
                 }
                 callApi('PUT', '/v1/products/update', req,
-                    function (data) {
-                        toastr.success("Cập nhật sản phẩm thành công");
-                        setTimeout(function () {
-                            location.href = "/admin/product";
-                        }, 1000);
+                    function (response) {
+                        $("#modal-update-product-option").modal("show");
                     },
                     function (data) {
                         console.log(data.responseJSON.message);
@@ -254,7 +366,7 @@
                     },
                 )
             }
-        })
+        });
         $('.btn-delete-product').click(function() {
             req = {
 
@@ -271,7 +383,143 @@
                     toastr.warning(data.responseJSON.message);
                 },
             )
-        })
+        });
+
+        $(document).ready(function () {
+            $(".btn-product-option").click(function () {
+                $("#modal-update-product-option").modal("show");
+            });
+        });
+
+        $('.btn-update-product-option').click(function () {
+            $('.invalid-feedback').hide();
+            let idProductOption = $('#idProductOption').val();
+            let idProduct = $('#id').val();
+            let screenSize = $('#screen-size').val();
+            let color = $('#color').val();
+            let resolutionScreen = $('#resolution-screen').val();
+            let rom = $('#rom').val();
+            let ram = $('#ram').val();
+            let pin = $('#pin').val();
+            let chipSet = $('#chipset').val();
+            let cpu = $('#cpu').val();
+            let size =  $('#size').val();
+            let weight =  $('#weight').val();
+            let cameraAfter =  $('#camera-after').val();
+            let cameraBefore =  $('#camera-before').val();
+            let chargingPort =  $('#charging-port').val();
+            let os =  $('#os').val();
+            let bluetooth =  $('#bluetooth').val();
+
+            let isValid = true;
+
+            if (screenSize.length === 0 || name.length > 300) {
+                $('#invalid-feedback-screen-size').show();
+                isValid = false;
+            }
+
+            if (color.length === 0) {
+                $('#invalid-feedback-color').show();
+                isValid = false;
+            }
+
+            if (resolutionScreen.length === 0) {
+                $('#invalid-feedback-resolution-screen').show();
+                isValid = false;
+            }
+
+            if (rom.length === 0) {
+                $('#invalid-feedback-rom').show();
+                isValid = false;
+            }
+            if (ram.length === 0) {
+                $('#invalid-feedback-ram').show();
+                isValid = false;
+            }
+
+            if (pin.length === 0) {
+                $('#invalid-feedback-pin').show();
+                isValid = false;
+            }
+
+            if (chipSet.length === 0) {
+                $('#invalid-feedback-chip-set').show();
+                isValid = false;
+            }
+
+            if (cpu.length === 0) {
+                $('#invalid-feedback-cpu').show();
+                isValid = false;
+            }
+
+            if (size.length === 0) {
+                $('#invalid-feedback-size').show();
+                isValid = false;
+            }
+
+            if (weight.length === 0) {
+                $('#invalid-feedback-weight').show();
+                isValid = false;
+            }
+            if (cameraAfter.length === 0) {
+                $('#invalid-feedback-camera-after').show();
+                isValid = false;
+            }
+
+            if (cameraBefore.length === 0) {
+                $('#invalid-feedback-camera-before').show();
+                isValid = false;
+            }
+            if (chargingPort.length === 0) {
+                $('#invalid-feedback-charging-port').show();
+                isValid = false;
+            }
+
+            if (os.length === 0) {
+                $('#invalid-feedback-os').show();
+                isValid = false;
+            }
+
+            if (bluetooth.length === 0) {
+                $('#invalid-feedback-bluetooth').show();
+                isValid = false;
+            }
+
+            if (isValid) {
+                req = {
+                    id: idProductOption,
+                    screen_size: screenSize,
+                    resolution_screen : resolutionScreen,
+                    rom: rom,
+                    cpu: cpu,
+                    size: size,
+                    weight: weight,
+                    camera_after: cameraAfter,
+                    camera_before: cameraBefore,
+                    pin: pin,
+                    charging_port: chargingPort,
+                    os : os,
+                    bluetooth : bluetooth,
+                    chip: chipSet,
+                    ram: ram,
+                    color : color,
+                    stock : 0,
+                    productId : idProduct
+                }
+                callApi('PUT', '/v1/product-option/update', req,
+                    function (response) {
+                        toastr.success("Chỉnh sửa sản phẩm thành công", "", {timeOut: 1000});
+                        location.href = "/admin/product";
+
+                    },
+                    function (data) {
+                        console.log(data.responseJSON.message);
+                        toastr.warning(data.responseJSON.message);
+                    },
+                )
+            }
+        });
+
     </script>
 </th:block>
 </body>
