@@ -27,7 +27,27 @@ public class ProductOption extends BaseEntity implements Serializable {
     @GeneratedValue(generator = "random_id")
     private String id;
 
-    private String price;
+    private String screen_size;
+
+    private String resolution_screen;
+
+    private String rom;
+
+    private String cpu;
+
+    private String size;
+
+    private String camera_after;
+
+    private String camera_before;
+
+    private String pin;
+
+    private String charging_port;
+
+    private String os;
+
+    private String bluetooth;
 
     private Double weight;
 
@@ -35,7 +55,7 @@ public class ProductOption extends BaseEntity implements Serializable {
 
     private String ram;
 
-    private String screen;
+    private String color;
 
     private int stock = 0 ;
 
@@ -45,11 +65,5 @@ public class ProductOption extends BaseEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Product product;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Color color;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Capacity capacity;
 
 }
