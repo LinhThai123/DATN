@@ -37,7 +37,7 @@ public class ForgotPasswordCommandHandler implements IRequestHandler<ForgotPassw
         String token = jwtService.generateToken(claims, 15*60*1000) ;
         var to = user.get().getEmail();
         var subject = "Reset Password";
-        var url = appProperties.getHost() + "/v1/auth/reset-password?token=" + token;
+        var url = appProperties.getHost() + "/reset-password?token=" + token;
         var content = "Nhấn vào link sau để reset password: " + url;
         CompletableFuture.runAsync(() -> {
             try {
