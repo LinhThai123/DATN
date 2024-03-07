@@ -25,6 +25,15 @@
                     <input id="password_login" type="password" placeholder="Mật khẩu" />
                     <span class="password_login_err error"></span>
                 </div>
+                <div class="quenmatkhau">
+                    <div class="col-6 remeber-password">
+                        <input type="checkbox" id="remember-me" />
+                        <label for="remember-me">Ghi nhớ đăng nhập</label>
+                    </div>
+                    <div class="col-6 forgot-password">
+                        <a th:href="@{/forgot-password}">Quên mật khẩu</a>
+                    </div>
+                </div>
                 <input type="submit" value="Đăng Nhập" class="btn solid btn_login-submit"/>
                 <p class="social-text">Or Sign in with social platforms</p>
                 <div class="social-media">

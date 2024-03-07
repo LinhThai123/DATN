@@ -10,7 +10,19 @@ body,
 input {
     font-family: "Inter", sans-serif;
 }
-
+.quenmatkhau {
+    width: 62%;
+    display: flex;
+    justify-content:space-between;
+}
+.forgot-password a{
+    text-decoration: none;
+    color: #333;
+}
+.forgot-password a:hover {
+    cursor: pointer;
+    color: #4481eb;
+}
 .container {
     position: relative;
     width: 100%;
