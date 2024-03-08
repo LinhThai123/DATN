@@ -1,6 +1,7 @@
 package fithou.edu.vn.DoAnTotNghiep.blog.entity;
 
 import fithou.edu.vn.DoAnTotNghiep.common.entity.BaseEntity;
+import fithou.edu.vn.DoAnTotNghiep.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -56,5 +57,9 @@ public class Blog extends BaseEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DELETED_DATE")
     private Timestamp deleteDate = null;
+
+    @ManyToOne
+    @JoinColumn(name = "created_by")
+    private User createdBy;
 
 }

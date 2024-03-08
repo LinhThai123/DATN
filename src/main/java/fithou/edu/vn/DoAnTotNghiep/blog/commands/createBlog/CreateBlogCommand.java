@@ -1,6 +1,7 @@
 package fithou.edu.vn.DoAnTotNghiep.blog.commands.createBlog;
 
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.IRequest;
+import fithou.edu.vn.DoAnTotNghiep.user.entity.User;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -27,5 +28,6 @@ public class CreateBlogCommand implements IRequest<String> {
     private Integer status;
 
     private String imageUrl;
+
 
 }
