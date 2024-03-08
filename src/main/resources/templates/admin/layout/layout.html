@@ -58,7 +58,7 @@
             </div>
           </a>
           <div class="dropdown-divider"></div>
-          <a href="/api/logout" class="dropdown-item">
+          <a th:href="@{/logout}" class="dropdown-item">
             <div class="media">
               Đăng xuất
             </div>
@@ -97,19 +97,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="/admin/supplier" class="nav-link">
                   <i class="fa-solid fa-plus nav-icon"></i>
                   <p>Quản lý nhà cung cấp</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="/admin/blog" class="nav-link">
                   <i class="fa-solid fa-plus nav-icon"></i>
                   <p>Quản lý tin tức </p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="admin/promotion" class="nav-link">
                   <i class="fa-solid fa-plus nav-icon"></i>
                   <p>Quản lý khuyến  mãi </p>
                 </a>
@@ -117,7 +117,7 @@
             </ul>
           </li>
           <li class="nav-item has-treeview">
-            <a href="/admin/products" class="nav-link">
+            <a href="" class="nav-link">
               <i class="nav-icon fas fa-star"></i>
               <p>
                 Quản lý sản phẩm
@@ -126,31 +126,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/admin/products" class="nav-link">
+                <a href="/admin/category" class="nav-link">
                   <i class="fa-solid fa-plus nav-icon"></i>
                   <p>Quản lý category</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/admin/products/create" class="nav-link">
+                <a href="/admin/product" class="nav-link">
                   <i class="fa-solid fa-plus nav-icon"></i>
                   <p>Quản lý sản phẩm</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link">
-                  <i class="fa-solid fa-plus nav-icon"></i>
-                  <p>Quản lý màu sắc</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link">
-                  <i class="fa-solid fa-plus nav-icon"></i>
-                  <p>Quản lý dung lượng</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="/admin/brand" class="nav-link">
                   <i class="fa-solid fa-plus nav-icon"></i>
                   <p>Quản lý thương hiệu</p>
                 </a>
@@ -164,7 +152,7 @@
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="/admin/brands" class="nav-link">
+            <a href="/admin/receipt" class="nav-link">
               <i class='nav-icon fab fa-centos'></i>
               <p>Quản lý nhập kho</p>
             </a>
@@ -204,14 +192,25 @@
           </li>
           <li class="nav-item has-treeview">
             <a href="" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
+              <i class="nav-icon fas fa-star"></i>
               <p>
-                Quản lý user
+                Quản lý người dùng
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
-
+              <li class="nav-item">
+                <a href="/admin/employee" class="nav-link">
+                  <i class="fa-solid fa-plus nav-icon"></i>
+                  <p>Quản lý nhân viên</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/admin/customer" class="nav-link">
+                  <i class="fa-solid fa-plus nav-icon"></i>
+                  <p>Quản lý khách hàng</p>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item has-treeview">
