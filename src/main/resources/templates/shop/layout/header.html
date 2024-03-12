@@ -1,4 +1,5 @@
-<th:block th:fragment="header">
+<th:block th:fragment="header" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
     <header class="header">
         <div class="main-header">
             <div class="container">
@@ -124,7 +125,7 @@
 
                                 </a>
                             </div>
-                            <div class="sudes-header-account header-action_account">
+                            <div class="sudes-header-account header-action_account" sec:authorize="isAuthenticated()">
                                 <a href="javascript:;" class="header-account" aria-label="Tài khoản" title="Tài khoản">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                                          class="bi bi-person" viewBox="0 0 16 16">
@@ -147,7 +148,8 @@
                                 </a>
                                 <ul>
 
-                                    <li class="li-account"><a rel="nofollow" href="/account/login" title="Đăng nhập">
+                                    <li class="li-account">
+                                        <a rel="nofollow" href="/login" title="Đăng nhập" >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                              fill="currentColor" class="bi bi-box-arrow-in-right"
                                              viewBox="0 0 16 16">
@@ -158,9 +160,10 @@
                                                   d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z">
                                             </path>
                                         </svg>
-                                        Đăng nhập</a>
+                                            <span> Đăng nhập </span>
+                                        </a>
                                     </li>
-                                    <li class="li-account"><a rel="nofollow" href="/account/register" title="Đăng ký">
+                                    <li class="li-account"><a rel="nofollow" href="/register" title="Đăng ký">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                              fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
                                             <path

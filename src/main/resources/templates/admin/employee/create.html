@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:x-on="http://www.w3.org/1999/xhtml" th:replace="~{/admin/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+<head>
+    <meta charset="UTF-8">
+    <title>Cấp tài khoản nhân viên</title>
+    <th:block id="css-resources">
+        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/plugins/summernote/summernote-bs4.css}">
+        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/list_image_product.css}">
+        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/modal_img.css}">
+        <!--    <link rel="stylesheet" th:href="@{/adminlte/plugins/summernote/summernote.css}">-->
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    </th:block>
+
+</head>
+<body>
+<main id="main-content">
+    <!-- Breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/admin/employee">Danh sách tài khoản</a></li>
+                <li class="breadcrumb-item active">Thêm tài khoản mới</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <a role="button" class="btn btn-default" href="/admin/employee">
+            <span class="fas fa-chevron-left" style="margin-right:0.5rem;"></span>
+            <span>Trở về</span>
+        </a>
+        <button class="btn btn-success btn-create-employee">
+            <span class="fa fa-plus" style="margin-right:0.5rem;"></span>
+            <span>Thêm tài khoản</span>
+        </button>
+        <div class="clear"></div>
+    </div>
+
+    <!-- Main content -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-outline">
+                <div class="card-body pad">
+                    <div class="row">
+                        <div class="col-lg-9 col-md-8">
+                            <input type="hidden" class="form-control" id="id" name="id">
+                            <div class="form-group">
+                                <div>
+                                    <label class="required-label" for="name">Tên nhân viên</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-name">Độ dài tên từ 1 - 300 ký tự</span>
+                                </div>
+                                <input type="text" class="form-control" id="name" placeholder="Họ và tên nhân viên" required>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label class="required-label" for="birthDay">Ngày sinh</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-date"></span>
+                                </div>
+                                <input type="date" class="form-control" id="birthDay">
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label class="required-label" for="name">Email</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-email"></span>
+                                </div>
+                                <input type="text" class="form-control" id="email" required placeholder="Email của nhân viên">
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label class="required-label" for="phone">Số điện thoại</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-phone">Số điện thoại phải đúng định dạng</span>
+                                </div>
+                                <input type="text" class="form-control" id="phone" placeholder="Số điện thoại nhân viên" required>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label class="required-label" for="password">Địa chỉ</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-address">Địa chỉ không được để trống</span>
+                                </div>
+                                <input type="text" class="form-control" id="address" placeholder=" Địa chỉ nhân viên" required>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label class="required-label" for="password">Mật khẩu</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-pass">Mật khẩu phải lớn hơn 8 ký tự</span>
+                                </div>
+                                <input type="password" class="form-control" id="password" placeholder="Mật khẩu nhân viên" required>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4">
+                            <div class="form-group">
+                                <label for="status" class="required-label">Trạng thái</label>
+                                <select class="form-control" id="status">
+                                    <option value="1">Đang hoạt động</option>
+                                    <option value="0">Không hoạt động</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label class="required-label" for="phone">Giới tính</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-gender">Giới tính của nhân viên không được để trống</span>
+                                </div>
+                                <input type="text" class="form-control" id="gender" placeholder="Giới tính nhân viên">
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label class="required-label" for="name">CCCD</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-cccd">CCCD không được để trống</span>
+                                </div>
+                                <input type="text" class="form-control" id="cccd">
+                            </div>
+                            <div class="form-group">
+                                <label class="required-label">Ảnh đại diện</label>
+                                <div class="thumbnail-container">
+                                    <div class="img-div">
+                                        <img id="preview-img" th:src="@{/images/noimage.png}" alt="Thumbnail post">
+                                    </div>
+                                </div>
+                                <input type="file" id="file-input" style="display: none;">
+                                <button type="button" class="btn btn-info" id="choose-image-btn">
+                                    Chọn ảnh
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<th:block id="js-resources">
+    <script th:src="@{/js/generateApi.js}"></script>
+    <script th:src="@{/styles/admin/adminlte/plugins/summernote/summernote-bs4.js}"></script>
+    <script th:src="@{/styles/admin/adminlte/plugins/list/list.min.js}"></script>
+    <script th:inline="javascript">
+        $(function () {
+            $('#description').summernote(
+                {
+                    height: 450,
+                    focus: true
+                }
+            )
+        });
+
+        $(document).ready(function() {
+            $('#choose-image-btn').click(function() {
+                $('#file-input').click();
+            });
+
+            $('#file-input').change(function() {
+                var file = this.files[0];
+                var formData = new FormData();
+                formData.append('files', file);
+
+                $.ajax({
+                    url: '/api/file/uploads',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        var preview = $('#preview-img');
+                        preview.attr('src', response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Upload failed: ', error);
+                    }
+                });
+            });
+        });
+
+        $('.btn-create-employee').click(function () {
+            $('.invalid-feedback').hide();
+            let name = $('#name').val();
+            let email = $('#email').val();
+            let birthDay = $('#birthDay').val();
+            let address = $('#address').val();
+            let numberPhone = $("#phone").val();
+            let cccd = $('#cccd').val();
+            let status = $('#status').val();
+            let gender = $('#gender').val();
+            let password = $ ('#password').val();
+
+            let image = $('#preview-img').attr('src');
+            if (image == "/images/noimage.png") {
+                image = "";
+            }
+            isValid = true;
+
+            if (name.length == 0 || name.length > 300) {
+                $('#invalid-feedback-name').show();
+                isValid = false;
+            }
+
+            if (!validateDate(birthDay)) {
+                isValid = false;
+            }
+
+            if (!validateEmail(email)) {
+                isValid = false;
+            }
+
+            if (!validatePhoneNumber(numberPhone)) {
+                isValid = false;
+            }
+            if (!validatePassword(password)) {
+                isValid = false;
+            }
+            if (cccd.length === 0 ) {
+                $('#invalid-feedback-cccd').show();
+                isValid = false;
+            }
+            if (gender.length === 0 ) {
+                $('#invalid-feedback-gender').show();
+                isValid = false;
+            }
+            if (address.length === 0 ) {
+                $('#invalid-feedback-address').show();
+                isValid = false;
+            }
+
+            if (isValid) {
+                req = {
+                    name: name,
+                    email: email,
+                    CCCD: cccd,
+                    gender: gender,
+                    status: status,
+                    address: address,
+                    password: password,
+                    birthDay: birthDay,
+                    numberPhone : numberPhone,
+                    imageUrl: image
+                }
+                callApi('POST', '/v1/employee/add', req,
+                    function (response) {
+                        setTimeout(function () {
+                            toastr.success("Cấp tài khoản cho nhân viên thành công", "", {timeOut: 1000});
+                            location.href = "/admin/employee";
+                        }, 1000);
+                    },
+                    function (errorResponse) {
+                        console.log(errorResponse.responseJSON.message);
+                        toastr.warning(errorResponse.responseJSON.message);
+                    },
+                )
+            }
+        });
+        function validateEmail(email) {
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email === "") {
+                $("#invalid-feedback-email").text("Hãy điền địa chỉ email");
+                return false;
+            } else if (!emailRegex.test(email)) {
+                $("#invalid-feedback-email").text("Định dạng email không hợp lệ");
+                return false;
+            } else {
+                $("#invalid-feedback-email").text("");
+                return true;
+            }
+        }
+
+        function validateDate(date) {
+            var pattern = /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/;
+            if (!pattern.test(date)) {
+                $("#invalid-feedback-date").text("Định dạng ngày không hợp lệ");
+                return false;
+            }
+            var tempDate = new Date(date);
+            if (isNaN(tempDate.getTime())) {
+                $("#invalid-feedback-date").text("Ngày không hợp lệ");
+                return false;
+            }
+            $("#invalid-feedback-date").text("");
+            return true;
+        }
+
+        function validatePhoneNumber(phoneNumber) {
+            var phoneRegex = /^[0-9]{10,11}$/; // Số điện thoại gồm 10 hoặc 11 chữ số
+            if (!phoneRegex.test(phoneNumber)) {
+                $("#invalid-feedback-phone").text("Số điện thoại không hợp lệ");
+                return false;
+            }
+            $("#invalid-feedback-phone").text("");
+            return true;
+        }
+        function validatePassword(password) {
+            if (password.length < 8) {
+                $("#invalid-feedback-pass").text("Mật khẩu phải có ít nhất 8 ký tự");
+                return false;
+            } else {
+                $("#invalid-feedback-pass").text("");
+                return true;
+            }
+        }
+    </script>
+</th:block>
+</body>
+</html>
