@@ -81,17 +81,25 @@
                             <tbody class="list-supplier">
                             <th:block th:each="employee : ${employees}">
                                 <tr>
-                                    <td class="employee-name" th:data-id="${employee.id}" th:text="${employee.id}"></td>
-                                    <td class="employee-name" th:data-id="${employee.id}" th:text="${employee.name}"></td>
-                                    <td class="employee-phone" th:data-id="${employee.id}" th:text="${employee.numberPhone}"></td>
-                                    <td class="employee-email" th:data-id="${employee.id}" th:text="${employee.email}"></td>
+                                    <td class="employee-name">
+                                        <a th:href="@{/admin/employee/{id}(id=${employee.id})}"
+                                           th:data-id="${employee.id}" th:text="${employee.id}"
+                                           class="employee-link" th:disabled="${!employee.isAccountEnabled}"></a>
+                                    </td>
+                                    <td class="employee-name" th:data-id="${employee.id}" th:text="${employee.name}" th:disabled="${!employee.isAccountEnabled}"></td>
+                                    <td class="employee-phone" th:data-id="${employee.id}" th:text="${employee.numberPhone}" th:disabled="${!employee.isAccountEnabled}"></td>
+                                    <td class="employee-email" th:data-id="${employee.id}" th:text="${employee.email}" th:disabled="${!employee.isAccountEnabled}"></td>
                                     <td class="employee-status">
-                                        <span th:data-id="${employee.id}" th:text="${employee.status == 0 ? 'Không hoạt động' : 'Đang hoạt động'}"></span>
+                                        <span th:data-id="${employee.id}" th:text="${employee.status == 0 ? 'Bị khóa' : 'Đang hoạt động'}" th:disabled="${!employee.isAccountEnabled}"></span>
                                     </td>
                                     <td>
                                         <button class="btn" onclick="updateSupplier(this)" th:data-id="${employee.id}">
-                                            <i class="fas fa-edit"></i></button>
-                                        <button class="btn" onclick="deleteSupplier(this)" th:data-id="${employee.id}"><i class="fas fa-trash-alt"></i></button>
+                                            <i class="fa-solid fa-user-plus" title="Phân quyền"></i>
+                                        </button>
+                                        <button class="btn" onclick="lockEmployee(this)" th:data-id="${employee.id}">
+                                            <i th:class="${employee.status == 0 } ? 'fa-solid fa-lock' : 'fa-solid fa-lock-open'"
+                                               th:title="${employee.status == 0 } ? 'Khóa tài khoản' : 'Mở tài khoản'"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             </th:block>
@@ -108,22 +116,22 @@
     </div>
 
     <!--   Modal delete suppiler-->
-    <div class="modal fade" id="modal-delete-supplier" tabindex="-1" role="dialog" aria-labelledby="modalDeleteSupplier" aria-hidden="true">
+    <div class="modal fade" id="modal-lock-employee" tabindex="-1" role="dialog" aria-labelledby="modalLockEmployee" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Xác nhận xóa nhà cung cấp</h5>
+                    <h5 class="modal-title">Xác nhận khóa tài khoản nhân viên</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" hidden id="delete-supplier-id">
-                    <span>Bạn chắc chắn muốn xóa nhà cung cấp?</span>
+                    <input type="text" hidden id="lock-employee-id">
+                    <span>Bạn chắc chắn muốn khóa tài khoản nhân viên</span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-danger btn-delete-supplier">Xóa</button>
+                    <button type="button" class="btn btn-danger btn-lock-employee">Khóa</button>
                 </div>
             </div>
         </div>
@@ -141,6 +149,31 @@
             $('#page').val(page)
             pagination([[${totalPages}]], [[${currentPage}]]);
         });
+
+        function lockEmployee(btn) {
+            let id = $(btn).data('id');
+            $('#lock-employee-id').val(id);
+            $('#modal-lock-employee').modal('show');
+        }
+
+        $('.btn-lock-employee').click(function() {
+            let idEmployee = $('#lock-employee-id').val();
+            $.ajax({
+                url: '/v1/employee/toggle-lock-account/'+ idEmployee,
+                type: 'PUT',
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    toastr.success("Tài khoản đã bị khóa");
+                    setTimeout(function() {
+                        location.href = "/admin/employee";
+                    }, 1000);
+                },
+                error: function(data) {
+                    toastr.warning(data.responseJSON.message);
+                },
+            });
+        });
+
     </script>
 </th:block>
 </body>

@@ -7,7 +7,7 @@
                                                )}">
 <head>
     <meta charset="UTF-8">
-    <title>Cấp tài khoản nhân viên</title>
+    <title>Thông tin tài khoản của nhân viên</title>
     <th:block id="css-resources">
         <link rel="stylesheet" th:href="@{/styles/admin/adminlte/plugins/summernote/summernote-bs4.css}">
         <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/list_image_product.css}">
@@ -25,7 +25,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="/admin/employee">Danh sách tài khoản</a></li>
-                <li class="breadcrumb-item active">Thêm tài khoản mới</li>
+                <li class="breadcrumb-item active">Thông tin tài khoản của nhân viên</li>
             </ol>
         </div>
     </div>
@@ -56,50 +56,50 @@
                                     <label class="required-label" for="name">Tên nhân viên</label>
                                     <span class="invalid-feedback" id="invalid-feedback-name">Độ dài tên từ 1 - 300 ký tự</span>
                                 </div>
-                                <input type="text" class="form-control" id="name" placeholder="Họ và tên nhân viên" required>
+                                <input type="text" class="form-control" id="name" th:value="${employee.name}" required>
                             </div>
                             <div class="form-group">
                                 <div>
                                     <label class="required-label" for="birthDay">Ngày sinh</label>
                                     <span class="invalid-feedback" id="invalid-feedback-date"></span>
                                 </div>
-                                <input type="date" class="form-control" id="birthDay">
+                                <input type="date" class="form-control" id="birthDay" th:value="${employee.birthDay}">
                             </div>
                             <div class="form-group">
                                 <div>
                                     <label class="required-label" for="name">Email</label>
                                     <span class="invalid-feedback" id="invalid-feedback-email"></span>
                                 </div>
-                                <input type="text" class="form-control" id="email" required placeholder="Email của nhân viên">
+                                <input type="text" class="form-control" id="email" required th:value="${employee.email}">
                             </div>
                             <div class="form-group">
                                 <div>
                                     <label class="required-label" for="phone">Số điện thoại</label>
                                     <span class="invalid-feedback" id="invalid-feedback-phone">Số điện thoại phải đúng định dạng</span>
                                 </div>
-                                <input type="text" class="form-control" id="phone" placeholder="Số điện thoại nhân viên" required>
+                                <input type="text" class="form-control" id="phone" th:value="${employee.numberPhone}">
                             </div>
                             <div class="form-group">
                                 <div>
                                     <label class="required-label" for="password">Địa chỉ</label>
                                     <span class="invalid-feedback" id="invalid-feedback-address">Địa chỉ không được để trống</span>
                                 </div>
-                                <input type="text" class="form-control" id="address" placeholder=" Địa chỉ nhân viên" required>
+                                <input type="text" class="form-control" id="address" th:value="${employee.address}" required>
                             </div>
                             <div class="form-group">
                                 <div>
                                     <label class="required-label" for="password">Mật khẩu</label>
                                     <span class="invalid-feedback" id="invalid-feedback-pass">Mật khẩu phải lớn hơn 8 ký tự</span>
                                 </div>
-                                <input type="password" class="form-control" id="password" placeholder="Mật khẩu nhân viên" required>
+                                <input type="password" class="form-control" id="password" disabled>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-4">
                             <div class="form-group">
                                 <label for="status" class="required-label">Trạng thái</label>
                                 <select class="form-control" id="status">
-                                    <option value="1">Đang hoạt động</option>
-                                    <option value="0">Không hoạt động</option>
+                                    <option th:value="0" th:selected="${employee.status == 0}">Bị khóa</option>
+                                    <option th:value="1" th:selected="${employee.status == 1}">Đang hoạt động</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -107,20 +107,22 @@
                                     <label class="required-label" for="phone">Giới tính</label>
                                     <span class="invalid-feedback" id="invalid-feedback-gender">Giới tính của nhân viên không được để trống</span>
                                 </div>
-                                <input type="text" class="form-control" id="gender" placeholder="Giới tính nhân viên">
+                                <input type="text" class="form-control" id="gender" th:value="${employee.gender}">
                             </div>
                             <div class="form-group">
                                 <div>
                                     <label class="required-label" for="accountName">Tên tài khoản</label>
                                     <span class="invalid-feedback" id="invalid-feedback-account">Tên tài khoản của nhân viên không được để trống</span>
                                 </div>
-                                <input type="text" class="form-control" id="accountName" placeholder="Tên tài khoản nhân viên">
+                                <input type="text" class="form-control" id="accountName" th:value="${employee.accountName}">
                             </div>
                             <div class="form-group">
                                 <label class="required-label">Ảnh đại diện</label>
                                 <div class="thumbnail-container">
                                     <div class="img-div">
-                                        <img id="preview-img" th:src="@{/images/noimage.png}" alt="Thumbnail post">
+                                        <img id="preview-img"
+                                             th:src="${(employee.avartar != null && !#strings.isEmpty(employee.avartar)) ? employee.avartar : '/images/noimage.png'}"
+                                             alt="Thumbnail post">
                                     </div>
                                 </div>
                                 <input type="file" id="file-input" style="display: none;">
@@ -186,7 +188,7 @@
             let status = $('#status').val();
             let gender = $('#gender').val();
             let password = $ ('#password').val();
-            let accountName = $ ('#accountName').val();
+
             let image = $('#preview-img').attr('src');
             if (image == "/images/noimage.png") {
                 image = "";
@@ -212,16 +214,16 @@
             if (!validatePassword(password)) {
                 isValid = false;
             }
+            if (cccd.length === 0 ) {
+                $('#invalid-feedback-cccd').show();
+                isValid = false;
+            }
             if (gender.length === 0 ) {
                 $('#invalid-feedback-gender').show();
                 isValid = false;
             }
             if (address.length === 0 ) {
                 $('#invalid-feedback-address').show();
-                isValid = false;
-            }
-            if (accountName.length === 0 ) {
-                $('#invalid-feedback-account').show();
                 isValid = false;
             }
 
@@ -234,14 +236,13 @@
                     address: address,
                     password: password,
                     birthDay: birthDay,
-                    accountName : accountName,
                     numberPhone : numberPhone,
-                    avartar: image
+                    imageUrl: image
                 }
                 callApi('POST', '/v1/employee/add', req,
                     function (response) {
-                        toastr.success("Cấp tài khoản cho nhân viên thành công", "", {timeOut: 1000});
                         setTimeout(function () {
+                            toastr.success("Cấp tài khoản cho nhân viên thành công", "", {timeOut: 1000});
                             location.href = "/admin/employee";
                         }, 1000);
                     },

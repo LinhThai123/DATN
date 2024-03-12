@@ -35,9 +35,6 @@ public class User extends BaseEntity implements Serializable {
     @Column(name = "GENDER")
     private String gender;
 
-    @Column(name = "CCCD" , unique = true)
-    private String CCCD;
-
     @Column(name = "NUMBER_PHONE")
     private String numberPhone;
 

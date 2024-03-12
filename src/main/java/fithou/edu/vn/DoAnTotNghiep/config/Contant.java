@@ -17,4 +17,6 @@ public class Contant {
     public static final int LIMIT_BLOG = 10;
 
     public static final int LIMIT_PRODUCT = 10;
+
+    public static final int LIMIT_EMPLOYEE = 10;
 }

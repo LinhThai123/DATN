@@ -1,13 +1,16 @@
 package fithou.edu.vn.DoAnTotNghiep.controller.admin;
 
+import fithou.edu.vn.DoAnTotNghiep.supplier.entity.Supplier;
 import fithou.edu.vn.DoAnTotNghiep.user.command.createEmployee.CreateEmployeeCommand;
 import fithou.edu.vn.DoAnTotNghiep.user.entity.User;
 import fithou.edu.vn.DoAnTotNghiep.user.service.UserService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -44,4 +47,12 @@ public class UserController {
         model.addAttribute("employee", rep);
         return "admin/employee/create";
     }
+    @GetMapping("admin/employee/{id}")
+    public String getEmployeeDetailPage (Model model, @PathVariable String id) throws NotFoundException {
+        User employee = userService.getEmployeeById(id);
+        model.addAttribute("id", employee.getId());
+        model.addAttribute("employee", employee);
+        return "admin/employee/detail" ;
+    }
+
 }
