@@ -118,51 +118,31 @@ public class AuthController {
         return ResponseEntity.badRequest().body(result.getError());
     }
 
-    @GetMapping("/forgot-password")
-    public String forgetPassword (Model model) {
-        return "forgot-password";
-    }
+//    @PostMapping("/forgot-password")
+//    public String createForgotPassword(@RequestParam String email, Model model) {
+//        var command = new ForgotPasswordCommand(email);
+//        var result = sender.send(command);
+//        if (result.isOk()) {
+//            model.addAttribute("success", true);
+//            return "forgot-password";
+//        }
+//        model.addAttribute("error", result.getError());
+//        return "forgot-password";
+//    }
 
     @PostMapping("/forgot-password")
-    public String createForgotPassword(@RequestParam String email, Model model) {
+    public ResponseEntity<?> createForgotPassword(@RequestParam String email) {
         var command = new ForgotPasswordCommand(email);
         var result = sender.send(command);
+
         if (result.isOk()) {
-            model.addAttribute("success", true);
-            return "forgot-password";
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(result.getError());
         }
-        model.addAttribute("error", result.getError());
-        return "forgot-password";
     }
 
-    @GetMapping("/reset-password")
-    public String resetPassword(@RequestParam String token, Model model) {
-        try {
-            var email = jwtService.getValue(token, c -> c.get("email", String.class));
-        } catch (Exception e) {
-            model.addAttribute("error", "Token không hợp lệ");
-            return "forgot-password";
-        }
-        var command = new ResetPasswordCommand();
-        command.setToken(token);
-        model.addAttribute("resetPasswordCommand", command);
-
-        return "reset-password";
-    }
-
-    @PostMapping("/reset-password")
-    public String changePassword(@Valid ResetPasswordCommand resetPasswordCommand, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            return "reset-password";
-        }
-        var result = sender.send(resetPasswordCommand);
-        if(result.hasError()){
-            model.addAttribute("error", result.getError());
-            return "reset-password";
-        }
-
-        return "redirect:/auth/login";
-    }
 
     @GetMapping("/reset-password/success")
     public String resetPasswordSuccess() {
