@@ -4,6 +4,7 @@ import fithou.edu.vn.DoAnTotNghiep.common.cqrs.HandleResponse;
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.IRequestHandler;
 import fithou.edu.vn.DoAnTotNghiep.product.repository.ProductOptionRepository;
 import fithou.edu.vn.DoAnTotNghiep.product.repository.ProductRepository;
+import fithou.edu.vn.DoAnTotNghiep.product.repository.SpecificationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ public class DeleteProductCommandHandler implements IRequestHandler<DeleteProduc
     private ProductRepository productRepository;
 
     @Autowired
-    private ProductOptionRepository productOptionRepository;
+    private SpecificationRepository specificationRepository;
 
     @Override
     @Transactional
@@ -27,7 +28,7 @@ public class DeleteProductCommandHandler implements IRequestHandler<DeleteProduc
         if (product.isEmpty()) {
             return HandleResponse.error("Không tìm thấy sản phẩm", HttpStatus.NOT_FOUND);
         }
-        productOptionRepository.deleteByProductId(product.get().getId());
+        specificationRepository.deleteByProductId(product.get().getId());
         productRepository.delete(product.get());
         return HandleResponse.ok("Xóa sản phẩm thành công");
     }

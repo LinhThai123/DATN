@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -36,5 +37,10 @@ public class SupplierServiceimpl implements SupplierService {
             throw new NotFoundException("Không tìm thấy nhà cung cấp");
         }
         return rs.get();
+    }
+
+    @Override
+    public List<Supplier> getListSupplier() {
+        return suppilerRepository.findAll();
     }
 }

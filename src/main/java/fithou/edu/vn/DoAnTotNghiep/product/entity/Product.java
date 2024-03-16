@@ -50,9 +50,10 @@ public class Product extends BaseEntity implements Serializable {
     @Column(name = "PRICE")
     private int price;
 
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @Column(name = "deleted_date")
-//    private Timestamp deletedDate = null;
+    @ElementCollection
+    @CollectionTable(name = "product_image", joinColumns = @JoinColumn(name = "product_id"))
+    @Column(name = "image", columnDefinition = "LONGTEXT")
+    private List<String> images;
 
     private int totalSold = 0 ;
 
@@ -68,5 +69,8 @@ public class Product extends BaseEntity implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product" , cascade = CascadeType.ALL , orphanRemoval = true)
     private List<ProductOption> productOptions;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product" , cascade = CascadeType.ALL , orphanRemoval = true)
+    private List<Specification> specifications;
 
 }

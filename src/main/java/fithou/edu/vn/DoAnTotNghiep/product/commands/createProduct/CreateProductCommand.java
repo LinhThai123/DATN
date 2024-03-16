@@ -38,4 +38,6 @@ public class CreateProductCommand implements IRequest<String> {
 
     @NotEmpty(message = "Thương hiệu sản phẩm không được để trống")
     private String brandId;
+
+    private int stock = 0 ;
 }
