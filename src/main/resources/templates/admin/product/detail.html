@@ -125,9 +125,13 @@
                                 </button>
                             </div>
                         </div>
-                        <button class="btn btn-success btn-product-option" >
+                        <button class="btn btn-outline-primary btn-product-option">
                             <span class="fa fa-plus" style="margin-right:0.5rem; "></span>
-                            <span>Xem chi tiết sản phẩm</span>
+                            <span>Xem phân loại</span>
+                        </button>
+                        <button class="btn btn-outline-info btn-specification" style="margin-left: 15px;">
+                            <span class="fa fa-plus" style="margin-right:0.5rem; "></span>
+                            <span>Xem thông tin kỹ thuật</span>
                         </button>
                     </div>
                 </div>
@@ -135,11 +139,105 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal-update-product-option" tabindex="-1" role="dialog" aria-labelledby="modalUpdateProductOption" aria-hidden="true">
+    <div class="modal fade" id="modal-update-specification" tabindex="-1" role="dialog" aria-labelledby="modalUpdateSpecification" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Sửa chi tiết sản phẩm</h5>
+                    <h5 class="modal-title">Sửa thông tin kỹ thuật</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" class="form-control" id="idSpecification" name="idSpecification"
+                           th:value="${product.getSpecifications().get(0).id}">
+                    <div class="form-group">
+                        <label class="required-label" for="screen-size">Kích thước màn hình</label>
+                        <input type="text" class="form-control" id="screen-size" th:value="${product.getSpecifications().get(0).screen_size}">
+                        <span class="invalid-feedback" id="invalid-feedback-screen-size">Độ dài kích thước màn hình cấp từ 1 - 255 ký tự</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="required-label" for="resolution-screen">Độ phân giải màn hình</label>
+                        <input type="text" class="form-control" id="resolution-screen" th:value="${product.getSpecifications().get(0).resolution_screen}">
+                        <span class="invalid-feedback" id="invalid-feedback-resolution-screen">Độ dài độ phân giải màn hình từ 1 - 255 ký tự</span>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
+                            <label class="required-label" for="chipset">ChipSet</label>
+                            <input type="text" class="form-control" id="chipset" th:value="${product.getSpecifications().get(0).chip}">
+                            <span class="invalid-feedback" id="invalid-feedback-chip-set">Chipset không được để trống</span>
+                        </div>
+                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
+                            <label for="cpu" class="required-label">CPU</label>
+                            <input type="text" class="form-control" id="cpu" th:value="${product.getSpecifications().get(0).cpu}">
+                            <span class="invalid-feedback" id="invalid-feedback-cpu">Cpu không được để trống</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
+                            <label class="required-label" for="size">Kích thước</label>
+                            <input type="text" class="form-control" id="size" th:value="${product.getSpecifications().get(0).size}">
+                            <span class="invalid-feedback" id="invalid-feedback-size">Kích thước không được để trống</span>
+                        </div>
+                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
+                            <label for="weight" class="required-label">Trọng lượng</label>
+                            <input type="text" class="form-control" id="weight" th:value="${product.getSpecifications().get(0).weight}">
+                            <span class="invalid-feedback" id="invalid-feedback-weight">Trọng lượng không được để trống</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
+                            <label class="required-label" for="charging-port">Cổng sạc</label>
+                            <input type="text" class="form-control" id="charging-port" th:value="${product.getSpecifications().get(0).charging_port}">
+                            <span class="invalid-feedback" id="invalid-feedback-charging-port">Cổng sạc không được để trống</span>
+                        </div>
+                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
+                            <label for="bluetooth" class="required-label">Bluetooth</label>
+                            <input type="text" class="form-control" id="bluetooth" th:value="${product.getSpecifications().get(0).bluetooth}">
+                            <span class="invalid-feedback" id="invalid-feedback-bluetooth">Bluetooth không được để trống</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required-label" for="camera-before">Camera trước</label>
+                        <input type="text" class="form-control" id="camera-before" th:value="${product.getSpecifications().get(0).camera_before}">
+                        <span class="invalid-feedback" id="invalid-feedback-camera-before">Camera trước không được để trống</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="required-label" for="camera-after">Camera sau</label>
+                        <input type="text" class="form-control" id="camera-after" th:value="${product.getSpecifications().get(0).camera_after}">
+                        <span class="invalid-feedback" id="invalid-feedback-camera-after">Camera sau không được để trống</span>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
+                            <label class="required-label" for="pin">PIN</label>
+                            <input type="text" class="form-control" id="pin" th:value="${product.getSpecifications().get(0).pin}">
+                            <span class="invalid-feedback" id="invalid-feedback-pin">Pin không được để trống</span>
+                        </div>
+                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
+                            <label for="os" class="required-label">Hệ điều hành</label>
+                            <input type="text" class="form-control" id="os" th:value="${product.getSpecifications().get(0).os}">
+                            <span class="invalid-feedback" id="invalid-feedback-os">Hệ điều hành không được để trống</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary btn-update-specification">Cập nhật</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-update-product-option" tabindex="-1" role="dialog"
+         aria-labelledby="modalUpdateProductOption" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chỉnh sửa phân loại</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -148,103 +246,37 @@
                     <input type="hidden" class="form-control" id="idProductOption" name="idProductOption"
                            th:value="${product.getProductOptions().get(0).id}">
                     <div class="form-group">
-                        <label class="required-label" for="screen-size">Kích thước màn hình</label>
-                        <input type="text" class="form-control" id="screen-size" th:value="${product.getProductOptions().get(0).screen_size}">
-                        <span class="invalid-feedback" id="invalid-feedback-screen-size">Độ dài kích thước màn hình cấp từ 1 - 255 ký tự</span>
+                        <label for="brand" class="required-label">Màu sắc sản phẩm</label>
+                        <span class="invalid-feedback" id="invalid-feedback-product-color">Màu sắc của sản phẩm không được trống</span>
+                        <select class="form-control" id="product-color">
+                            <option th:each="color : ${productColors}"
+                                    th:value="${color.id}"
+                                    th:text="${color.name}"
+                                    th:selected="${color.id == product.productOptions.get(0).product_color.id}"> <!-- Kiểm tra xem màu sắc có phải là màu sắc hiện tại của sản phẩm không -->
+                            </option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label class="required-label" for="color">Màu sắc</label>
-                        <input type="text" class="form-control" id="color" th:value="${product.getProductOptions().get(0).color}">
-                        <span class="invalid-feedback" id="invalid-feedback-color">Độ dài màu sắc cấp từ 1 - 255 ký tự</span>
-                    </div>
-                    <div class="form-group">
-                        <label class="required-label" for="resolution-screen">Độ phân giải màn hình</label>
-                        <input type="text" class="form-control" id="resolution-screen" th:value="${product.getProductOptions().get(0).resolution_screen}">
-                        <span class="invalid-feedback" id="invalid-feedback-resolution-screen">Độ dài độ phân giải màn hình từ 1 - 255 ký tự</span>
-                    </div>
-                    <div class="row">
-                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
-                            <label class="required-label" for="rom">Bộ nhớ trong</label>
-                            <input type="text" class="form-control" id="rom" th:value="${product.getProductOptions().get(0).rom}">
-                            <span class="invalid-feedback" id="invalid-feedback-rom">Bộ nhớ trong không được để trống</span>
+                        <div>
+                            <label for="category" class="required-label">Dung lượng sản phẩm</label>
+                            <span class="invalid-feedback" id="invalid-feedback-capacity">Dung lượng sản phẩm không được trống</span>
                         </div>
-                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
-                            <label for="ram" class="required-label">Bộ nhớ ngoài</label>
-                            <input type="text" class="form-control" id="ram" th:value="${product.getProductOptions().get(0).ram}">
-                            <span class="invalid-feedback" id="invalid-feedback-ram">Bộ nhớ ngoài không được để trống</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
-                            <label class="required-label" for="chipset">ChipSet</label>
-                            <input type="text" class="form-control" id="chipset" th:value="${product.getProductOptions().get(0).chip}">
-                            <span class="invalid-feedback" id="invalid-feedback-chip-set">Chipset không được để trống</span>
-                        </div>
-                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
-                            <label for="cpu" class="required-label">CPU</label>
-                            <input type="text" class="form-control" id="cpu" th:value="${product.getProductOptions().get(0).cpu}">
-                            <span class="invalid-feedback" id="invalid-feedback-cpu">Cpu không được để trống</span>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
-                            <label class="required-label" for="size">Kích thước</label>
-                            <input type="text" class="form-control" id="size" th:value="${product.getProductOptions().get(0).size}">
-                            <span class="invalid-feedback" id="invalid-feedback-size">Kích thước không được để trống</span>
-                        </div>
-                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
-                            <label for="weight" class="required-label">Trọng lượng</label>
-                            <input type="text" class="form-control" id="weight" th:value="${product.getProductOptions().get(0).weight}">
-                            <span class="invalid-feedback" id="invalid-feedback-weight">Trọng lượng không được để trống</span>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
-                            <label class="required-label" for="charging-port">Cổng sạc</label>
-                            <input type="text" class="form-control" id="charging-port" th:value="${product.getProductOptions().get(0).charging_port}">
-                            <span class="invalid-feedback" id="invalid-feedback-charging-port">Cổng sạc không được để trống</span>
-                        </div>
-                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
-                            <label for="bluetooth" class="required-label">Bluetooth</label>
-                            <input type="text" class="form-control" id="bluetooth" th:value="${product.getProductOptions().get(0).bluetooth}">
-                            <span class="invalid-feedback" id="invalid-feedback-bluetooth">Bluetooth không được để trống</span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="required-label" for="camera-before">Camera trước</label>
-                        <input type="text" class="form-control" id="camera-before" th:value="${product.getProductOptions().get(0).camera_before}">
-                        <span class="invalid-feedback" id="invalid-feedback-camera-before">Camera trước không được để trống</span>
-                    </div>
-                    <div class="form-group">
-                        <label class="required-label" for="camera-after">Camera sau</label>
-                        <input type="text" class="form-control" id="camera-after" th:value="${product.getProductOptions().get(0).camera_after}">
-                        <span class="invalid-feedback" id="invalid-feedback-camera-after">Camera sau không được để trống</span>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
-                            <label class="required-label" for="pin">PIN</label>
-                            <input type="text" class="form-control" id="pin" th:value="${product.getProductOptions().get(0).pin}">
-                            <span class="invalid-feedback" id="invalid-feedback-pin">Pin không được để trống</span>
-                        </div>
-                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
-                            <label for="os" class="required-label">Hệ điều hành</label>
-                            <input type="text" class="form-control" id="os" th:value="${product.getProductOptions().get(0).os}">
-                            <span class="invalid-feedback" id="invalid-feedback-os">Hệ điều hành không được để trống</span>
-                        </div>
+                        <select class="select2bs4" style="width: 100%;" id="capacity">
+                            <option th:each="capacity : ${capacites}"
+                                    th:value="${capacity.id}"
+                                    th:text="${capacity.name}"
+                                    th:selected="${capacity.id == product.productOptions.get(0).capacity.id}"> <!-- Kiểm tra xem màu sắc có phải là màu sắc hiện tại của sản phẩm không -->
+                            </option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary btn-update-product-option">Cập nhật</button>
+                    <button type="button" class="btn btn-primary btn-add-new-category">Sửa</button>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- Modal delete product -->
     <div class="modal fade" id="modal-delete-product" tabindex="-1" role="dialog" aria-labelledby="modalDeleteProduct" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -386,20 +418,17 @@
         });
 
         $(document).ready(function () {
-            $(".btn-product-option").click(function () {
-                $("#modal-update-product-option").modal("show");
+            $(".btn-specification").click(function () {
+                $("#modal-update-specification").modal("show");
             });
         });
 
-        $('.btn-update-product-option').click(function () {
+        $('.btn-update-specification').click(function () {
             $('.invalid-feedback').hide();
-            let idProductOption = $('#idProductOption').val();
+            let idSpecification = $('#idSpecification').val();
             let idProduct = $('#id').val();
             let screenSize = $('#screen-size').val();
-            let color = $('#color').val();
             let resolutionScreen = $('#resolution-screen').val();
-            let rom = $('#rom').val();
-            let ram = $('#ram').val();
             let pin = $('#pin').val();
             let chipSet = $('#chipset').val();
             let cpu = $('#cpu').val();
@@ -418,22 +447,8 @@
                 isValid = false;
             }
 
-            if (color.length === 0) {
-                $('#invalid-feedback-color').show();
-                isValid = false;
-            }
-
             if (resolutionScreen.length === 0) {
                 $('#invalid-feedback-resolution-screen').show();
-                isValid = false;
-            }
-
-            if (rom.length === 0) {
-                $('#invalid-feedback-rom').show();
-                isValid = false;
-            }
-            if (ram.length === 0) {
-                $('#invalid-feedback-ram').show();
                 isValid = false;
             }
 
@@ -487,11 +502,9 @@
 
             if (isValid) {
                 req = {
-                    id: idProductOption,
+                    id: idSpecification,
                     screen_size: screenSize,
                     resolution_screen : resolutionScreen,
-                    rom: rom,
-                    cpu: cpu,
                     size: size,
                     weight: weight,
                     camera_after: cameraAfter,
@@ -501,16 +514,58 @@
                     os : os,
                     bluetooth : bluetooth,
                     chip: chipSet,
-                    ram: ram,
-                    color : color,
                     stock : 0,
+                    productId : idProduct
+                }
+                callApi('PUT', '/v1/specification/update', req,
+                    function (response) {
+                        toastr.success("Chỉnh thông số kỹ thuật thành công", "", {timeOut: 1000});
+                        location.href = "/admin/product";
+
+                    },
+                    function (data) {
+                        console.log(data.responseJSON.message);
+                        toastr.warning(data.responseJSON.message);
+                    },
+                )
+            }
+        });
+
+        $(document).ready(function () {
+            $(".btn-product-option").click(function () {
+                $("#modal-update-product-option").modal("show");
+            });
+        });
+
+        $('.btn-add-new-category').click(function () {
+            let idProductOption = $ ('#idProductOption').val();
+            let idProduct = $('#id').val();
+            let productColorId = $('#product-color').val();
+            let capacityId = $('#capacity').val();
+
+            let isValid = true;
+
+            if (productColorId.length === 0 ) {
+                $('#invalid-feedback-product-color').show();
+                isValid = false;
+            }
+
+            if (capacityId.length === 0) {
+                $('#invalid-feedback-capacity').show();
+                isValid = false;
+            }
+
+            if (isValid) {
+                req = {
+                    id: idProductOption,
+                    productColorId : productColorId,
+                    capacityId: capacityId,
                     productId : idProduct
                 }
                 callApi('PUT', '/v1/product-option/update', req,
                     function (response) {
-                        toastr.success("Chỉnh sửa sản phẩm thành công", "", {timeOut: 1000});
-                        location.href = "/admin/product";
-
+                        toastr.success("Chỉnh sửa phân loại thành công", "", {timeOut: 1000});
+                        $("#modal-update-product-option").modal('hide');
                     },
                     function (data) {
                         console.log(data.responseJSON.message);
