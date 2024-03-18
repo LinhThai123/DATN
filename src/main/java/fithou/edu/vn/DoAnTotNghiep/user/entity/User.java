@@ -4,6 +4,7 @@ import fithou.edu.vn.DoAnTotNghiep.auth.entity.Permission;
 import fithou.edu.vn.DoAnTotNghiep.auth.entity.Role;
 import fithou.edu.vn.DoAnTotNghiep.common.entity.BaseEntity;
 import fithou.edu.vn.DoAnTotNghiep.order.entity.Order;
+import fithou.edu.vn.DoAnTotNghiep.receipt.entity.Receipt;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -70,6 +71,9 @@ public class User extends BaseEntity implements Serializable {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "employee")
+    private List<Receipt> receips;
 
     public List<String> getPermissions() {
 

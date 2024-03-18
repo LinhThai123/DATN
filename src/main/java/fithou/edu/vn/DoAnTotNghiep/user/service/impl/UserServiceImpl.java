@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -47,6 +48,11 @@ public class UserServiceImpl implements UserService {
             throw new NotFoundException("Không tìm thấy người dùng");
         }
         return rs.get();
+    }
+
+    @Override
+    public List<User> getAllEmployess() {
+        return userRepository.findAllEmployees();
     }
 
 }

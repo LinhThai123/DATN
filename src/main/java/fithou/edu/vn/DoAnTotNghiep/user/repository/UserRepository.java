@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,5 +21,8 @@ public interface UserRepository extends JpaRepository<User, String> {
     Page<User> findAllCustomers(@Param("name") String name, Pageable pageable);
     Optional<User> findByEmail (String email);
     Optional<User> findByNumberPhone (String numberPhone);
+
+    @Query("SELECT u FROM User u JOIN u.roles r WHERE r.normalizedName = 'ROLE_EMPLOYEE'")
+    List<User> findAllEmployees();
 
 }

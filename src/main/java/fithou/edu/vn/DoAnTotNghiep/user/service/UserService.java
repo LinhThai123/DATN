@@ -6,10 +6,13 @@ import javassist.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface UserService {
     Page<User> adminGetListEmployee(String name, Integer page);
     Page<User> adminGetListCustomer(String name, Integer page);
-
     public User getEmployeeById (String id) throws NotFoundException;
+
+    public List<User> getAllEmployess ();
 }
