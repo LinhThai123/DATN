@@ -1,8 +1,10 @@
 package fithou.edu.vn.DoAnTotNghiep.product.repository;
 
 import fithou.edu.vn.DoAnTotNghiep.blog.entity.Blog;
+import fithou.edu.vn.DoAnTotNghiep.product.dto.ProductDTO;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.Brand;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.Product;
+import jakarta.persistence.Tuple;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,6 +19,13 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, String> {
     Optional<Product> findBySlug(String slug);
+
+    @Query("SELECT p FROM Product p")
+    List<Product> getAllProducts();
+
+    @Query("SELECT p.id AS productId, p.name AS productName, po.id AS productOptionId " +
+            "FROM Product p LEFT JOIN p.productOptions po")
+    List<Tuple> findProductsWithProductOptionIds();
 
     @Modifying
     @Query(value = "update product p set p.deleted_date = null where p.id = ?1", nativeQuery = true)

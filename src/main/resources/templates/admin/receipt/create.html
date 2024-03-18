@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:x-on="http://www.w3.org/1999/xhtml" th:replace="~{/admin/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Page</title>
+    <th:block id="css-resources">
+        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/plugins/summernote/summernote-bs4.css}">
+        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/list_image_product.css}">
+        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/modal_img.css}">
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    </th:block>
+
+</head>
+<body>
+<main id="main-content">
+    <!-- Breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/admin/stock-receipt">Danh sách nhập hàng</a></li>
+                <li class="breadcrumb-item active">Quản lý hóa đơn nhập</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <a role="button" class="btn btn-default" href="/admin/stock-receipt">
+            <span class="fas fa-chevron-left" style="margin-right:0.5rem;"></span>
+            <span>Trở về</span>
+        </a>
+        <button class="btn btn-success btn-add-stock-receipt">
+            <span class="fa fa-plus" style="margin-right:0.5rem;"></span>
+            <span>Nhập hàng</span>
+        </button>
+        <!--        <button class="btn btn-danger float-right" data-toggle="modal" data-target="#modal-delete-product"><i class="fas fa-trash-alt"></i> Xóa</button>-->
+        <div class="clear"></div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-outline">
+                <div class="card-body pad">
+                    <div class="row">
+                        <div class="col-lg-9 col-md-8">
+                            <input type="hidden" class="form-control" id="id" name="id">
+                            <div class="form-group">
+                                <div>
+                                    <label for="supplier" class="required-label">Tên nhà cung cấp</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-category">Tên nhà cung cấp không được để trống</span>
+                                </div>
+                                <select class="select2bs4" style="width: 100%;" id="supplier">
+                                    <th:block th:each="supplier : ${suppliers}">
+                                        <option th:value="${supplier.id}" th:text="${supplier.name}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" id="idEmployee" name="idEmployee"
+                                       th:value="${employee.id}">
+                                <div>
+                                    <label class="required-label" for="employeeName">Tên nhân viên nhập hàng</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-price">Tên nhân viên nhập hàng trống</span>
+                                </div>
+                                <input type="text" class="form-control text-price-input" id="employeeName" th:value="${employee.name}">
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label class="required-label" for="note">Mô tả</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-description">Mô tả sản phẩm trống</span>
+                                </div>
+                                <textarea class="textarea" id="note" name="note" rows="4"
+                                          style="width: 100%"></textarea>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <!-- Table data -->
+                            <table class="table table-striped table-bordered table-hover"
+                                   style="width: 98%; margin-left: 10px;">
+                                <thead>
+                                <tr class="heading">
+                                    <th width="15%">
+                                        Sản phẩm
+                                    </th>
+                                    <th width="10%">
+                                        Màu sắc
+                                    </th>
+                                    <th width="10%">
+                                        Dung lượng
+                                    </th>
+                                    <th width="10%">
+                                        Đơn giá
+                                    </th>
+                                    <th width="10%">
+                                        Số lượng
+                                    </th>
+                                    <th width="10%">
+                                        Thành tiền
+                                    </th>
+                                    <th width="3%">Xóa</th>
+                                </tr>
+                                </thead>
+                                <tbody id="productList">
+                                    <tr class="product-row">
+                                        <td>
+                                            <select class="form-control thuy-search-select product-select" style="width: 100%;">
+                                                <option value="">Chọn sản phẩm</option>
+                                                <th:block th:each="product : ${products}">
+                                                    <option th:value="${product.productId}" th:text="${product.productName}" th:data-option-id="${product.productOptionId}"></option>
+                                                </th:block>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="product-color" class="form-control thuy-search-select color-select">
+                                                <option value="">Chọn màu sắc</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="capacity" class="form-control thuy-search-select capacity-select">
+                                                <option value="">Chọn dung lượng</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="number" class="form-control unitPrice" placeholder="Nhập đơn giá">
+                                        </td>
+                                        <td><input type="number" class="form-control quantity" placeholder="Nhập số lượng">
+                                        </td>
+                                        <td><input type="text" class="form-control total" placeholder="Tính tự động"
+                                                   readonly></td>
+                                        <td class="delete-row"
+                                            style="padding-left: 27px;padding-right: 6px;padding-top: 20px;">
+                                            <i class="fa-solid fa-trash"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <span style="float: right; font-size: 24px; margin-right: 10px; font-weight: 600;">Tổng tiền: </span>
+                        </div>
+                        <button class="btn btn-success btn-create-receipt">
+                            <span class="fa fa-plus" style="margin-right:0.5rem; "></span>
+                            <span>Thêm sản phẩm</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<th:block id="js-resources">
+    <script th:src="@{/js/generateApi.js}"></script>
+    <script th:src="@{/styles/admin/adminlte/plugins/summernote/summernote-bs4.js}"></script>
+    <script th:src="@{/styles/admin/adminlte/plugins/list/list.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#note').summernote({
+                height: 150,
+                focus: true
+            });
+
+            var colors = [];
+            var capacities = [];
+            var products = [];
+
+            // Lấy danh sách màu sắc, dung lượng và sản phẩm
+            function fetchProductData() {
+                axios.all([
+                    axios.get('http://localhost:8088/v1/product_color'),
+                    axios.get('http://localhost:8088/v1/capacity'),
+                    axios.get('http://localhost:8088/v1/products'),
+                ])
+                    .then(axios.spread(function (colorsResponse, capacitiesResponse,productsResponse) {
+                        colors = colorsResponse.data;
+                        capacities = capacitiesResponse.data;
+                        products = productsResponse.data;
+                        createProductSelect();
+                    }))
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                    });
+            }
+
+            function createProductSelect() {
+                console.log(products);
+                var productSelectOptions = products.map(product => {
+                    // Truy cập vào thông tin Product và ProductOptionId từ đối tượng ProductDTO
+                    var productId = product.productId;
+                    var productName = product.productName;
+                    var productOptionId = product.productOptionId;
+                    return `<option value="${productId}" data-option-id="${productOptionId}">${productName}</option>`;
+                }).join('');
+                $('.product-row:last .product-select').html(`<option value="">Chọn sản phẩm</option>${productSelectOptions}`);
+            }
+
+            // Xử lý sự kiện khi sản phẩm được chọn thay đổi
+            $(document).on('change', '#productList .product-select', function () {
+                var productId = $(this).val();
+                // var productOptionId = $(this).find('option:selected').data('option-id');
+                var $parentRow = $(this).closest('.product-row');
+
+                // Gửi yêu cầu AJAX để lấy danh sách màu sắc tương ứng với sản phẩm
+                axios.get('http://localhost:8088/v1/product-option/colors/' + productId)
+                    .then(response => {
+                        var colors = response.data;
+                        var colorOptions = colors.map(color => `<option value="${color.id}">${color.name}</option>`).join('');
+                        $parentRow.find('.color-select').html(colorOptions);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching colors:', error);
+                    });
+
+                // Gửi yêu cầu AJAX để lấy danh sách dung lượng tương ứng với sản phẩm
+                axios.get('http://localhost:8088/v1/product-option/capacities/' + productId)
+                    .then(response => {
+                        var capacities = response.data;
+                        var capacityOptions = capacities.map(capacity => `<option value="${capacity.id}">${capacity.name}</option>`).join('');
+                        $parentRow.find('.capacity-select').html(capacityOptions);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching capacities:', error);
+                    });
+            });
+
+            // Xử lý sự kiện khi nhấn nút "Thêm sản phẩm"
+            $(document).on('click', '.btn-create-receipt', function () {
+                event.preventDefault();
+                // Tạo dòng mới cho bảng sản phẩm
+                var newRowHtml = `
+        <tr class="product-row">
+            <td>
+                <select name="product" class="form-control product-select "></select>
+            </td>
+            <td>
+                <select name="product-color" class="form-control  color-select">
+                    <option value="">Chọn màu sắc</option>
+                </select>
+            </td>
+            <td>
+                <select name="capacity" class="form-control capacity-select">
+                    <option value="">Chọn dung lượng</option>
+                </select>
+            </td>
+            <td><input type="number"  class="form-control unitPrice" placeholder="Nhập đơn giá"></td>
+            <td><input type="number"  class="form-control quantity" placeholder="Nhập số lượng"></td>
+            <td><input type="text"    class="form-control total" placeholder="Tính tự động" readonly></td>
+            <td class="delete-row" style="padding-left: 27px;padding-right: 6px;padding-top: 20px;"><i class="fa-solid fa-trash"></i></td>
+        </tr>
+        `;
+
+                // Thêm dòng mới vào tbody
+                $('#productList').append(newRowHtml);
+
+                // Gọi hàm để tạo select box cho sản phẩm
+                createProductSelect();
+            });
+
+            // Xử lý sự kiện khi nhấn nút "Xóa dòng"
+            $(document).on('click', '.delete-row', function () {
+                $(this).closest('tr').remove(); // Xóa dòng
+            });
+
+            // Fetch dữ liệu khi trang được tải
+            fetchProductData();
+
+            $(document).on('click', '.btn-add-stock-receipt' , function (event) {
+               event.preventDefault();
+                // Lấy thông tin phiếu nhập hàng
+                let idSuppler = $('#supplier').val();
+                let idEmployee = $('#idEmployee').val();
+                let note = $('#note').val()
+
+                var receiptItem = [] ;
+
+                // Lặp qua mỗi hàng sản phẩm trong bảng
+                $('.product-row').each(function() {
+                    // Lấy thông tin sản phẩm từ form
+                    var productOptionId = $(this).find('.product-select option:selected').data('option-id');
+                    var unitPrice = $(this).find('.unitPrice').val();
+                    var quantity = $(this).find('.quantity').val();
+
+                    // Kiểm tra nếu sản phẩm đã được chọn và giá và số lượng không rỗng
+                    if (productOptionId && unitPrice.trim() !== "" && quantity.trim() !== "") {
+                        // Thêm thông tin sản phẩm vào mảng
+                        receiptItem.push({
+                            productOptionId: productOptionId,
+                            price: unitPrice,
+                            quantity: quantity
+                        });
+                    } else {
+                        toastr.warning("Vui lòng nhập đầy đủ thông tin cho sản phẩm.");
+                        return false; // Dừng vòng lặp nếu thông tin không hợp lệ
+                    }
+                });
+
+                // Kiểm tra xem productOptionId có tồn tại không
+                if (!receiptItem.length === 0) {
+                    toastr.warning("Vui lòng chọn sản phẩm.");
+                    return;
+                }
+
+                // Tạo payload để gửi đến API
+                var req = {
+                    supplierId: idSuppler,
+                    employeeId: idEmployee,
+                    note: note,
+                    createReceiptItemCommands: receiptItem
+                };
+                callApi('POST', '/v1/stock-receipt/add', req,
+                    function (response) {
+                        setTimeout(function () {
+                            toastr.success("Tạo phiếu nhập hàng thành công");
+                        }, 1000);
+                    },
+                    function (errorResponse) {
+                        toastr.warning(errorResponse.responseJSON.message);
+                    },
+                )
+
+             });
+
+        });
+
+    </script>
+</th:block>
+</body>
+</html>

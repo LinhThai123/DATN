@@ -120,21 +120,25 @@
                                 </button>
                             </div>
                         </div>
-                        <button class="btn btn-success btn-create-product-option">
+                        <button class="btn btn-outline-primary btn-create-product-option">
                             <span class="fa fa-plus" style="margin-right:0.5rem; "></span>
-                            <span>Thêm chi tiết sản phẩm</span>
+                            <span>Thêm phân loại</span>
+                        </button>
+                        <button class="btn btn-outline-info btn-create-specification" style="margin-left: 15px;">
+                            <span class="fa fa-plus" style="margin-right:0.5rem; "></span>
+                            <span>Thêm thông tin kỹ thuật</span>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Modal add product option-->
-    <div class="modal fade" id="modal-add-product-option" tabindex="-1" role="dialog" aria-labelledby="modalAddProductOption" aria-hidden="true">
+
+    <div class="modal fade" id="modal-add-specification" tabindex="-1" role="dialog" aria-labelledby="modalAddSpecification" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Thêm chi tiết sản phẩm</h5>
+                    <h5 class="modal-title">Thêm thông tin kỹ thuật</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -146,26 +150,9 @@
                         <span class="invalid-feedback" id="invalid-feedback-screen-size">Độ dài kích thước màn hình cấp từ 1 - 255 ký tự</span>
                     </div>
                     <div class="form-group">
-                        <label class="required-label" for="color">Màu sắc</label>
-                        <input type="text" class="form-control" id="color" placeholder="Nhập màu sắc cho điện thoại">
-                        <span class="invalid-feedback" id="invalid-feedback-color">Độ dài màu sắc cấp từ 1 - 255 ký tự</span>
-                    </div>
-                    <div class="form-group">
                         <label class="required-label" for="resolution-screen">Độ phân giải màn hình</label>
                         <input type="text" class="form-control" id="resolution-screen" placeholder="Nhập độ phân giải màn hình">
                         <span class="invalid-feedback" id="invalid-feedback-resolution-screen">Độ dài độ phân giải màn hình từ 1 - 255 ký tự</span>
-                    </div>
-                    <div class="row">
-                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
-                            <label class="required-label" for="rom">Bộ nhớ trong</label>
-                            <input type="text" class="form-control" id="rom" placeholder="Nhập bộ nhớ trong">
-                            <span class="invalid-feedback" id="invalid-feedback-rom">Bộ nhớ trong không được để trống</span>
-                        </div>
-                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
-                            <label for="ram" class="required-label">Bộ nhớ ngoài</label>
-                            <input type="text" class="form-control" id="ram" placeholder="Nhập bộ nhớ ngoài">
-                            <span class="invalid-feedback" id="invalid-feedback-ram">Bộ nhớ ngoài không được để trống</span>
-                        </div>
                     </div>
                     <div class="row">
                         <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
@@ -232,7 +219,47 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary btn-add-product-option">Thêm</button>
+                    <button type="button" class="btn btn-primary btn-add-specification">Thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-add-product-option" tabindex="-1" role="dialog"
+         aria-labelledby="modalAddProductOption" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thêm phân loại</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="brand" class="required-label">Màu sắc sản phẩm</label>
+                        <span class="invalid-feedback" id="invalid-feedback-product-color">Màu sắc của sản phẩm không được trống</span>
+                        <select class="form-control" id="product-color">
+                            <th:block th:each="productColor : ${productColors}">
+                                <option th:value="${productColor.id}" th:text="${productColor.name}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label for="category" class="required-label">Dung lượng sản phẩm</label>
+                            <span class="invalid-feedback" id="invalid-feedback-capacity">Dung lượng sản phẩm không được trống</span>
+                        </div>
+                        <select class="select2bs4" style="width: 100%;" id="capacity">
+                            <th:block th:each="capacity : ${capacities}">
+                                <option th:value="${capacity.id}" th:text="${capacity.name}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary btn-add-new-category">Thêm</button>
                 </div>
             </div>
         </div>
@@ -342,17 +369,15 @@
         });
 
         $(document).ready(function () {
-            $(".btn-create-product-option").click(function () {
-                $("#modal-add-product-option").modal("show");
+            $(".btn-create-specification").click(function () {
+                $("#modal-add-specification").modal("show");
             });
         });
 
-        $('.btn-add-product-option').click(function() {
+        $('.btn-add-specification').click(function() {
             let productId = $('#id').val();
             let screenSize = $('#screen-size').val();
             let resolutionScreen = $('#resolution-screen').val();
-            let rom = $('#rom').val();
-            let ram = $('#ram').val();
             let chipSet = $('#chipset').val();
             let cpu = $('#cpu').val();
             let size = $('#size').val();
@@ -363,8 +388,6 @@
             let chargingPort = $('#charging-port').val();
             let os = $('#os').val();
             let bluetooth = $('#bluetooth').val();
-            let color =  $('#color').val();
-
 
             let isValid = true;
             if (screenSize.length === 0) {
@@ -375,14 +398,7 @@
                 $('#invalid-feedback-resolution-screen').show();
                 isValid = false;
             }
-            if (rom.length === 0) {
-                $('#invalid-feedback-rom').show();
-                isValid = false;
-            }
-            if (ram.length === 0) {
-                $('#invalid-feedback-ram').show();
-                isValid = false;
-            }
+
             if (chipSet.length === 0) {
                 $('#invalid-feedback-chip-set').show();
                 isValid = false;
@@ -427,16 +443,11 @@
                 $('#invalid-feedback-bluetooth').show();
                 isValid = false;
             }
-            if (color.length === 0) {
-                $('#invalid-feedback-color').show();
-                isValid = false;
-            }
 
             if (isValid) {
                 req = {
                     screen_size: screenSize,
                     resolution_screen : resolutionScreen,
-                    rom: rom,
                     cpu: cpu,
                     size: size,
                     weight: weight,
@@ -447,16 +458,52 @@
                     os : os,
                     bluetooth : bluetooth,
                     chip: chipSet,
-                    ram: ram,
-                    color : color,
                     stock : 0,
                     productId : productId
                 }
-                callApi('POST', '/v1/product-option/create', req,
+                callApi('POST', '/v1/specification/create', req,
                     function (data) {
-                        toastr.success("Thêm sản phẩm thành công", "", {timeOut: 1000});
+                        toastr.success("Thêm thông số kỹ thuật thành công", "", {timeOut: 1000});
                         $('.modal').modal('hide');
                         location.href = "/admin/product";
+                    },
+                    function (data) {
+                        toastr.warning(data.responseJSON.message);
+                    },
+                )
+            }
+        });
+
+        $(document).ready(function () {
+            $(".btn-create-product-option").click(function () {
+                $("#modal-add-product-option").modal("show");
+            });
+        });
+        $('.btn-add-new-category').click(function () {
+            let productId = $('#id').val();
+            let productColor = $('#product-color').val();
+            let capacity = $ ('#capacity').val();
+
+            let isValid = true;
+            if (productColor.length === 0) {
+                $('#invalid-feedback-screen-size').show();
+                isValid = false;
+            }
+            if (capacity.length === 0) {
+                $('#invalid-feedback-resolution-screen').show();
+                isValid = false;
+            }
+
+            if (isValid) {
+                req = {
+                    productId : productId,
+                    productColorId: productColor,
+                    capacityId: capacity
+                }
+                callApi('POST', '/v1/product-option/create', req,
+                    function (data) {
+                        toastr.success("Thêm phân loại thành công", "", {timeOut: 1000});
+                        $("#modal-add-product-option").modal('hide');
                     },
                     function (data) {
                         toastr.warning(data.responseJSON.message);

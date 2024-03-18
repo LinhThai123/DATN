@@ -5,12 +5,8 @@ import fithou.edu.vn.DoAnTotNghiep.category.entity.Category;
 import fithou.edu.vn.DoAnTotNghiep.category.service.CategoryService;
 import fithou.edu.vn.DoAnTotNghiep.common.dto.PaginatedDto;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.createProduct.CreateProductCommand;
-import fithou.edu.vn.DoAnTotNghiep.product.entity.Brand;
-import fithou.edu.vn.DoAnTotNghiep.product.entity.Product;
-import fithou.edu.vn.DoAnTotNghiep.product.entity.ProductOption;
-import fithou.edu.vn.DoAnTotNghiep.product.service.BrandService;
-import fithou.edu.vn.DoAnTotNghiep.product.service.ProductOptionService;
-import fithou.edu.vn.DoAnTotNghiep.product.service.ProductService;
+import fithou.edu.vn.DoAnTotNghiep.product.entity.*;
+import fithou.edu.vn.DoAnTotNghiep.product.service.*;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -35,10 +31,20 @@ public class ProductController {
     private CategoryService categoryService;
 
     @Autowired
+    private SpecificationService specificationService;
+
+    @Autowired
     private ProductOptionService productOptionService;
 
     @Autowired
     private BrandService brandService;
+
+    @Autowired
+    private ProductColorService productColorService;
+
+    @Autowired
+    private CapacityService capacityService;
+
 
 
     @GetMapping("")
@@ -80,6 +86,14 @@ public class ProductController {
         // Get list brand
         List<Brand> brands = brandService.getListBrand();
         model.addAttribute("brands", brands);
+
+        // Get list color
+        List<ProductColor> productColors = productColorService.getListProductColor();
+        model.addAttribute("productColors" , productColors);
+
+        List<Capacity> capacities = capacityService.getListCapacity();
+        model.addAttribute("capacities" , capacities) ;
+
         model.addAttribute("product", rep);
         return "admin/product/create";
     }
@@ -88,9 +102,17 @@ public class ProductController {
 
         Product product = productService.getProductBySlug(slug);
 
-        List<ProductOption> productOptions = productOptionService.getProductOptionsByProductId(product.getId());
+        List<Specification> specifications = specificationService.getSpecificationByProductId(product.getId());
+        product.setSpecifications(specifications);
 
+        List<ProductOption> productOptions = productOptionService.getProductOptionsByProductId(product.getId());
         product.setProductOptions(productOptions);
+
+        List<ProductColor> productColors = productColorService.getListProductColor();
+        model.addAttribute("productColors" , productColors);
+
+        List<Capacity> capacities = capacityService.getListCapacity();
+        model.addAttribute("capacites" , capacities);
 
         model.addAttribute("id", product.getId());
         // Get list category

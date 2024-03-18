@@ -5,31 +5,48 @@ import fithou.edu.vn.DoAnTotNghiep.product.commands.createProduct.CreateProductC
 import fithou.edu.vn.DoAnTotNghiep.product.commands.deleteProduct.DeleteProductCommand;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.recoveryProduct.RecoveryProductCommand;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.updateProduct.UpdateProductCommand;
+import fithou.edu.vn.DoAnTotNghiep.product.dto.ProductDTO;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.Product;
 import fithou.edu.vn.DoAnTotNghiep.product.service.ProductService;
 import jakarta.validation.Valid;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/products")
 public class ProductApiController {
+
     @Autowired
     private ISender sender;
 
     @Autowired
     private ProductService productService ;
 
-//    @Secured("PRODUCT_MANAGEMENT")
+    @GetMapping("")
+    @ResponseBody
+    public List<ProductDTO> getAllProduct() {
+        return productService.getProductsWithProductOptionIds();
+    }
+
+    @GetMapping("/{productId}")
+    public Product getProductDetailPage (@PathVariable String productId) {
+        try {
+            return productService.getProductById(productId);
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @PostMapping("/create")
     public ResponseEntity<String> createProduct(@RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody @Valid CreateProductCommand command) {
         var result = sender.send(command);
         return ResponseEntity.ok(result.orThrow());
     }
 
-    //@Secured("PRODUCT_MANAGEMENT")
     @PutMapping("/update")
     public ResponseEntity<String> updateProduct(@RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody @Valid UpdateProductCommand command) {
         var result = sender.send(command);

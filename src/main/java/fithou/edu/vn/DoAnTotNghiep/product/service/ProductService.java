@@ -1,6 +1,7 @@
 package fithou.edu.vn.DoAnTotNghiep.product.service;
 
 import fithou.edu.vn.DoAnTotNghiep.common.dto.PaginatedDto;
+import fithou.edu.vn.DoAnTotNghiep.product.dto.ProductDTO;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.Brand;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.Product;
 import javassist.NotFoundException;
@@ -17,6 +18,8 @@ public interface ProductService {
     public Product getProductById (String id) throws NotFoundException;
 
     public List<Product> getListProduct() ;
+
+    public List<ProductDTO> getProductsWithProductOptionIds();
 }
 
 

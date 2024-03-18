@@ -21,6 +21,9 @@ public class DeleteProductCommandHandler implements IRequestHandler<DeleteProduc
     @Autowired
     private SpecificationRepository specificationRepository;
 
+    @Autowired
+    private ProductOptionRepository productOptionRepository;
+
     @Override
     @Transactional
     public HandleResponse<String> handle(DeleteProductCommand command) throws Exception {
@@ -28,7 +31,8 @@ public class DeleteProductCommandHandler implements IRequestHandler<DeleteProduc
         if (product.isEmpty()) {
             return HandleResponse.error("Không tìm thấy sản phẩm", HttpStatus.NOT_FOUND);
         }
-        specificationRepository.deleteByProductId(product.get().getId());
+        specificationRepository.deleteSpecificationByProductId(product.get().getId());
+        productOptionRepository.deleteProductOptionProductId(product.get().getId());
         productRepository.delete(product.get());
         return HandleResponse.ok("Xóa sản phẩm thành công");
     }

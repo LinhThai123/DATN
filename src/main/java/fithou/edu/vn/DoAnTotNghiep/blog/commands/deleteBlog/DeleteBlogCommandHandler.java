@@ -19,6 +19,7 @@ public class DeleteBlogCommandHandler implements IRequestHandler<DeleteBlogComma
 
     @Override
     public HandleResponse<String> handle(DeleteBlogCommand deleteBlogCommand) throws Exception {
+
         Optional<Blog> exitsBlog = blogRepository.findById(deleteBlogCommand.getId());
         if (exitsBlog.isEmpty()) {
             return HandleResponse.error("Bài viết không tồn tại");

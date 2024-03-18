@@ -1,6 +1,7 @@
 package fithou.edu.vn.DoAnTotNghiep.product.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fithou.edu.vn.DoAnTotNghiep.category.entity.Category;
 import fithou.edu.vn.DoAnTotNghiep.common.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -35,7 +36,7 @@ public class Product extends BaseEntity implements Serializable {
     @Column(name = "MA_SERIAL" , unique = true)
     private String maSerial;
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION" , columnDefinition = "LONGTEXT")
     private String description;
 
     @Column(name = "IMAGE_URL")
@@ -68,9 +69,11 @@ public class Product extends BaseEntity implements Serializable {
     private Brand brand;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product" , cascade = CascadeType.ALL , orphanRemoval = true)
+    @JsonIgnore
     private List<ProductOption> productOptions;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product" , cascade = CascadeType.ALL , orphanRemoval = true)
+    @JsonIgnore
     private List<Specification> specifications;
 
 }

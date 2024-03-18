@@ -1,5 +1,6 @@
 package fithou.edu.vn.DoAnTotNghiep.product.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fithou.edu.vn.DoAnTotNghiep.common.entity.BaseEntity;
 import fithou.edu.vn.DoAnTotNghiep.receipt.entity.ReceiptItem;
@@ -43,16 +44,17 @@ public class ProductOption extends BaseEntity implements Serializable {
     private List<ReceiptItem> receiptItems;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     private Product product;
 
     @ManyToOne
     @JoinColumn(name = "product_color_id")
-    @JsonIgnore
+    @JsonBackReference
     private ProductColor product_color;
 
     @ManyToOne
     @JoinColumn(name = "capacity_id")
-    @JsonIgnore
+    @JsonBackReference
     private Capacity capacity;
 
 }

@@ -28,7 +28,7 @@ public class BlogController {
 
     @GetMapping()
     @Secured("BLOG_MANAGEMENT")
-    public String getBrands(Model model,
+    public String getBlogs(Model model,
                             @RequestParam(defaultValue = "", required = false) String title,
                             @RequestParam(defaultValue = "1", required = false) Integer page) {
         Page<Blog> blog = blogService.adminGetListBlog(title, page);
