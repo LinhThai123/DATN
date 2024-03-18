@@ -18,5 +18,5 @@ public interface SpecificationRepository extends JpaRepository<Specification , S
     @Modifying
     @Transactional
     @Query("delete from Specification po where po.product.id = :productId")
-    void deleteByProductId(String productId);
+    void deleteSpecificationByProductId(String productId);
 }
