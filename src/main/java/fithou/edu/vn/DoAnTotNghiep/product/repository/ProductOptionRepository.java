@@ -1,5 +1,6 @@
 package fithou.edu.vn.DoAnTotNghiep.product.repository;
 
+import fithou.edu.vn.DoAnTotNghiep.product.entity.ProductColor;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.ProductOption;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -21,5 +22,5 @@ public interface ProductOptionRepository extends JpaRepository<ProductOption, St
     @Modifying
     @Transactional
     @Query("delete from ProductOption po where po.product.id = :productId")
-    void deleteByProductId(String productId);
+    void deleteProductOptionProductId(String productId);
 }

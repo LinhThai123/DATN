@@ -1,4 +1,4 @@
-package fithou.edu.vn.DoAnTotNghiep.product.dto;
+package fithou.edu.vn.DoAnTotNghiep.common.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,11 +7,9 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
 @Getter
-public class ColorDto {
+@Setter
+public class ProductOptionResponse {
     private String id;
-
-    private String name;
-
+    private String quantity;
 }
