@@ -1,7 +1,6 @@
 package fithou.edu.vn.DoAnTotNghiep.user.service.impl;
 
 import fithou.edu.vn.DoAnTotNghiep.config.Contant;
-import fithou.edu.vn.DoAnTotNghiep.supplier.entity.Supplier;
 import fithou.edu.vn.DoAnTotNghiep.user.entity.User;
 import fithou.edu.vn.DoAnTotNghiep.user.repository.UserRepository;
 import fithou.edu.vn.DoAnTotNghiep.user.service.UserService;
@@ -53,6 +52,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllEmployess() {
         return userRepository.findAllEmployees();
+    }
+
+    @Override
+    public Optional<User> getUserInfo(String name) {
+        return userRepository.findByName(name);
     }
 
 }

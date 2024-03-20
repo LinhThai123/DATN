@@ -24,5 +24,6 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query("SELECT u FROM User u JOIN u.roles r WHERE r.normalizedName = 'ROLE_EMPLOYEE'")
     List<User> findAllEmployees();
+    Optional<User> findByName (String name) ;
 
 }

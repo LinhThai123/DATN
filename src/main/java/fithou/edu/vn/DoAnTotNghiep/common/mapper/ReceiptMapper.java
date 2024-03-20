@@ -60,7 +60,8 @@ public class ReceiptMapper {
     public Receipt convertToEntity (CreateReceiptCommand receiptRequest) {
         Receipt receipt = modelMapper.map(receiptRequest, Receipt.class);
         receipt.setSupplier(suppilerRepository.findById(receiptRequest.getSupplierId()).orElse(null));
-        receipt.setNote(receiptRequest.getNote());
+        receipt.setNote(receiptRequest.getNote().replaceAll("<[^>]*>", ""));
+        receipt.setTotal(receiptRequest.getTotal());
         receipt.setCreatedDate(new Timestamp(System.currentTimeMillis()));
         receipt.setModifiedDate(new Timestamp(System.currentTimeMillis()));
         receipt.setDeleteDate(null);

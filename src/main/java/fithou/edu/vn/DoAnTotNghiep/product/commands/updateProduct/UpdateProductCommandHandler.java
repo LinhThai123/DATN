@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class UpdateProductCommandHandler implements IRequestHandler<UpdateProductCommand, String> {
@@ -42,10 +45,19 @@ public class UpdateProductCommandHandler implements IRequestHandler<UpdateProduc
             existProduct.get().setBrand(exitsBrand.get());
         }
         existProduct.get().setName(updateProductCommand.getName());
-        existProduct.get().setDescription(updateProductCommand.getDescription());
+        existProduct.get().setDescription(updateProductCommand.getDescription().replaceAll("<[^>]*>", ""));
         existProduct.get().setPrice(updateProductCommand.getPrice());
         existProduct.get().setDiscount(updateProductCommand.getDiscount());
         existProduct.get().setImageUrl(updateProductCommand.getImageUrl());
+        List<String> currentImage = existProduct.get().getImages();
+        if (currentImage == null) {
+            currentImage = new ArrayList<>() ;
+        }
+        if (updateProductCommand.getImages() != null && !updateProductCommand.getImages().isEmpty()) {
+            currentImage.clear();
+            currentImage.addAll(updateProductCommand.getImages());
+        }
+        existProduct.get().setImages(currentImage);
         existProduct.get().setStatus(updateProductCommand.getStatus());
         productRepository.save(existProduct.get());
         return HandleResponse.ok(existProduct.get().getId());

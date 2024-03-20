@@ -5,6 +5,8 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -41,4 +43,6 @@ public class UpdateProductCommand implements IRequest<String> {
 
     @NotEmpty(message = "Thương hiệu sản phẩm không được để trống")
     private String brandId;
+
+    private List<String> images;
 }

@@ -29,6 +29,8 @@ public class CreateReceiptCommand implements IRequest<ReceiptResponse> {
 
     private String note ;
 
+    private Integer total;
+
     private List<CreateReceiptItemCommand> createReceiptItemCommands ;
 
 }

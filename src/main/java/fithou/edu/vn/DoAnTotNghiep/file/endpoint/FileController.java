@@ -17,7 +17,7 @@ public class FileController {
     private final ISender sender ;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile (@RequestBody MultipartFile file) {
+    public ResponseEntity<String> uploadFile (@RequestParam("file") @RequestBody MultipartFile file) {
         var command = new UploadFileCommand(file);
         var result = sender.send(command);
         return ResponseEntity.ok(result.orThrow());

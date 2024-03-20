@@ -14,9 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -52,15 +50,30 @@ public class CreateProductCommandHandler implements IRequestHandler<CreateProduc
         product.setDescription(descriptionWithoutHtml);
         product.setMaSerial(UUID.randomUUID().toString());
         product.setPrice(command.getPrice());
-//        product.setDeletedDate(null);
         product.setImageUrl(command.getImageUrl());
+        List<String> currentImage = product.getImages();
+        if (currentImage == null) {
+            currentImage = new ArrayList<>(); // Khởi tạo danh sách hình ảnh nếu cần
+        }
+        // Thêm hình ảnh mới vào danh sách currentImage
+        if (command.getImages() != null) {
+            currentImage.addAll(command.getImages());
+        }
+        product.setImages(currentImage);
+
         product.setStatus(command.getStatus());
+
         product.setDiscount(command.getDiscount());
+
         product.setCategory(exitsCategory.get());
+
         product.setBrand(exitsBrand.get());
+
         product.setCreatedDate(new Timestamp(System.currentTimeMillis()));
         product.setModifiedDate(new Timestamp(System.currentTimeMillis()));
+
         productRepository.save(product);
+
         return HandleResponse.ok(product.getId());
     }
 }

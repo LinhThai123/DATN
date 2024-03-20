@@ -19,6 +19,8 @@ public interface ProductService {
 
     public List<Product> getListProduct() ;
 
+    public List<Product> getListProductByCategoryId (String id);
+
     public List<ProductDTO> getProductsWithProductOptionIds();
 }
 

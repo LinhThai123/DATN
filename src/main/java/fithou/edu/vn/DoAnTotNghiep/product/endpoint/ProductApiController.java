@@ -2,6 +2,7 @@ package fithou.edu.vn.DoAnTotNghiep.product.endpoint;
 
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.ISender;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.createProduct.CreateProductCommand;
+import fithou.edu.vn.DoAnTotNghiep.product.commands.createProductImage.CreateProductImageCommand;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.deleteProduct.DeleteProductCommand;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.recoveryProduct.RecoveryProductCommand;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.updateProduct.UpdateProductCommand;
@@ -67,6 +68,11 @@ public class ProductApiController {
     public ResponseEntity<Void> recoveryProduct(@PathVariable String productId) {
         sender.send(new RecoveryProductCommand(productId)).orThrow();
         return ResponseEntity.noContent().build();
+    }
+    @PostMapping("/images")
+    public ResponseEntity<String> addProductImage (@RequestBody CreateProductImageCommand command) {
+        var result = sender.send(command);
+        return ResponseEntity.ok(result.orThrow());
     }
 
 }

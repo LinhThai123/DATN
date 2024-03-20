@@ -59,6 +59,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> getListProductByCategoryId(String id) {
+        return productRepository.findByCategoryId(id);
+    }
+
+    @Override
     public List<ProductDTO> getProductsWithProductOptionIds() {
         List<Tuple> tuples = productRepository.findProductsWithProductOptionIds();
 

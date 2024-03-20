@@ -13,6 +13,7 @@
         <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/list_image_product.css}">
         <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/modal_img.css}">
         <!--    <link rel="stylesheet" th:href="@{/adminlte/plugins/summernote/summernote.css}">-->
+        <link rel="stylesheet" th:href="@{/styles/admin/css/upload.css}">
         <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     </th:block>
 
@@ -64,6 +65,24 @@
                                     <span class="invalid-feedback" id="invalid-feedback-description">Mô tả sản phẩm trống</span>
                                 </div>
                                 <textarea class="textarea" id="description" name="description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <h3>Hiển thị nhiều ảnh trước khi upload</h3>
+                                <div class="dandev-reviews">
+                                    <div class="form_upload">
+                                        <label class="dandev_insert_attach">
+                                            <span>Đính kèm ảnh</span>
+                                        </label>
+                                    </div>
+                                    <div class="list_attach">
+                                        <ul class="dandev_attach_view">
+
+                                        </ul>
+                                        <span class="dandev_insert_attach">
+                                            <i class="dandev-plus">+</i>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-4">
@@ -134,7 +153,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal-add-specification" tabindex="-1" role="dialog" aria-labelledby="modalAddSpecification" aria-hidden="true">
+    <div class="modal fade" id="modal-add-specification" tabindex="-1" role="dialog"
+         aria-labelledby="modalAddSpecification" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -151,14 +171,16 @@
                     </div>
                     <div class="form-group">
                         <label class="required-label" for="resolution-screen">Độ phân giải màn hình</label>
-                        <input type="text" class="form-control" id="resolution-screen" placeholder="Nhập độ phân giải màn hình">
+                        <input type="text" class="form-control" id="resolution-screen"
+                               placeholder="Nhập độ phân giải màn hình">
                         <span class="invalid-feedback" id="invalid-feedback-resolution-screen">Độ dài độ phân giải màn hình từ 1 - 255 ký tự</span>
                     </div>
                     <div class="row">
                         <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
                             <label class="required-label" for="chipset">ChipSet</label>
                             <input type="text" class="form-control" id="chipset" placeholder="Nhập chipset">
-                            <span class="invalid-feedback" id="invalid-feedback-chip-set">Chipset không được để trống</span>
+                            <span class="invalid-feedback"
+                                  id="invalid-feedback-chip-set">Chipset không được để trống</span>
                         </div>
                         <div class="form-group" style="width: 50%; margin-left: 5px; ">
                             <label for="cpu" class="required-label">CPU</label>
@@ -171,25 +193,29 @@
                         <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
                             <label class="required-label" for="size">Kích thước</label>
                             <input type="text" class="form-control" id="size" placeholder="Nhập kích thước">
-                            <span class="invalid-feedback" id="invalid-feedback-size">Kích thước không được để trống</span>
+                            <span class="invalid-feedback"
+                                  id="invalid-feedback-size">Kích thước không được để trống</span>
                         </div>
                         <div class="form-group" style="width: 50%; margin-left: 5px; ">
                             <label for="weight" class="required-label">Trọng lượng</label>
                             <input type="text" class="form-control" id="weight" placeholder="Nhập trọng lượng">
-                            <span class="invalid-feedback" id="invalid-feedback-weight">Trọng lượng không được để trống</span>
+                            <span class="invalid-feedback"
+                                  id="invalid-feedback-weight">Trọng lượng không được để trống</span>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
                             <label class="required-label" for="charging-port">Cổng sạc</label>
-                            <input type="text" class="form-control" id="charging-port" placeholder="Nhập cổng sạc cho điện thoại ">
+                            <input type="text" class="form-control" id="charging-port"
+                                   placeholder="Nhập cổng sạc cho điện thoại ">
                             <span class="invalid-feedback" id="invalid-feedback-charging-port">Cổng sạc không được để trống</span>
                         </div>
                         <div class="form-group" style="width: 50%; margin-left: 5px; ">
                             <label for="bluetooth" class="required-label">Bluetooth</label>
                             <input type="text" class="form-control" id="bluetooth" placeholder="Nhập bluetooth">
-                            <span class="invalid-feedback" id="invalid-feedback-bluetooth">Bluetooth không được để trống</span>
+                            <span class="invalid-feedback"
+                                  id="invalid-feedback-bluetooth">Bluetooth không được để trống</span>
                         </div>
                     </div>
 
@@ -201,7 +227,8 @@
                     <div class="form-group">
                         <label class="required-label" for="camera-after">Camera sau</label>
                         <input type="text" class="form-control" id="camera-after" placeholder="Nhập camera sau">
-                        <span class="invalid-feedback" id="invalid-feedback-camera-after">Camera sau không được để trống</span>
+                        <span class="invalid-feedback"
+                              id="invalid-feedback-camera-after">Camera sau không được để trống</span>
                     </div>
 
                     <div class="row">
@@ -213,7 +240,8 @@
                         <div class="form-group" style="width: 50%; margin-left: 5px; ">
                             <label for="os" class="required-label">Hệ điều hành</label>
                             <input type="text" class="form-control" id="os" placeholder="Nhập Hệ điều hành">
-                            <span class="invalid-feedback" id="invalid-feedback-os">Hệ điều hành không được để trống</span>
+                            <span class="invalid-feedback"
+                                  id="invalid-feedback-os">Hệ điều hành không được để trống</span>
                         </div>
                     </div>
                 </div>
@@ -269,6 +297,7 @@
     <script th:src="@{/js/generateApi.js}"></script>
     <script th:src="@{/styles/admin/adminlte/plugins/summernote/summernote-bs4.js}"></script>
     <script th:src="@{/styles/admin/adminlte/plugins/list/list.min.js}"></script>
+    <script th:src="@{/styles/admin/script/upload.js}"></script>
     <script th:inline="javascript">
         $(function () {
             $('#description').summernote(
@@ -279,27 +308,27 @@
             )
         });
 
-        $(document).ready(function() {
-            $('#choose-image-btn').click(function() {
+        $(document).ready(function () {
+            $('#choose-image-btn').click(function () {
                 $('#file-input').click();
             });
 
-            $('#file-input').change(function() {
+            $('#file-input').change(function () {
                 var file = this.files[0];
                 var formData = new FormData();
-                formData.append('files', file);
+                formData.append('file', file);
 
                 $.ajax({
-                    url: '/api/file/uploads',
+                    url: '/api/file/upload',
                     type: 'POST',
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(response) {
+                    success: function (response) {
                         var preview = $('#preview-img');
                         preview.attr('src', response);
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         console.error('Upload failed: ', error);
                     }
                 });
@@ -320,6 +349,14 @@
             if (image == "/images/noimage.png") {
                 image = "";
             }
+            let images = [] ;
+            $('.dandev_attach_view li').each(function() {
+                let imageUrl = $(this).find('.img-wrap-box img').attr('src');
+                if (imageUrl) {
+                    images.push(imageUrl);
+                }
+            });
+
             isValid = true;
 
             if (name.length == 0 || name.length > 300) {
@@ -351,7 +388,8 @@
                     status: status,
                     price: price,
                     discount: discount,
-                    imageUrl: image
+                    imageUrl: image,
+                    images: images
                 }
                 callApi('POST', '/v1/products/create', req,
                     function (response) {
@@ -374,7 +412,7 @@
             });
         });
 
-        $('.btn-add-specification').click(function() {
+        $('.btn-add-specification').click(function () {
             let productId = $('#id').val();
             let screenSize = $('#screen-size').val();
             let resolutionScreen = $('#resolution-screen').val();
@@ -447,7 +485,7 @@
             if (isValid) {
                 req = {
                     screen_size: screenSize,
-                    resolution_screen : resolutionScreen,
+                    resolution_screen: resolutionScreen,
                     cpu: cpu,
                     size: size,
                     weight: weight,
@@ -455,11 +493,11 @@
                     camera_before: cameraBefore,
                     pin: pin,
                     charging_port: chargingPort,
-                    os : os,
-                    bluetooth : bluetooth,
+                    os: os,
+                    bluetooth: bluetooth,
                     chip: chipSet,
-                    stock : 0,
-                    productId : productId
+                    stock: 0,
+                    productId: productId
                 }
                 callApi('POST', '/v1/specification/create', req,
                     function (data) {
@@ -482,7 +520,7 @@
         $('.btn-add-new-category').click(function () {
             let productId = $('#id').val();
             let productColor = $('#product-color').val();
-            let capacity = $ ('#capacity').val();
+            let capacity = $('#capacity').val();
 
             let isValid = true;
             if (productColor.length === 0) {
@@ -496,7 +534,7 @@
 
             if (isValid) {
                 req = {
-                    productId : productId,
+                    productId: productId,
                     productColorId: productColor,
                     capacityId: capacity
                 }

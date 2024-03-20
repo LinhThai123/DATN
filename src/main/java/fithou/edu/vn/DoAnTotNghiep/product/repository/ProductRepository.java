@@ -20,6 +20,8 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, String> {
     Optional<Product> findBySlug(String slug);
 
+    List<Product> findByCategoryId (String id);
+
     @Query("SELECT p FROM Product p")
     List<Product> getAllProducts();
 

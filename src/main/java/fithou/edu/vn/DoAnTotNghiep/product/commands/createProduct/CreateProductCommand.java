@@ -5,6 +5,8 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -32,6 +34,8 @@ public class CreateProductCommand implements IRequest<String> {
 //    @NotEmpty(message = "Hình ảnh của sản phẩm không không được để trống")
 //    @URL(message = "Ảnh sản phẩm không hợp lệ")
     private String imageUrl;
+
+    private List<String> images;
 
     @NotNull(message = "Danh mục sản phẩm không được để trống")
     private String categoryId;
