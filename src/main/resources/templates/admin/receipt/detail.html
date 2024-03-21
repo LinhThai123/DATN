@@ -109,39 +109,41 @@
                                 </tr>
                                 </thead>
                                 <tbody id="productList">
-                                <tr class="product-row">
-                                    <td>
-                                        <select class="form-control thuy-search-select product-select" style="width: 100%;">
-                                            <th:block th:each=" product  : ${products}">
-                                                <option th:value="${product.productOptions.get(0).id}" th:text="${product.name}" >
-                                                </option>
-                                            </th:block>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="product-color" class="form-control thuy-search-select color-select">
-                                            <th:block th:each="color : ${productColors}">
-                                                <option th:value="${color.id}" th:text="${color.name}"></option>
-                                            </th:block>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="capacity" class="form-control thuy-search-select capacity-select">
-                                            <th:block th:each="capacity : ${capacities}">
-                                                <option th:value="${capacity.id}" th:text="${capacity.name}"></option>
-                                            </th:block>
-                                        </select>
-                                    </td>
-                                    <td><input type="number" class="form-control unitPrice" th:value="${receiptItems.get(0).price}">
-                                    </td>
-                                    <td><input type="number" class="form-control quantity" th:value="${receiptItems.get(0).quantity}">
-                                    </td>
-                                    <td><input type="text" class="form-control total" th:value="${receiptItems.get(0).price * receiptItems.get(0).quantity}"
-                                               readonly></td>
-                                    <td class="delete-row" style="padding-left: 27px;padding-right: 6px;padding-top: 20px;" readonly>
-                                        <i class="fa-solid fa-trash"></i>
-                                    </td>
-                                </tr>
+                                <th:block th:each="receiptItem : ${receiptItems}">
+                                    <tr class="product-row">
+                                        <td>
+                                            <select class="form-control thuy-search-select product-select" style="width: 100%;">
+                                                <th:block th:each=" product  : ${products}">
+                                                    <option th:value="${product.id}" th:text="${product.name}" th:selected="${receiptItem.productOption.id eq product.id}" />
+                                                </th:block>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="product-color" class="form-control thuy-search-select color-select">
+                                                <th:block th:each="color : ${productColors}">
+                                                    <option th:value="${color.id}" th:text="${color.name}"></option>
+                                                </th:block>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="capacity" class="form-control thuy-search-select capacity-select">
+                                                <th:block th:each="capacity : ${capacities}">
+                                                    <option th:value="${capacity.id}" th:text="${capacity.name}"></option>
+                                                </th:block>
+                                            </select>
+                                        </td>
+                                        <td><input type="number" class="form-control unitPrice" th:value="${receiptItem.price}">
+                                        </td>
+                                        <td><input type="number" class="form-control quantity" th:value="${receiptItem.quantity}">
+                                        </td>
+                                        <td><input type="text" class="form-control total" th:value="${receiptItem.price * receiptItem.quantity}"
+                                                   readonly></td>
+                                        <td class="delete-row" style="padding-left: 27px;padding-right: 6px;padding-top: 20px;" readonly>
+                                            <i class="fa-solid fa-trash"></i>
+                                        </td>
+                                    </tr>
+                                </th:block>
+
                                 </tbody>
                             </table>
                             <span id="totalMoney" th:text="'Tổng tiền: ' + ${receipt.total}" style="float: right; font-size: 24px; margin-right: 10px; font-weight: 600;"></span>

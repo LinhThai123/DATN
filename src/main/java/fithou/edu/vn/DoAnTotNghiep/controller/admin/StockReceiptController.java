@@ -133,4 +133,5 @@ public class StockReceiptController {
 
         return "admin/receipt/detail" ;
     }
+
 }

@@ -58,14 +58,14 @@
                                     <label class="required-label" for="name">Tên sản phẩm</label>
                                     <span class="invalid-feedback" id="invalid-feedback-name">Độ dài tên từ 1 - 300 ký tự</span>
                                 </div>
-                                <input type="text" class="form-control" id="name" th:value="${product.name}">
+                                <input type="text" class="form-control" id="name" th:value="${product.name != null ? product.name : ''}">
                             </div>
                             <div class="form-group">
                                 <div>
                                     <label class="required-label" for="description">Mô tả</label>
                                     <span class="invalid-feedback" id="invalid-feedback-description">Mô tả sản phẩm trống</span>
                                 </div>
-                                <textarea class="textarea" id="description" name="description" th:text="${product.description}"></textarea>
+                                <textarea class="textarea" id="description" name="description" th:value="${product.description != null ? product.description : ''}"></textarea>
                             </div>
                             <div class="form-group">
                                 <h3>Hiển thị nhiều ảnh trước khi upload</h3>
@@ -180,23 +180,23 @@
                            th:value="${product.getSpecifications().get(0).id}">
                     <div class="form-group">
                         <label class="required-label" for="screen-size">Kích thước màn hình</label>
-                        <input type="text" class="form-control" id="screen-size" th:value="${product.getSpecifications().get(0).screen_size}">
+                        <input type="text" class="form-control" id="screen-size" th:value="${product.getSpecifications().get(0).screen_size != null ? product.getSpecifications().get(0).screen_size : ''}">
                         <span class="invalid-feedback" id="invalid-feedback-screen-size">Độ dài kích thước màn hình cấp từ 1 - 255 ký tự</span>
                     </div>
                     <div class="form-group">
                         <label class="required-label" for="resolution-screen">Độ phân giải màn hình</label>
-                        <input type="text" class="form-control" id="resolution-screen" th:value="${product.getSpecifications().get(0).resolution_screen}">
+                        <input type="text" class="form-control" id="resolution-screen" th:value="${product.getSpecifications().get(0).resolution_screen != null ? product.getSpecifications().get(0).resolution_screen : ''}">
                         <span class="invalid-feedback" id="invalid-feedback-resolution-screen">Độ dài độ phân giải màn hình từ 1 - 255 ký tự</span>
                     </div>
                     <div class="row">
                         <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
                             <label class="required-label" for="chipset">ChipSet</label>
-                            <input type="text" class="form-control" id="chipset" th:value="${product.getSpecifications().get(0).chip}">
+                            <input type="text" class="form-control" id="chipset" th:value="${product.getSpecifications().get(0).chip != null ? product.getSpecifications().get(0).chip : ''}">
                             <span class="invalid-feedback" id="invalid-feedback-chip-set">Chipset không được để trống</span>
                         </div>
                         <div class="form-group" style="width: 50%; margin-left: 5px; ">
                             <label for="cpu" class="required-label">CPU</label>
-                            <input type="text" class="form-control" id="cpu" th:value="${product.getSpecifications().get(0).cpu}">
+                            <input type="text" class="form-control" id="cpu" th:value="${product.getSpecifications().get(0).cpu != null ? product.getSpecifications().get(0).cpu : '' }">
                             <span class="invalid-feedback" id="invalid-feedback-cpu">Cpu không được để trống</span>
                         </div>
                     </div>
@@ -204,12 +204,12 @@
                     <div class="row">
                         <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
                             <label class="required-label" for="size">Kích thước</label>
-                            <input type="text" class="form-control" id="size" th:value="${product.getSpecifications().get(0).size}">
+                            <input type="text" class="form-control" id="size" th:value="${product.getSpecifications().get(0).size != null ? product.getSpecifications().get(0).size : '' }">
                             <span class="invalid-feedback" id="invalid-feedback-size">Kích thước không được để trống</span>
                         </div>
                         <div class="form-group" style="width: 50%; margin-left: 5px; ">
                             <label for="weight" class="required-label">Trọng lượng</label>
-                            <input type="text" class="form-control" id="weight" th:value="${product.getSpecifications().get(0).weight}">
+                            <input type="text" class="form-control" id="weight" th:value="${product.getSpecifications().get(0).weight != null ? product.getSpecifications().get(0).weight : ''}">
                             <span class="invalid-feedback" id="invalid-feedback-weight">Trọng lượng không được để trống</span>
                         </div>
                     </div>
@@ -217,36 +217,36 @@
                     <div class="row">
                         <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
                             <label class="required-label" for="charging-port">Cổng sạc</label>
-                            <input type="text" class="form-control" id="charging-port" th:value="${product.getSpecifications().get(0).charging_port}">
+                            <input type="text" class="form-control" id="charging-port" th:value="${product.getSpecifications().get(0).charging_port != null ? product.getSpecifications().get(0).charging_port : '' }">
                             <span class="invalid-feedback" id="invalid-feedback-charging-port">Cổng sạc không được để trống</span>
                         </div>
                         <div class="form-group" style="width: 50%; margin-left: 5px; ">
                             <label for="bluetooth" class="required-label">Bluetooth</label>
-                            <input type="text" class="form-control" id="bluetooth" th:value="${product.getSpecifications().get(0).bluetooth}">
+                            <input type="text" class="form-control" id="bluetooth" th:value="${product.getSpecifications().get(0).bluetooth != null ? product.getSpecifications().get(0).bluetooth : ''}">
                             <span class="invalid-feedback" id="invalid-feedback-bluetooth">Bluetooth không được để trống</span>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="required-label" for="camera-before">Camera trước</label>
-                        <input type="text" class="form-control" id="camera-before" th:value="${product.getSpecifications().get(0).camera_before}">
+                        <input type="text" class="form-control" id="camera-before" th:value="${product.getSpecifications().get(0).camera_before != null ? product.getSpecifications().get(0).camera_before : '' }">
                         <span class="invalid-feedback" id="invalid-feedback-camera-before">Camera trước không được để trống</span>
                     </div>
                     <div class="form-group">
                         <label class="required-label" for="camera-after">Camera sau</label>
-                        <input type="text" class="form-control" id="camera-after" th:value="${product.getSpecifications().get(0).camera_after}">
+                        <input type="text" class="form-control" id="camera-after" th:value="${product.getSpecifications().get(0).camera_after != null ? product.getSpecifications().get(0).camera_after : ''}">
                         <span class="invalid-feedback" id="invalid-feedback-camera-after">Camera sau không được để trống</span>
                     </div>
 
                     <div class="row">
                         <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
                             <label class="required-label" for="pin">PIN</label>
-                            <input type="text" class="form-control" id="pin" th:value="${product.getSpecifications().get(0).pin}">
+                            <input type="text" class="form-control" id="pin" th:value="${product.getSpecifications().get(0).pin != null ? product.getSpecifications().get(0).pin : ''}">
                             <span class="invalid-feedback" id="invalid-feedback-pin">Pin không được để trống</span>
                         </div>
                         <div class="form-group" style="width: 50%; margin-left: 5px; ">
                             <label for="os" class="required-label">Hệ điều hành</label>
-                            <input type="text" class="form-control" id="os" th:value="${product.getSpecifications().get(0).os}">
+                            <input type="text" class="form-control" id="os" th:value="${product.getSpecifications().get(0).os != null ? product.getSpecifications().get(0).os : ''}">
                             <span class="invalid-feedback" id="invalid-feedback-os">Hệ điều hành không được để trống</span>
                         </div>
                     </div>

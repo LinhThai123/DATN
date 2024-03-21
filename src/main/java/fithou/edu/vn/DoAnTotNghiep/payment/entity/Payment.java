@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 @Entity
-@Table (name = "PAYMETN")
+@Table (name = "PAYMENT")
 public class Payment extends BaseEntity implements Serializable {
     @GenericGenerator(name = "random_id", strategy = "fithou.edu.vn.DoAnTotNghiep.common.custom.RandomIdGenerator")
     @Id

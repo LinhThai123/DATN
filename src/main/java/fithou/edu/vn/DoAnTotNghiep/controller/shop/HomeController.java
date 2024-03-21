@@ -27,10 +27,6 @@ public class HomeController {
     @Autowired
     private JwtService jwtService;
 
-    @GetMapping("/")
-    public String index() {
-        return "shop/index";
-    }
 
         @GetMapping("/login")
     public String Login(Model model,

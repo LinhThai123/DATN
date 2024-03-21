@@ -25,9 +25,9 @@
     </div>
     <!-- Toolbar -->
     <div class="toolbar">
-        <a role="button" class="btn btn-success" href="/admin/product/create">
+        <a role="button" class="btn btn-success" href="/admin/stock-receipt/create">
             <span class="fa fa-plus" style="margin-right:0.5rem;"></span>
-            <span>Thêm sản phẩm</span>
+            <span>Tạo phiếu nhập kho</span>
         </a>
 
         <a role="button" class="btn btn-info" href="">
@@ -83,7 +83,9 @@
                             <tbody>
                             <th:block th:each="receipt : ${receipts}">
                                 <tr>
-                                    <td th:text="${receipt.id}"></td>
+                                    <td>
+                                        <a th:href="@{/admin/stock-receipt/{id}(id=${receipt.id})}" th:text="${receipt.id}"></a>
+                                    </td>
                                     <td>
                                         <a th:text="${receipt.supplier.name}"></a>
                                     </td>
