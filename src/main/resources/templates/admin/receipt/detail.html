@@ -56,25 +56,28 @@
                                 </div>
                                 <select class="select2bs4" style="width: 100%;" id="supplier">
                                     <th:block th:each="supplier : ${suppliers}">
-                                        <option th:value="${supplier.id}" th:text="${supplier.name}"></option>
+                                        <option th:value="${supplier.id}"
+                                                th:text="${supplier.name}"
+                                                th:selected="${supplier.id == receipt.supplier.id}">
+                                        </option>
                                     </th:block>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <input type="hidden" class="form-control" id="idEmployee" name="idEmployee"
-                                       th:value="${employee.id}">
+                                       th:value="${user.id}">
                                 <div>
                                     <label class="required-label" for="employeeName">Tên nhân viên nhập hàng</label>
                                     <span class="invalid-feedback" id="invalid-feedback-price">Tên nhân viên nhập hàng trống</span>
                                 </div>
-                                <input type="text" class="form-control text-price-input" id="employeeName" th:value="${employee.name}">
+                                <input type="text" class="form-control text-price-input" id="employeeName" th:value="${user.name}">
                             </div>
                             <div class="form-group">
                                 <div>
                                     <label class="required-label" for="note">Mô tả</label>
                                     <span class="invalid-feedback" id="invalid-feedback-description">Mô tả sản phẩm trống</span>
                                 </div>
-                                <textarea class="textarea" id="note" name="note" rows="4"
+                                <textarea class="textarea" id="note" name="note" rows="4" th:text="${receipt.note}"
                                           style="width: 100%"></textarea>
                             </div>
                         </div>
@@ -106,42 +109,47 @@
                                 </tr>
                                 </thead>
                                 <tbody id="productList">
-                                    <tr class="product-row">
-                                        <td>
-                                            <select class="form-control thuy-search-select product-select" style="width: 100%;">
-                                                <option value="">Chọn sản phẩm</option>
-                                                <th:block th:each="product : ${products}">
-                                                    <option th:value="${product.productId}" th:text="${product.productName}" th:data-option-id="${product.productOptionId}"></option>
-                                                </th:block>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="product-color" class="form-control thuy-search-select color-select">
-                                                <option value="">Chọn màu sắc</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="capacity" class="form-control thuy-search-select capacity-select">
-                                                <option value="">Chọn dung lượng</option>
-                                            </select>
-                                        </td>
-                                        <td><input type="number" class="form-control unitPrice" placeholder="Nhập đơn giá">
-                                        </td>
-                                        <td><input type="number" class="form-control quantity" placeholder="Nhập số lượng">
-                                        </td>
-                                        <td><input type="text" class="form-control total" placeholder="Tính tự động"
-                                                   readonly></td>
-                                        <td class="delete-row"
-                                            style="padding-left: 27px;padding-right: 6px;padding-top: 20px;">
-                                            <i class="fa-solid fa-trash"></i></td>
-                                    </tr>
+                                <tr class="product-row">
+                                    <td>
+                                        <select class="form-control thuy-search-select product-select" style="width: 100%;">
+                                            <th:block th:each=" product  : ${products}">
+                                                <option th:value="${product.productOptions.get(0).id}" th:text="${product.name}" >
+                                                </option>
+                                            </th:block>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="product-color" class="form-control thuy-search-select color-select">
+                                            <th:block th:each="color : ${productColors}">
+                                                <option th:value="${color.id}" th:text="${color.name}"></option>
+                                            </th:block>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="capacity" class="form-control thuy-search-select capacity-select">
+                                            <th:block th:each="capacity : ${capacities}">
+                                                <option th:value="${capacity.id}" th:text="${capacity.name}"></option>
+                                            </th:block>
+                                        </select>
+                                    </td>
+                                    <td><input type="number" class="form-control unitPrice" th:value="${receiptItems.get(0).price}">
+                                    </td>
+                                    <td><input type="number" class="form-control quantity" th:value="${receiptItems.get(0).quantity}">
+                                    </td>
+                                    <td><input type="text" class="form-control total" th:value="${receiptItems.get(0).price * receiptItems.get(0).quantity}"
+                                               readonly></td>
+                                    <td class="delete-row" style="padding-left: 27px;padding-right: 6px;padding-top: 20px;" readonly>
+                                        <i class="fa-solid fa-trash"></i>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
-                            <span id="totalMoney" style="float: right; font-size: 24px; margin-right: 10px; font-weight: 600;">Tổng tiền: </span>
+                            <span id="totalMoney" th:text="'Tổng tiền: ' + ${receipt.total}" style="float: right; font-size: 24px; margin-right: 10px; font-weight: 600;"></span>
+
                         </div>
-                        <button class="btn btn-success btn-create-receipt">
-                            <span class="fa fa-plus" style="margin-right:0.5rem; "></span>
-                            <span>Thêm sản phẩm</span>
+                        <button class="btn btn-warning btn-print-receipt">
+                            <i class="fa-solid fa-print"></i>
+                            <span style="margin-left: 10px;">In phiếu nhập hàng</span>
                         </button>
                     </div>
                 </div>
@@ -172,27 +180,15 @@
                     axios.get('http://localhost:8088/v1/capacity'),
                     axios.get('http://localhost:8088/v1/products'),
                 ])
-                    .then(axios.spread(function (colorsResponse, capacitiesResponse,productsResponse) {
+                    .then(axios.spread(function (colorsResponse, capacitiesResponse, productsResponse) {
                         colors = colorsResponse.data;
                         capacities = capacitiesResponse.data;
                         products = productsResponse.data;
-                        createProductSelect();
+                        // createProductSelect();
                     }))
                     .catch(error => {
                         console.error('Error fetching data:', error);
                     });
-            }
-
-            function createProductSelect() {
-                console.log(products);
-                var productSelectOptions = products.map(product => {
-                    // Truy cập vào thông tin Product và ProductOptionId từ đối tượng ProductDTO
-                    var productId = product.productId;
-                    var productName = product.productName;
-                    var productOptionId = product.productOptionId;
-                    return `<option value="${productId}" data-option-id="${productOptionId}">${productName}</option>`;
-                }).join('');
-                $('.product-row:last .product-select').html(`<option value="">Chọn sản phẩm</option>${productSelectOptions}`);
             }
 
             // Xử lý sự kiện khi sản phẩm được chọn thay đổi
@@ -222,44 +218,6 @@
                     .catch(error => {
                         console.error('Error fetching capacities:', error);
                     });
-            });
-
-            // Xử lý sự kiện khi nhấn nút "Thêm sản phẩm"
-            $(document).on('click', '.btn-create-receipt', function () {
-                event.preventDefault();
-                // Tạo dòng mới cho bảng sản phẩm
-                var newRowHtml = `
-        <tr class="product-row">
-            <td>
-                <select name="product" class="form-control product-select "></select>
-            </td>
-            <td>
-                <select name="product-color" class="form-control  color-select">
-                    <option value="">Chọn màu sắc</option>
-                </select>
-            </td>
-            <td>
-                <select name="capacity" class="form-control capacity-select">
-                    <option value="">Chọn dung lượng</option>
-                </select>
-            </td>
-            <td><input type="number"  class="form-control unitPrice" placeholder="Nhập đơn giá"></td>
-            <td><input type="number"  class="form-control quantity" placeholder="Nhập số lượng"></td>
-            <td><input type="text"    class="form-control total" placeholder="Tính tự động" readonly></td>
-            <td class="delete-row" style="padding-left: 27px;padding-right: 6px;padding-top: 20px;"><i class="fa-solid fa-trash"></i></td>
-        </tr>
-        `;
-
-                // Thêm dòng mới vào tbody
-                $('#productList').append(newRowHtml);
-
-                // Gọi hàm để tạo select box cho sản phẩm
-                createProductSelect();
-            });
-
-            // Xử lý sự kiện khi nhấn nút "Xóa dòng"
-            $(document).on('click', '.delete-row', function () {
-                $(this).closest('tr').remove(); // Xóa dòng
             });
 
             // Fetch dữ liệu khi trang được tải
@@ -298,7 +256,7 @@
             });
 
             $(document).on('click', '.btn-add-stock-receipt' , function (event) {
-               event.preventDefault();
+                event.preventDefault();
                 // Lấy thông tin phiếu nhập hàng
                 let idSuppler = $('#supplier').val();
                 let idEmployee = $('#idEmployee').val();
@@ -358,7 +316,7 @@
                     },
                 )
 
-             });
+            });
         });
 
     </script>

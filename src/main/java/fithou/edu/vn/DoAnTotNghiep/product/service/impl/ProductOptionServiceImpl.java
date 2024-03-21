@@ -1,6 +1,7 @@
 package fithou.edu.vn.DoAnTotNghiep.product.service.impl;
 
 import fithou.edu.vn.DoAnTotNghiep.product.entity.Capacity;
+import fithou.edu.vn.DoAnTotNghiep.product.entity.Product;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.ProductColor;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.ProductOption;
 import fithou.edu.vn.DoAnTotNghiep.product.repository.ProductOptionRepository;
@@ -9,8 +10,7 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -29,6 +29,26 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 
     public List<ProductOption> getProductOptionsByProductId(String productId) {
         return productOptionRepository.findByProductId(productId);
+    }
+
+    @Override
+    public Product getProductByProductOptionId(String productOptionId) throws NotFoundException {
+        ProductOption productOption = productOptionRepository.findById(productOptionId).orElseThrow(() -> new NotFoundException("ProductOption not found with id: " + productOptionId));
+        return productOption.getProduct();
+    }
+
+    @Override
+    public Set<ProductColor> getProductColorByProductOptionId(String productOptionId) throws NotFoundException {
+        ProductOption productOption = productOptionRepository.findById(productOptionId).orElseThrow(() -> new NotFoundException("Không tìm thấy phân loại của sản phẩm qua id : " + productOptionId));
+        ProductColor productColor = productOption.getProduct_color();
+        return productColor != null ? Collections.singleton(productColor) : Collections.emptySet();
+    }
+
+    @Override
+    public Set<Capacity> getCapacityByProductOptionId(String productOptionId) throws NotFoundException {
+        ProductOption productOption = productOptionRepository.findById(productOptionId).orElseThrow(() -> new NotFoundException("Không tìm thấy phân loại của sản phẩm qua id : " + productOptionId));
+        Capacity capacity = productOption.getCapacity();
+        return capacity != null ? Collections.singleton(capacity) : Collections.emptySet();
     }
 
     @Override

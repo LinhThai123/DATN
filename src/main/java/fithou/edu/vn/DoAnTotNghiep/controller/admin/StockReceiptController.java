@@ -12,11 +12,13 @@ import fithou.edu.vn.DoAnTotNghiep.product.service.ProductColorService;
 import fithou.edu.vn.DoAnTotNghiep.product.service.ProductOptionService;
 import fithou.edu.vn.DoAnTotNghiep.product.service.ProductService;
 import fithou.edu.vn.DoAnTotNghiep.receipt.entity.Receipt;
+import fithou.edu.vn.DoAnTotNghiep.receipt.entity.ReceiptItem;
 import fithou.edu.vn.DoAnTotNghiep.receipt.service.ReceiptService;
 import fithou.edu.vn.DoAnTotNghiep.supplier.entity.Supplier;
 import fithou.edu.vn.DoAnTotNghiep.supplier.service.SupplierService;
 import fithou.edu.vn.DoAnTotNghiep.user.entity.User;
 import fithou.edu.vn.DoAnTotNghiep.user.service.UserService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
@@ -25,10 +27,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin/stock-receipt")
@@ -87,7 +93,44 @@ public class StockReceiptController {
             List<ProductColor> productColors = productColorService.getListProductColor();
             model.addAttribute("productColors" , productColors);
         }
-
         return "admin/receipt/create" ;
+    }
+
+    @GetMapping("/{id}")
+    public String getReceiptDetailPage (Model model, @PathVariable String id) throws NotFoundException {
+
+        List<Supplier> suppliers = supplierService.getListSupplier();
+        model.addAttribute("suppliers", suppliers);
+
+        Receipt receipt = receiptService.getReceiptById(id);
+        model.addAttribute("receipt" , receipt);
+        model.addAttribute("user" , receipt.getEmployee()) ;
+
+        List<ReceiptItem> receiptItems = receiptService.getReceiptItemByReceiptId(receipt.getId());
+        model.addAttribute("receiptItems" , receiptItems);
+
+        Set<ProductOption> productOptions = receiptService.getProductOptionByReceiptId(id);
+        model.addAttribute("productOptions" , productOptions) ;
+
+        Set<ProductColor> productColors = new HashSet<>();
+        for (ProductOption productOption : productOptions) {
+            productColors.addAll(productOptionService.getProductColorByProductOptionId(productOption.getId()));
+        }
+        model.addAttribute("productColors" , productColors);
+
+        Set<Capacity> capacities = new HashSet<>();
+        for (ProductOption productOption : productOptions) {
+            capacities.addAll(productOptionService.getCapacityByProductOptionId(productOption.getId()));
+        }
+        model.addAttribute("capacities" , capacities);
+
+        // Lấy và thêm thông tin sản phẩm liên quan vào model
+        List<Product> products = new ArrayList<>();
+        for (ProductOption productOption : productOptions) {
+            products.add(productOptionService.getProductByProductOptionId(productOption.getId()));
+        }
+        model.addAttribute("products", products);
+
+        return "admin/receipt/detail" ;
     }
 }
