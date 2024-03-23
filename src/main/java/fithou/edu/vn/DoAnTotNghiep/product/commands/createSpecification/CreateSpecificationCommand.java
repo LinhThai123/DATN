@@ -11,6 +11,8 @@ import lombok.*;
 @Builder
 public class CreateSpecificationCommand implements IRequest<String> {
 
+    private String id;
+
     private String screen_size;
 
     private String resolution_screen;

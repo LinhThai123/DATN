@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:x-on="http://www.w3.org/1999/xhtml" th:replace="~{/admin/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thông số kỹ thuật</title>
+    <th:block id="css-resources">
+        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/plugins/summernote/summernote-bs4.css}">
+        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/list_image_product.css}">
+        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/modal_img.css}">
+        <!--    <link rel="stylesheet" th:href="@{/adminlte/plugins/summernote/summernote.css}">-->
+        <link rel="stylesheet" th:href="@{/styles/admin/css/upload.css}">
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    </th:block>
+
+</head>
+<body>
+<main id="main-content">
+    <!-- Breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/admin/product">Danh sách sản phẩm</a></li>
+                <li class="breadcrumb-item active">Thêm sản phẩm mới</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <a role="button" class="btn btn-default" href="/admin/product">
+            <span class="fas fa-chevron-left" style="margin-right:0.5rem;"></span>
+            <span>Trở về</span>
+        </a>
+        <button class="btn btn-success btn-update-specification">
+            <span class="fa fa-plus" style="margin-right:0.5rem;"></span>
+            <span>Sửa thông số kỹ thuật</span>
+        </button>
+        <div class="clear"></div>
+    </div>
+
+    <!-- Main content -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-outline">
+                <div class="card-body pad">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8">
+                            <input type="hidden" class="form-control" id="idSpecification" name="specification"
+                                   th:value="${specification.id}">
+                            <div class="form-group">
+                                <div>
+                                    <label class="required-label" for="screen-size">Kích thước màn hình</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-screen-size">Độ dài kích thước màn hình cấp từ 1 - 255 ký tự</span>
+                                </div>
+                                <input type="text" class="form-control" id="screen-size" th:value="${specification.screen_size}">
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label class="required-label" for="resolution-screen">Độ phân giải màn hình</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-resolution-screen">Độ dài độ phân giải màn hình từ 1 - 255 ký tự</span>
+                                </div>
+                                <textarea type="text" class="form-control" id="resolution-screen" rows="3" th:text="${specification.resolution_screen}"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label class="required-label" for="camera-before">Camera trước</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-camera-before">Camera trước không được để trống</span>
+                                </div>
+                                <textarea type="text" class="form-control" id="camera-before" rows="3" th:text="${specification.camera_before}"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label class="required-label" for="camera-after">Camera sau</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-camera-after">Camera sau không được để trống</span>
+                                </div>
+                                <textarea type="text" class="form-control" id="camera-after" rows="3" th:text="${specification.camera_after}"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label for="bluetooth" class="required-label">Bluetooth</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-bluetooth">Bluetooth không được để trống</span>
+                                </div>
+                                <textarea type="text" class="form-control" id="bluetooth" rows="3" th:text="${specification.bluetooth}"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group">
+                                <div>
+                                    <label for="product" class="required-label">Sản phẩm</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-product">Sản phẩm trống</span>
+                                </div>
+                                <select class="form-control" id="product">
+                                    <th:block th:each="product : ${products}">
+                                        <option th:value="${product.id}" th:text="${product.name}" th:selected="${specification.product.id == product.id}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <div class="form-group" >
+                                <div>
+                                    <label class="required-label" for="chipset">ChipSet</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-chip-set">Chipset không được để trống</span>
+                                </div>
+                                <input type="text" class="form-control" id="chipset" th:value="${specification.chip}">
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label for="cpu" class="required-label">CPU</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-cpu">Cpu không được để trống</span>
+                                </div>
+                                <input type="text" class="form-control" id="cpu" th:value="${specification.cpu}">
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label class="required-label" for="size">Kích thước</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-size">Kích thước không được để trống</span>
+                                </div>
+                                <input type="text" class="form-control" id="size" th:value="${specification.size}">
+                            </div>
+                            <div class="form-group" >
+                                <div>
+                                    <label for="weight" class="required-label">Trọng lượng</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-weight">Trọng lượng không được để trống</span>
+                                </div>
+                                <input type="text" class="form-control" id="weight" th:value="${specification.weight}">
+                            </div>
+                            <div class="form-group" >
+                                <div>
+                                    <label class="required-label" for="charging-port">Cổng sạc</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-charging-port">Cổng sạc không được để trống</span>
+                                </div>
+                                <input type="text" class="form-control" id="charging-port" th:value="${specification.charging_port}">
+                            </div>
+                            <div class="form-group" >
+                                <div>
+                                    <label class="required-label" for="size">PIN</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-pin">Pin không được để trống</span>
+                                </div>
+                                <input type="text" class="form-control" id="pin" th:value="${specification.pin}">
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label for="os" class="required-label">Hệ điều hành</label>
+                                    <span class="invalid-feedback" id="invalid-feedback-os">Hệ điều hành không được để trống</span>
+                                </div>
+                                <input type="text" class="form-control" id="os" th:value="${specification.os}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</main>
+<th:block id="js-resources">
+    <script th:src="@{/js/generateApi.js}"></script>
+    <script th:src="@{/styles/admin/adminlte/plugins/summernote/summernote-bs4.js}"></script>
+    <script th:src="@{/styles/admin/adminlte/plugins/list/list.min.js}"></script>
+    <script th:src="@{/styles/admin/script/upload.js}"></script>
+    <script th:inline="javascript">
+        $('.btn-update-specification').click(function () {
+            $('.invalid-feedback').hide();
+            let idSpecification = $('#idSpecification').val();
+            let idProduct = $('#product').val();
+            let screenSize = $('#screen-size').val();
+            let resolutionScreen = $('#resolution-screen').val();
+            let pin = $('#pin').val();
+            let chipSet = $('#chipset').val();
+            let cpu = $('#cpu').val();
+            let size =  $('#size').val();
+            let weight =  $('#weight').val();
+            let cameraAfter =  $('#camera-after').val();
+            let cameraBefore =  $('#camera-before').val();
+            let chargingPort =  $('#charging-port').val();
+            let os =  $('#os').val();
+            let bluetooth =  $('#bluetooth').val();
+
+            let isValid = true;
+
+            if (screenSize.length === 0 || name.length > 300) {
+                $('#invalid-feedback-screen-size').show();
+                isValid = false;
+            }
+
+            if (resolutionScreen.length === 0) {
+                $('#invalid-feedback-resolution-screen').show();
+                isValid = false;
+            }
+
+            if (pin.length === 0) {
+                $('#invalid-feedback-pin').show();
+                isValid = false;
+            }
+
+            if (chipSet.length === 0) {
+                $('#invalid-feedback-chip-set').show();
+                isValid = false;
+            }
+
+            if (cpu.length === 0) {
+                $('#invalid-feedback-cpu').show();
+                isValid = false;
+            }
+
+            if (size.length === 0) {
+                $('#invalid-feedback-size').show();
+                isValid = false;
+            }
+
+            if (weight.length === 0) {
+                $('#invalid-feedback-weight').show();
+                isValid = false;
+            }
+            if (cameraAfter.length === 0) {
+                $('#invalid-feedback-camera-after').show();
+                isValid = false;
+            }
+
+            if (cameraBefore.length === 0) {
+                $('#invalid-feedback-camera-before').show();
+                isValid = false;
+            }
+            if (chargingPort.length === 0) {
+                $('#invalid-feedback-charging-port').show();
+                isValid = false;
+            }
+
+            if (os.length === 0) {
+                $('#invalid-feedback-os').show();
+                isValid = false;
+            }
+
+            if (bluetooth.length === 0) {
+                $('#invalid-feedback-bluetooth').show();
+                isValid = false;
+            }
+
+            if (isValid) {
+                req = {
+                    id: idSpecification,
+                    screen_size: screenSize,
+                    resolution_screen : resolutionScreen,
+                    size: size,
+                    weight: weight,
+                    camera_after: cameraAfter,
+                    camera_before: cameraBefore,
+                    pin: pin,
+                    charging_port: chargingPort,
+                    os : os,
+                    bluetooth : bluetooth,
+                    chip: chipSet,
+                    productId : idProduct
+                }
+                callApi('PUT', '/v1/specification/update', req,
+                    function (response) {
+                        toastr.success("Chỉnh thông số kỹ thuật thành công", "", {timeOut: 1000});
+                        location.href = "/admin/product";
+
+                    },
+                    function (data) {
+                        console.log(data.responseJSON.message);
+                        toastr.warning(data.responseJSON.message);
+                    },
+                )
+            }
+        });
+    </script>
+</th:block>
+</body>
+</html>
