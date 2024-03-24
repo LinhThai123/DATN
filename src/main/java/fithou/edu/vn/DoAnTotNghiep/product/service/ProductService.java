@@ -22,6 +22,8 @@ public interface ProductService {
     public List<Product> getListProductByCategoryId (String id);
 
     public List<ProductDTO> getProductsWithProductOptionIds();
+
+    List<Product> findByCategoryId(String id);
 }
 
 

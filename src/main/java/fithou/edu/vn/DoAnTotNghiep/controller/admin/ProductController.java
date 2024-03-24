@@ -5,6 +5,7 @@ import fithou.edu.vn.DoAnTotNghiep.category.entity.Category;
 import fithou.edu.vn.DoAnTotNghiep.category.service.CategoryService;
 import fithou.edu.vn.DoAnTotNghiep.common.dto.PaginatedDto;
 import fithou.edu.vn.DoAnTotNghiep.product.commands.createProduct.CreateProductCommand;
+import fithou.edu.vn.DoAnTotNghiep.product.commands.createSpecification.CreateSpecificationCommand;
 import fithou.edu.vn.DoAnTotNghiep.product.entity.*;
 import fithou.edu.vn.DoAnTotNghiep.product.service.*;
 import javassist.NotFoundException;

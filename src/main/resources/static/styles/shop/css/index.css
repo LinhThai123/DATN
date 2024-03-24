@@ -3228,7 +3228,7 @@ header.header .main-header .align-items-center .header-right .sudes-header-accou
 }
 
 header.header .main-header .align-items-center .header-right .sudes-header-account ul li {
-    padding: 5px 5px;
+    padding: 10px 8px;
     transition: background 0.5s;
     border-radius: 5px
 }

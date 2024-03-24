@@ -1,6 +1,4 @@
-<th:block th:fragment="header"  xmlns="http://www.w3.org/1999/xhtml"
-          xmlns:th="http://www.thymeleaf.org"
-          xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:fragment="header" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <header class="header">
         <div class="main-header">
             <div class="container">
@@ -8,9 +6,6 @@
                     <div class="row align-items-center">
                         <div class="col-8 col-lg-3 col-md-8 header-logo">
                             <a href="£" class="logo-wrapper">
-                                <!-- <img title="Sudos Phone"
-                                    src="//bizweb.dktcdn.net/100/480/632/themes/900313/assets/logo.png?1704565467822"
-                                    alt="Logo"> -->
                                 <span class="logo_greentech">GREEN TECH</span>
                             </a>
 
@@ -32,50 +27,6 @@
                                             </path>
                                         </svg>
                                     </button>
-                                    <div class="search-suggest">
-                                        <div class="item-suggest">
-                                            <div class="search-title">
-                                                <svg width="16px" height="16px" xmlns="http://www.w3.org/2000/svg"
-                                                     version="1.1" viewBox="-22 0 134 134.06032">
-                                                    <g>
-                                                        <path
-                                                                d="M 23.347656 134.058594 C 8.445312 84.953125 39.933594 67.023438 39.933594 67.023438 C 37.730469 93.226562 52.621094 113.640625 52.621094 113.640625 C 58.097656 111.988281 68.550781 104.265625 68.550781 104.265625 C 68.550781 113.640625 63.035156 134.046875 63.035156 134.046875 C 63.035156 134.046875 82.34375 119.117188 88.421875 94.320312 C 94.492188 69.523438 76.859375 44.628906 76.859375 44.628906 C 77.921875 62.179688 71.984375 79.441406 60.351562 92.628906 C 60.933594 91.957031 61.421875 91.210938 61.796875 90.402344 C 63.886719 86.222656 67.242188 75.359375 65.277344 50.203125 C 62.511719 14.890625 30.515625 0 30.515625 0 C 33.273438 21.515625 25.003906 26.472656 5.632812 67.3125 C -13.738281 108.144531 23.347656 134.058594 23.347656 134.058594 Z M 23.347656 134.058594 "
-                                                                style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;">
-                                                        </path>
-                                                    </g>
-                                                </svg>
-                                                Tìm kiếm nhiều nhất
-                                            </div>
-                                            <div class="search-list">
-                                                <a href="/search?q=iPhone%208" class="search-item"
-                                                   title="Tìm kiếm iPhone 8">
-                                                    iPhone 8
-                                                </a>
-                                                <a href="/search?q=iPhone%2011" class="search-item"
-                                                   title="Tìm kiếm iPhone 11">
-                                                    iPhone 11
-                                                </a>
-                                                <a href="/search?q=iPad%20Gen%209" class="search-item"
-                                                   title="Tìm kiếm iPad Gen 9">
-                                                    iPad Gen 9
-                                                </a>
-                                                <a href="/search?q=Airspod" class="search-item"
-                                                   title="Tìm kiếm Airspod">
-                                                    Airspod
-                                                </a>
-                                                <a href="/search?q=Sạc%20nhanh" class="search-item"
-                                                   title="Tìm kiếm Sạc nhanh">
-                                                    Sạc nhanh
-                                                </a>
-                                                <a href="/search?q=Cáp%20Type%20C" class="search-item"
-                                                   title="Tìm kiếm Cáp Type C">
-                                                    Cáp Type C
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="list-search">
-                                        </div>
-                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -146,59 +97,52 @@
                                         </span>
                                     </div>
                                 </a>
-                                <ul>
-                                    <li class="li-account" sec:authorize="isAuthenticated()">
-                                        <a rel="nofollow" href="/login" title="Đăng nhập" >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                             fill="currentColor" class="bi bi-box-arrow-in-right"
-                                             viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                  d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z">
-                                            </path>
-                                            <path fill-rule="evenodd"
-                                                  d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z">
-                                            </path>
-                                        </svg>
+                                <ul sec:authorize="!isAuthenticated()" th:if="${username == 'anonymousUser'}">
+                                    <li class="li-account">
+                                        <a rel="nofollow" title="Đăng nhập" href="/login">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"></path>
+                                                <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"></path>
+                                            </svg>
                                             <span>Đăng nhập</span>
                                         </a>
                                     </li>
-                                    <li class="li-account"><a rel="nofollow" href="/register" title="Đăng ký">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                             fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
-                                            <path
-                                                    d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z">
-                                            </path>
-                                            <path fill-rule="evenodd"
-                                                  d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z">
-                                            </path>
-                                        </svg>
-                                        Đăng ký</a>
+                                    <li class="li-account">
+                                        <a rel="nofollow" title="Đăng ký" href="/register">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"></path>
+                                                <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"></path>
+                                            </svg>
+                                            <span>Đăng ký</span>
+                                        </a>
                                     </li>
+                                </ul>
+                                <ul sec:authorize="isAuthenticated()" th:unless="${username == 'anonymousUser'}">
 
-
-                                    <li class="li-account"><a rel="nofollow" href="/san-pham-yeu-thich"
-                                                              title="Danh sách yêu thích">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                             fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                            <path
-                                                    d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
-                                            </path>
-                                        </svg>
-                                        Danh sách yêu thích (<span class="js-wishlist-count">0</span>)</a>
+                                    <li class="li-account" style="margin-bottom: 3px;" th:if="${role == 'ROLE_ADMIN' or role == 'ROLE_EMPLOYEE'}">
+                                        <a rel="nofollow" href="/admin/product" title="Thông tin tài khoản">
+                                            <span>Trang quản trị</span>
+                                        </a>
                                     </li>
-
-
-                                    <li class="li-account"><a rel="nofollow" href="/so-sanh-san-pham"
-                                                              title="So sánh sản phẩm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                             fill="currentColor" class="bi bi-repeat" viewBox="0 0 16 16">
-                                            <path
-                                                    d="M11 5.466V4H5a4 4 0 0 0-3.584 5.777.5.5 0 1 1-.896.446A5 5 0 0 1 5 3h6V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192Zm3.81.086a.5.5 0 0 1 .67.225A5 5 0 0 1 11 13H5v1.466a.25.25 0 0 1-.41.192l-2.36-1.966a.25.25 0 0 1 0-.384l2.36-1.966a.25.25 0 0 1 .41.192V12h6a4 4 0 0 0 3.585-5.777.5.5 0 0 1 .225-.67Z">
-                                            </path>
-                                        </svg>
-                                        So sánh sản phẩm (<span class="js-compare-count text-center">0</span>)</a>
+                                    <li class="li-account" style="margin-bottom: 3px;">
+                                        <a rel="nofollow" href="/account" title="Thông tin tài khoản">
+                                            <span th:text="${username}"></span>
+                                        </a>
                                     </li>
-
+                                    <li class="li-account" style="margin-bottom: 3px;" th:if="${role == 'ROLE_ADMIN' or role == 'ROLE_EMPLOYEE'}">
+                                        <a rel="nofollow" href="/admin/product" title="Thông tin tài khoản">
+                                            <span>Đơn hàng</span>
+                                        </a>
+                                    </li>
+                                    <li class="li-account">
+                                        <a rel="nofollow" title="Đăng xuất" href="/logout">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"></path>
+                                                <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"></path>
+                                            </svg>
+                                            <span>Đăng xuất</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="sudes-header-cart header-action_cart">
@@ -323,271 +267,24 @@
                             <li class="nav-item ">
                                 <a class="nav-link" href="/gioi-thieu" title="Giới thiệu">Giới thiệu</a>
                             </li>
-                            <li class="nav-item has-childs   has-mega has-mega-1">
-                                <a href="/iphone" class="nav-link" title="iPhone">iPhone
-                                    <svg width="8" height="17"
-                                         viewBox="0 0 8 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                                d="M7.13382 7.1278L7.13379 7.12777L0.512271 0.509686L0.795057 0.226752L0.51227 0.509685C0.512123 0.509538 0.51201 0.509431 0.511927 0.509356L7.13382 7.1278ZM7.13382 7.1278C7.62239 7.61603 7.622 8.40641 7.13301 8.89414L7.13298 8.89417L0.502368 15.5089C0.50222 15.509 0.502106 15.5091 0.502022 15.5092C0.501841 15.5092 0.501547 15.5093 0.501149 15.5093C0.500827 15.5093 0.500574 15.5093 0.500392 15.5092L7.13055 8.89499C7.13056 8.89498 7.13057 8.89497 7.13058 8.89495C7.61976 8.407 7.62011 7.61541 7.13138 7.12699L7.13382 7.1278Z">
-                                        </path>
-                                    </svg>
-                                </a>
-                                <i class="open_mnu down_icon"></i>
-                                <div class="mega-content dropdown-menu">
-                                    <div class="row d-flex justify-content-center">
-                                        <div class="mega-menu-list col-lg-12">
-                                            <ul class="level0">
-                                                <li class="level1 parent item fix-navs nav-item-lv2 has-childs2">
-                                                    <a class="hmega" href="/iphone-14-series" title="iPhone 14 Series"
-                                                       style="font-size: 14px;">iPhone 14 Series</a>
-                                                    <i class="open_mnu down_icon"></i>
-                                                    <ul class="level1">
-                                                        <li class="level2 nav-item-lv3">
-                                                            <a href="/iphone-14" title="iPhone 14">iPhone 14</a>
-                                                        </li>
-                                                        <li class="level2 nav-item-lv3">
-                                                            <a href="/iphone-14-plus" title="iPhone 14 Plus">iPhone 14
-                                                                Plus</a>
-                                                        </li>
-                                                        <li class="level2 nav-item-lv3">
-                                                            <a href="/iphone-14-pro" title="iPhone 14 Pro">iPhone 14
-                                                                Pro</a>
-                                                        </li>
-                                                        <li class="level2 nav-item-lv3">
-                                                            <a href="/iphone-14-pro-max"
-                                                               title="iPhone 14 Pro Max">iPhone 14 Pro Max</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="level1 parent item fix-navs nav-item-lv2 has-childs2">
-                                                    <a class="hmega" href="/iphone-13-series" title="iPhone 13 Series"
-                                                       style="font-size: 14px;">iPhone 13 Series</a>
-                                                    <i class="open_mnu down_icon"></i>
-                                                    <ul class="level1">
-                                                        <li class="level2 nav-item-lv3">
-                                                            <a href="/iphone-13" title="iPhone 13">iPhone 13</a>
-                                                        </li>
-                                                        <li class="level2 nav-item-lv3">
-                                                            <a href="/iphone-13-mini" title="iPhone 13 mini">iPhone 13
-                                                                mini</a>
-                                                        </li>
-                                                        <li class="level2 nav-item-lv3">
-                                                            <a href="/iphone-13-pro" title="iPhone 13 Pro">iPhone 13
-                                                                Pro</a>
-                                                        </li>
-                                                        <li class="level2 nav-item-lv3">
-                                                            <a href="/iphone-13-pro-max"
-                                                               title="iPhone 13 Pro Max">iPhone 13 Pro Max</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="level1 parent item fix-navs nav-item-lv2 has-childs2">
-                                                    <a class="hmega" href="/iphone-12-series" title="iPhone 12 series"
-                                                       style="font-size: 14px;">iPhone 12 series</a>
-                                                    <i class="open_mnu down_icon"></i>
-                                                    <ul class="level1">
-                                                        <li class="level2 nav-item-lv3">
-                                                            <a href="/iphone-12" title="iPhone 12">iPhone 12</a>
-                                                        </li>
-                                                        <li class="level2 nav-item-lv3">
-                                                            <a href="/iphone-12-mini" title="iPhone 12 mini">iPhone 12
-                                                                mini</a>
-                                                        </li>
-                                                        <li class="level2 nav-item-lv3">
-                                                            <a href="/iphone-12-pro" title="iPhone 12 Pro">iPhone 12
-                                                                Pro</a>
-                                                        </li>
-                                                        <li class="level2 nav-item-lv3">
-                                                            <a href="/iphone-12-pro-max"
-                                                               title="iPhone 12 Pro Max">iPhone 12 Pro Max</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="level1 parent item fix-navs nav-item-lv2 has-childs2">
-                                                    <a class="hmega" href="/iphone-11-series" title="iPhone 11 series"
-                                                       style="font-size: 14px;">iPhone 11 series</a>
-                                                    <i class="open_mnu down_icon"></i>
-                                                    <ul class="level1">
-                                                        <li class="level2 nav-item-lv3">
-                                                            <a href="/iphone-11" title="iPhone 11">iPhone 11</a>
-                                                        </li>
-                                                        <li class="level2 nav-item-lv3">
-                                                            <a href="/iphone-11-pro" title="iPhone 11 Pro">iPhone 11
-                                                                Pro</a>
-                                                        </li>
-                                                        <li class="level2 nav-item-lv3">
-                                                            <a href="/iphone-11-pro-max"
-                                                               title="iPhone 11 Pro Max">iPhone 11 Pro Max</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                            <li class="nav-item">
+                                <a href="/iphone" class="nav-link" title="iPhone">iPhone</a>
                             </li>
-                            <li class="nav-item has-childs  ">
-                                <a href="/ipad" class="nav-link" title="iPad">iPad
-                                    <svg width="8" height="17"
-                                         viewBox="0 0 8 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                                d="M7.13382 7.1278L7.13379 7.12777L0.512271 0.509686L0.795057 0.226752L0.51227 0.509685C0.512123 0.509538 0.51201 0.509431 0.511927 0.509356L7.13382 7.1278ZM7.13382 7.1278C7.62239 7.61603 7.622 8.40641 7.13301 8.89414L7.13298 8.89417L0.502368 15.5089C0.50222 15.509 0.502106 15.5091 0.502022 15.5092C0.501841 15.5092 0.501547 15.5093 0.501149 15.5093C0.500827 15.5093 0.500574 15.5093 0.500392 15.5092L7.13055 8.89499C7.13056 8.89498 7.13057 8.89497 7.13058 8.89495C7.61976 8.407 7.62011 7.61541 7.13138 7.12699L7.13382 7.1278Z">
-                                        </path>
-                                    </svg>
-                                </a>
-                                <i class="open_mnu down_icon"></i>
-                                <ul class="dropdown-menu">
-                                    <li class="dropdown-submenu nav-item-lv2 has-childs2">
-                                        <a class="nav-link" href="/ipad-pro" title="iPad Pro">iPad Pro
-                                            <svg width="8"
-                                                 height="17" viewBox="0 0 8 17" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                        d="M7.13382 7.1278L7.13379 7.12777L0.512271 0.509686L0.795057 0.226752L0.51227 0.509685C0.512123 0.509538 0.51201 0.509431 0.511927 0.509356L7.13382 7.1278ZM7.13382 7.1278C7.62239 7.61603 7.622 8.40641 7.13301 8.89414L7.13298 8.89417L0.502368 15.5089C0.50222 15.509 0.502106 15.5091 0.502022 15.5092C0.501841 15.5092 0.501547 15.5093 0.501149 15.5093C0.500827 15.5093 0.500574 15.5093 0.500392 15.5092L7.13055 8.89499C7.13056 8.89498 7.13057 8.89497 7.13058 8.89495C7.61976 8.407 7.62011 7.61541 7.13138 7.12699L7.13382 7.1278Z">
-                                                </path>
-                                            </svg>
-                                        </a>
-                                        <i class="open_mnu down_icon"></i>
-                                        <ul class="dropdown-menu">
-                                            <li class="nav-item-lv3">
-                                                <a class="nav-link" href="/ipad-pro-m2-2022"
-                                                   title="iPad Pro M2 2022">iPad Pro M2 2022</a>
-                                            </li>
-                                            <li class="nav-item-lv3">
-                                                <a class="nav-link" href="/ipad-pro-2021" title="iPad Pro 2021">iPad Pro
-                                                    2021</a>
-                                            </li>
-                                            <li class="nav-item-lv3">
-                                                <a class="nav-link" href="/ipad-pro-12-9" title="iPad Pro 12.9">iPad Pro
-                                                    12.9</a>
-                                            </li>
-                                            <li class="nav-item-lv3">
-                                                <a class="nav-link" href="/ipad-pro-11" title="iPad Pro 11">iPad Pro
-                                                    11</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown-submenu nav-item-lv2 has-childs2">
-                                        <a class="nav-link" href="/ipad-air" title="iPad Air">iPad Air
-                                            <svg width="8"
-                                                 height="17" viewBox="0 0 8 17" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                        d="M7.13382 7.1278L7.13379 7.12777L0.512271 0.509686L0.795057 0.226752L0.51227 0.509685C0.512123 0.509538 0.51201 0.509431 0.511927 0.509356L7.13382 7.1278ZM7.13382 7.1278C7.62239 7.61603 7.622 8.40641 7.13301 8.89414L7.13298 8.89417L0.502368 15.5089C0.50222 15.509 0.502106 15.5091 0.502022 15.5092C0.501841 15.5092 0.501547 15.5093 0.501149 15.5093C0.500827 15.5093 0.500574 15.5093 0.500392 15.5092L7.13055 8.89499C7.13056 8.89498 7.13057 8.89497 7.13058 8.89495C7.61976 8.407 7.62011 7.61541 7.13138 7.12699L7.13382 7.1278Z">
-                                                </path>
-                                            </svg>
-                                        </a>
-                                        <i class="open_mnu down_icon"></i>
-                                        <ul class="dropdown-menu">
-                                            <li class="nav-item-lv3">
-                                                <a class="nav-link" href="/ipad-air-4" title="iPad Air 4">iPad Air 4</a>
-                                            </li>
-                                            <li class="nav-item-lv3">
-                                                <a class="nav-link" href="/ipad-air-5" title="iPad Air 5">iPad Air 5</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item-lv2">
-                                        <a class="nav-link" href="/ipad-10-9" title="iPad 10.9">iPad 10.9</a>
-                                    </li>
-                                    <li class="nav-item-lv2">
-                                        <a class="nav-link" href="/ipad-10-2" title="iPad 10.2">iPad 10.2</a>
-                                    </li>
-                                    <li class="nav-item-lv2">
-                                        <a class="nav-link" href="/ipad-mini" title="iPad mini">iPad mini</a>
-                                    </li>
-                                </ul>
+                            <li class="nav-item">
+                                <a href="/ipad" class="nav-link" title="iPad">iPad</a>
                             </li>
-                            <li class="nav-item has-childs  ">
-                                <a href="/macbook-imac" class="nav-link" title="Macbook - iMac">Macbook - iMac
-                                    <svg
-                                            width="8" height="17" viewBox="0 0 8 17" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                                d="M7.13382 7.1278L7.13379 7.12777L0.512271 0.509686L0.795057 0.226752L0.51227 0.509685C0.512123 0.509538 0.51201 0.509431 0.511927 0.509356L7.13382 7.1278ZM7.13382 7.1278C7.62239 7.61603 7.622 8.40641 7.13301 8.89414L7.13298 8.89417L0.502368 15.5089C0.50222 15.509 0.502106 15.5091 0.502022 15.5092C0.501841 15.5092 0.501547 15.5093 0.501149 15.5093C0.500827 15.5093 0.500574 15.5093 0.500392 15.5092L7.13055 8.89499C7.13056 8.89498 7.13057 8.89497 7.13058 8.89495C7.61976 8.407 7.62011 7.61541 7.13138 7.12699L7.13382 7.1278Z">
-                                        </path>
-                                    </svg>
-                                </a>
-                                <i class="open_mnu down_icon"></i>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item-lv2">
-                                        <a class="nav-link" href="/macbook-pro" title="MacBook Pro">MacBook Pro</a>
-                                    </li>
-                                    <li class="nav-item-lv2">
-                                        <a class="nav-link" href="/macbook-air" title="MacBook Air">MacBook Air</a>
-                                    </li>
-                                </ul>
+                            <li class="nav-item">
+                                <a href="/macbook-imac" class="nav-link" title="Macbook - iMac">Macbook - iMac</a>
                             </li>
-                            <li class="nav-item has-childs  ">
-                                <a href="/apple-watch" class="nav-link" title="Apple watch">Apple watch
-                                    <svg width="8"
-                                         height="17" viewBox="0 0 8 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                                d="M7.13382 7.1278L7.13379 7.12777L0.512271 0.509686L0.795057 0.226752L0.51227 0.509685C0.512123 0.509538 0.51201 0.509431 0.511927 0.509356L7.13382 7.1278ZM7.13382 7.1278C7.62239 7.61603 7.622 8.40641 7.13301 8.89414L7.13298 8.89417L0.502368 15.5089C0.50222 15.509 0.502106 15.5091 0.502022 15.5092C0.501841 15.5092 0.501547 15.5093 0.501149 15.5093C0.500827 15.5093 0.500574 15.5093 0.500392 15.5092L7.13055 8.89499C7.13056 8.89498 7.13057 8.89497 7.13058 8.89495C7.61976 8.407 7.62011 7.61541 7.13138 7.12699L7.13382 7.1278Z">
-                                        </path>
-                                    </svg>
-                                </a>
-                                <i class="open_mnu down_icon"></i>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item-lv2">
-                                        <a class="nav-link" href="/apple-watch-ultra" title="Apple Watch Ultra">Apple
-                                            Watch Ultra</a>
-                                    </li>
-                                    <li class="nav-item-lv2">
-                                        <a class="nav-link" href="/apple-watch-s7" title="Apple Watch S7">Apple Watch
-                                            S7</a>
-                                    </li>
-                                    <li class="nav-item-lv2">
-                                        <a class="nav-link" href="/apple-watch-s6" title="Apple Watch S6">Apple Watch
-                                            S6</a>
-                                    </li>
-                                    <li class="nav-item-lv2">
-                                        <a class="nav-link" href="/apple-watch-se" title="Apple Watch SE">Apple Watch
-                                            SE</a>
-                                    </li>
-                                    <li class="nav-item-lv2">
-                                        <a class="nav-link" href="/apple-watch-s8" title="Apple Watch S8">Apple Watch
-                                            S8</a>
-                                    </li>
-                                    <li class="nav-item-lv2">
-                                        <a class="nav-link" href="/apple-watch-s3" title="Apple Watch S3">Apple Watch
-                                            S3</a>
-                                    </li>
-                                </ul>
+                            <li class="nav-item">
+                                <a href="/apple-watch" class="nav-link" title="Apple watch">Apple Watch</a>
+
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="/airpods" title="Airpods">Airpods</a>
                             </li>
-                            <li class="nav-item has-childs  ">
-                                <a href="/phu-kien" class="nav-link" title="Phụ kiện">Phụ kiện
-                                    <svg width="8"
-                                         height="17" viewBox="0 0 8 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                                d="M7.13382 7.1278L7.13379 7.12777L0.512271 0.509686L0.795057 0.226752L0.51227 0.509685C0.512123 0.509538 0.51201 0.509431 0.511927 0.509356L7.13382 7.1278ZM7.13382 7.1278C7.62239 7.61603 7.622 8.40641 7.13301 8.89414L7.13298 8.89417L0.502368 15.5089C0.50222 15.509 0.502106 15.5091 0.502022 15.5092C0.501841 15.5092 0.501547 15.5093 0.501149 15.5093C0.500827 15.5093 0.500574 15.5093 0.500392 15.5092L7.13055 8.89499C7.13056 8.89498 7.13057 8.89497 7.13058 8.89495C7.61976 8.407 7.62011 7.61541 7.13138 7.12699L7.13382 7.1278Z">
-                                        </path>
-                                    </svg>
-                                </a>
-                                <i class="open_mnu down_icon"></i>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item-lv2">
-                                        <a class="nav-link" href="/phu-kien-apple" title="Phụ kiện Apple">Phụ kiện
-                                            Apple</a>
-                                    </li>
-                                    <li class="nav-item-lv2">
-                                        <a class="nav-link" href="/coc-cap-sac" title="Cốc - Cáp Sạc">Cốc - Cáp Sạc</a>
-                                    </li>
-                                    <li class="nav-item-lv2">
-                                        <a class="nav-link" href="/bao-da-op-lung" title="Bao Da - Ốp Lưng">Bao Da - Ốp
-                                            Lưng</a>
-                                    </li>
-                                    <li class="nav-item-lv2">
-                                        <a class="nav-link" href="/dan-cuong-luc" title="Dán cường lực">Dán cường
-                                            lực</a>
-                                    </li>
-                                    <li class="nav-item-lv2">
-                                        <a class="nav-link" href="/sac-du-phong" title="Sạc dự phòng">Sạc dự phòng</a>
-                                    </li>
-                                </ul>
+                            <li class="nav-item">
+                                <a href="/phu-kien" class="nav-link" title="Phụ kiện">Phụ kiện</a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="/chinh-sach-bao-mat" title="Chính sách">Chính sách</a>

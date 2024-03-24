@@ -143,7 +143,7 @@
                             <span class="fa fa-plus" style="margin-right:0.5rem; "></span>
                             <span>Thêm phân loại</span>
                         </button>
-                        <button class="btn btn-outline-info btn-create-specification" style="margin-left: 15px;">
+                        <button class="btn btn-outline-info btn-create-specification" style="margin-left: 15px;" onclick="redirectToPage()">
                             <span class="fa fa-plus" style="margin-right:0.5rem; "></span>
                             <span>Thêm thông tin kỹ thuật</span>
                         </button>
@@ -152,107 +152,6 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="modal-add-specification" tabindex="-1" role="dialog"
-         aria-labelledby="modalAddSpecification" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Thêm thông tin kỹ thuật</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="required-label" for="screen-size">Kích thước màn hình</label>
-                        <input type="text" class="form-control" id="screen-size" placeholder="Nhập kích thước màn hình">
-                        <span class="invalid-feedback" id="invalid-feedback-screen-size">Độ dài kích thước màn hình cấp từ 1 - 255 ký tự</span>
-                    </div>
-                    <div class="form-group">
-                        <label class="required-label" for="resolution-screen">Độ phân giải màn hình</label>
-                        <input type="text" class="form-control" id="resolution-screen"
-                               placeholder="Nhập độ phân giải màn hình">
-                        <span class="invalid-feedback" id="invalid-feedback-resolution-screen">Độ dài độ phân giải màn hình từ 1 - 255 ký tự</span>
-                    </div>
-                    <div class="row">
-                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
-                            <label class="required-label" for="chipset">ChipSet</label>
-                            <input type="text" class="form-control" id="chipset" placeholder="Nhập chipset">
-                            <span class="invalid-feedback"
-                                  id="invalid-feedback-chip-set">Chipset không được để trống</span>
-                        </div>
-                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
-                            <label for="cpu" class="required-label">CPU</label>
-                            <input type="text" class="form-control" id="cpu" placeholder="Nhập cpu">
-                            <span class="invalid-feedback" id="invalid-feedback-cpu">Cpu không được để trống</span>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
-                            <label class="required-label" for="size">Kích thước</label>
-                            <input type="text" class="form-control" id="size" placeholder="Nhập kích thước">
-                            <span class="invalid-feedback"
-                                  id="invalid-feedback-size">Kích thước không được để trống</span>
-                        </div>
-                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
-                            <label for="weight" class="required-label">Trọng lượng</label>
-                            <input type="text" class="form-control" id="weight" placeholder="Nhập trọng lượng">
-                            <span class="invalid-feedback"
-                                  id="invalid-feedback-weight">Trọng lượng không được để trống</span>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
-                            <label class="required-label" for="charging-port">Cổng sạc</label>
-                            <input type="text" class="form-control" id="charging-port"
-                                   placeholder="Nhập cổng sạc cho điện thoại ">
-                            <span class="invalid-feedback" id="invalid-feedback-charging-port">Cổng sạc không được để trống</span>
-                        </div>
-                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
-                            <label for="bluetooth" class="required-label">Bluetooth</label>
-                            <input type="text" class="form-control" id="bluetooth" placeholder="Nhập bluetooth">
-                            <span class="invalid-feedback"
-                                  id="invalid-feedback-bluetooth">Bluetooth không được để trống</span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="required-label" for="camera-before">Camera trước</label>
-                        <input type="text" class="form-control" id="camera-before" placeholder="Nhập camera trước">
-                        <span class="invalid-feedback" id="invalid-feedback-camera-before">Camera trước không được để trống</span>
-                    </div>
-                    <div class="form-group">
-                        <label class="required-label" for="camera-after">Camera sau</label>
-                        <input type="text" class="form-control" id="camera-after" placeholder="Nhập camera sau">
-                        <span class="invalid-feedback"
-                              id="invalid-feedback-camera-after">Camera sau không được để trống</span>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group" style="width: 45%; margin-right: 5px; margin-left: 8px;">
-                            <label class="required-label" for="size">PIN</label>
-                            <input type="text" class="form-control" id="pin" placeholder="Nhập pin cho điện thoại">
-                            <span class="invalid-feedback" id="invalid-feedback-pin">Pin không được để trống</span>
-                        </div>
-                        <div class="form-group" style="width: 50%; margin-left: 5px; ">
-                            <label for="os" class="required-label">Hệ điều hành</label>
-                            <input type="text" class="form-control" id="os" placeholder="Nhập Hệ điều hành">
-                            <span class="invalid-feedback"
-                                  id="invalid-feedback-os">Hệ điều hành không được để trống</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary btn-add-specification">Thêm</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal fade" id="modal-add-product-option" tabindex="-1" role="dialog"
          aria-labelledby="modalAddProductOption" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -405,113 +304,6 @@
                 )
             }
         });
-
-        $(document).ready(function () {
-            $(".btn-create-specification").click(function () {
-                $("#modal-add-specification").modal("show");
-            });
-        });
-
-        $('.btn-add-specification').click(function () {
-            let productId = $('#id').val();
-            let screenSize = $('#screen-size').val();
-            let resolutionScreen = $('#resolution-screen').val();
-            let chipSet = $('#chipset').val();
-            let cpu = $('#cpu').val();
-            let size = $('#size').val();
-            let weight = $('#weight').val();
-            let cameraAfter = $('#camera-after').val();
-            let cameraBefore = $('#camera-before').val();
-            let pin = $('#pin').val();
-            let chargingPort = $('#charging-port').val();
-            let os = $('#os').val();
-            let bluetooth = $('#bluetooth').val();
-
-            let isValid = true;
-            if (screenSize.length === 0) {
-                $('#invalid-feedback-screen-size').show();
-                isValid = false;
-            }
-            if (resolutionScreen.length === 0) {
-                $('#invalid-feedback-resolution-screen').show();
-                isValid = false;
-            }
-
-            if (chipSet.length === 0) {
-                $('#invalid-feedback-chip-set').show();
-                isValid = false;
-            }
-            if (cpu.length === 0) {
-                $('#invalid-feedback-cpu').show();
-                isValid = false;
-            }
-
-            if (size.length === 0) {
-                $('#invalid-feedback-size').show();
-                isValid = false;
-            }
-            if (weight.length === 0) {
-                $('#invalid-feedback-weight').show();
-                isValid = false;
-            }
-            if (cameraAfter.length === 0) {
-                $('#invalid-feedback-camera-after').show();
-                isValid = false;
-            }
-            if (cameraBefore.length === 0) {
-                $('#invalid-feedback-camera-before').show();
-                isValid = false;
-            }
-
-            if (pin.length === 0) {
-                $('#invalid-feedback-pin').show();
-                isValid = false;
-            }
-            if (chargingPort.length === 0) {
-                $('#invalid-feedback-charging-port').show();
-                isValid = false;
-            }
-
-            if (os.length === 0) {
-                $('#invalid-feedback-os').show();
-                isValid = false;
-            }
-
-            if (bluetooth.length === 0) {
-                $('#invalid-feedback-bluetooth').show();
-                isValid = false;
-            }
-
-            if (isValid) {
-                req = {
-                    screen_size: screenSize,
-                    resolution_screen: resolutionScreen,
-                    cpu: cpu,
-                    size: size,
-                    weight: weight,
-                    camera_after: cameraAfter,
-                    camera_before: cameraBefore,
-                    pin: pin,
-                    charging_port: chargingPort,
-                    os: os,
-                    bluetooth: bluetooth,
-                    chip: chipSet,
-                    stock: 0,
-                    productId: productId
-                }
-                callApi('POST', '/v1/specification/create', req,
-                    function (data) {
-                        toastr.success("Thêm thông số kỹ thuật thành công", "", {timeOut: 1000});
-                        $('.modal').modal('hide');
-                        location.href = "/admin/product";
-                    },
-                    function (data) {
-                        toastr.warning(data.responseJSON.message);
-                    },
-                )
-            }
-        });
-
         $(document).ready(function () {
             $(".btn-create-product-option").click(function () {
                 $("#modal-add-product-option").modal("show");
@@ -549,6 +341,9 @@
                 )
             }
         });
+        function redirectToPage() {
+            window.location.href = "/admin/specification/create";
+        }
     </script>
 </th:block>
 </body>

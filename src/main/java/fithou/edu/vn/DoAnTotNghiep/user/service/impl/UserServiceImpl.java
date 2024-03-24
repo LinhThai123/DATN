@@ -1,5 +1,6 @@
 package fithou.edu.vn.DoAnTotNghiep.user.service.impl;
 
+import fithou.edu.vn.DoAnTotNghiep.auth.security.CustomUserDetails;
 import fithou.edu.vn.DoAnTotNghiep.config.Contant;
 import fithou.edu.vn.DoAnTotNghiep.user.entity.User;
 import fithou.edu.vn.DoAnTotNghiep.user.repository.UserRepository;
@@ -10,6 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -58,5 +63,30 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getUserInfo(String name) {
         return userRepository.findByName(name);
     }
+
+    @Override
+    public Optional<UserDetails> getCurrentUser() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable((UserDetails) authentication.getPrincipal());
+    }
+
+    @Override
+    public Optional<String> getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            return Optional.empty();
+        }
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof CustomUserDetails) {
+            return Optional.ofNullable(((CustomUserDetails) principal).getUser().getId());
+        }
+        return Optional.empty();
+    }
+
 
 }

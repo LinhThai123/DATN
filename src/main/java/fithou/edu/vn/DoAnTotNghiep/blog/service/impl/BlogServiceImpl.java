@@ -43,4 +43,9 @@ public class BlogServiceImpl implements BlogService {
         }
         return rs.get();
     }
+
+    @Override
+    public List<Blog> getListBlogByStatus(int status) {
+        return blogRepository.findByStatus(status);
+    }
 }

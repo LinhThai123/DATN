@@ -2,6 +2,7 @@ package fithou.edu.vn.DoAnTotNghiep.user.entity;
 
 import fithou.edu.vn.DoAnTotNghiep.auth.entity.Permission;
 import fithou.edu.vn.DoAnTotNghiep.auth.entity.Role;
+import fithou.edu.vn.DoAnTotNghiep.cart.entity.CartItem;
 import fithou.edu.vn.DoAnTotNghiep.common.entity.BaseEntity;
 import fithou.edu.vn.DoAnTotNghiep.order.entity.Order;
 import fithou.edu.vn.DoAnTotNghiep.receipt.entity.Receipt;
@@ -68,6 +69,10 @@ public class User extends BaseEntity implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private java.util.List<CartItem> cartItems;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders;

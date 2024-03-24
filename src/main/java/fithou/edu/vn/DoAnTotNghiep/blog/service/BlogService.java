@@ -12,4 +12,6 @@ public interface BlogService {
     List<Blog> getListBlog() ;
     Page<Blog> adminGetListBlog(String title, int page);
     public Blog getBlogBySlug (String slug) throws NotFoundException;
+
+    public List<Blog> getListBlogByStatus(int status) ;
 }

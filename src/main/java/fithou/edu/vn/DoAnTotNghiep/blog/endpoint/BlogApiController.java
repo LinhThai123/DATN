@@ -3,6 +3,8 @@ package fithou.edu.vn.DoAnTotNghiep.blog.endpoint;
 import fithou.edu.vn.DoAnTotNghiep.blog.commands.createBlog.CreateBlogCommand;
 import fithou.edu.vn.DoAnTotNghiep.blog.commands.deleteBlog.DeleteBlogCommand;
 import fithou.edu.vn.DoAnTotNghiep.blog.commands.updateBlog.UpdateBlogCommand;
+import fithou.edu.vn.DoAnTotNghiep.blog.entity.Blog;
+import fithou.edu.vn.DoAnTotNghiep.blog.service.BlogService;
 import fithou.edu.vn.DoAnTotNghiep.category.commands.deleteCategory.DeleteCategoryCommand;
 import fithou.edu.vn.DoAnTotNghiep.common.cqrs.ISender;
 import jakarta.validation.Valid;
@@ -11,11 +13,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/blog")
 public class BlogApiController {
     @Autowired
     private ISender sender;
+
+    @Autowired
+    private BlogService blogService;
+
+    @GetMapping
+    public ResponseEntity<List<Blog>> getBlogs() {
+        var result = blogService.getListBlog();
+        return ResponseEntity.ok(result);
+    }
 
     @PostMapping("/add")
     public ResponseEntity<String> createBlog (@Valid @RequestBody CreateBlogCommand command) {

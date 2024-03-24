@@ -41,7 +41,11 @@ public class ProductApiController {
             throw new RuntimeException(e);
         }
     }
-
+    @GetMapping("/category")
+    public ResponseEntity<List<Product>> getProductsByCategoryName(@RequestParam(defaultValue = "BgUupTg262gnP5O5") String id) {
+        List<Product> products = productService.findByCategoryId(id);
+        return ResponseEntity.ok(products);
+    }
     @PostMapping("/create")
     public ResponseEntity<String> createProduct(@RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody @Valid CreateProductCommand command) {
         var result = sender.send(command);

@@ -28,7 +28,7 @@ public class HomeController {
     private JwtService jwtService;
 
 
-        @GetMapping("/login")
+    @GetMapping("/login")
     public String Login(Model model,
                         @ModelAttribute("loginRequest") LoginRequest loginRequest) {
         model.addAttribute("loginRequest", loginRequest);
