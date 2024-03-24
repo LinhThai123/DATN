@@ -77,4 +77,9 @@ public class ProductServiceImpl implements ProductService {
             return productDTO;
         }).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Product> findByCategoryId(String id) {
+        return productRepository.findByCategoryId(id);
+    }
 }
