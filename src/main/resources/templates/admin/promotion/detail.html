@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:x-on="http://www.w3.org/1999/xhtml" th:replace="~{/admin/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+<head>
+    <meta charset="UTF-8">
+    <title>Tạo khuyến mãi</title>
+    <th:block id="css-resources">
+        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/plugins/summernote/summernote-bs4.css}">
+        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/list_image_product.css}">
+        <link rel="stylesheet" th:href="@{/styles/admin/adminlte/dist/css/modal_img.css}">
+        <!--    <link rel="stylesheet" th:href="@{/adminlte/plugins/summernote/summernote.css}">-->
+        <link rel="stylesheet" th:href="@{/styles/admin/css/upload.css}">
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    </th:block>
+
+</head>
+<body>
+<main id="main-content">
+    <!-- Breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/admin/promotion">Danh sách khuyến mãi</a></li>
+                <li class="breadcrumb-item active">Chi tiết khuyến mãi</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <a role="button" class="btn btn-default" href="/admin/promotion">
+            <span class="fas fa-chevron-left" style="margin-right:0.5rem;"></span>
+            <span>Trở về</span>
+        </a>
+        <button class="btn btn-success btn-create-promotion">
+            <span class="fa fa-plus" style="margin-right:0.5rem;"></span>
+            <span>Cập nhật</span>
+        </button>
+        <div class="clear"></div>
+    </div>
+
+    <!-- Main content -->
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-12">
+            <div class="card card-outline">
+                <div class="card-body pad">
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="id" name="id"
+                               th:value="${id}">
+                        <div>
+                            <label class="required-label" for="code">Mã code</label> <i>Mã kích hoạt chỉ bao gồm ký tự
+                            viết hoa từ A-Z và số từ 0-9 và dấu gạch ngang (độ dài từ 4 - 16 ký tự)</i>
+                            <span class="invalid-feedback" id="invalid-feedback-code">Mã kích hoạt không hợp lệ</span>
+                        </div>
+                        <input type="text" class="form-control" id="code" th:value="${promotion.code}">
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label class="required-label" for="name">Tên chương trình</label>
+                            <span class="invalid-feedback"
+                                  id="invalid-feedback-name">Độ dài tiêu đề từ 1 - 300 ký tự</span>
+                        </div>
+                        <input type="text" class="form-control" id="name" th:value="${promotion.name}">
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label class="required-label" for="description">Mô tả</label>
+                            <span class="invalid-feedback" id="invalid-feedback-description">Độ dài mô tả đề từ 1 - 300 ký tự</span>
+                        </div>
+                        <input type="text" class="form-control" id="description" th:value="${promotion.description}">
+                    </div>
+                    <div class="form-group">
+                        <label for="promotion-type" class="required-label">Khuyến mãi theo</label>
+                        <select class="form-control" id="promotion-type">
+                            <option th:value="PERCENTAGE" th:selected="${promotion.promotionType == 'PERCENTAGE'}">Phần trên (%)</option>
+                            <option th:value="FIXED_AMOUNT" th:selected="${promotion.promotionType == 'FIXED_AMOUNT'}">Khoản tiền trực tiếp</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label class="required-label" for="discount">Giảm giá</label>
+                            <span class="invalid-feedback" id="invalid-feedback-discount">Phần trăm giảm giá không được lớn hơn 100</span>
+                        </div>
+                        <input type="number" min="1" class="form-control" id="discount" th:value="${promotion.discount}">
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label class="required-label" for="min-order-value">Giá trị đơn tối thiểu</label>
+                            <span class="invalid-feedback" id="invalid-feedback-min-order-value"></span>
+                        </div>
+                        <input type="text" min="1" class="form-control text-price" id="min-order-value" th:value="${promotion.minOrderAmount}">
+                    </div>
+                    <div class="form-group discount-exactly">
+                        <div>
+                            <label class="required-label" for="max-value">Giá trị tối đa</label>
+                            <span class="invalid-feedback" id="invalid-feedback-max-value">Mức giảm giá tối đa cần lớn hơn 1000đ</span>
+                        </div>
+                        <input type="text" min="1" class="form-control text-price" id="max-value" th:value="${promotion.maxValue}">
+                    </div>
+                    <label class="required-label" for="start-date">Khoảng thời gian áp dụng</label>
+                    <div class="row" style="display: flex; justify-content: space-between;">
+                        <div class="form-group" style="width: 46%; margin-left: 10px;">
+                            <div>
+                                <span class="invalid-feedback" id="invalid-feedback-start-date">Vui lòng chọn ngày bắt đầu và ngày kết thúc</span>
+                            </div>
+                            <input type="date" class="form-control" id="start-date" th:value="${#dates.format(promotion.startDate, 'yyyy-MM-dd')}">
+                        </div>
+                        <div class="form-group" style="width: 46%; margin-right: 10px;">
+                            <div>
+                                <span class="invalid-feedback" id="invalid-feedback-end-date">Ngày kết thúc phải lớn hơn ngày bắt đầu</span>
+                            </div>
+                            <input type="date" class="form-control" id="end-date" th:value="${#dates.format(promotion.endDate, 'yyyy-MM-dd')}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label class="required-label" for="stock">Số lượt sử dụng</label>
+                            <span class="invalid-feedback"
+                                  id="invalid-feedback-stock">Số lượng sử dụng phải lớn hơn 0</span>
+                        </div>
+                        <input type="number" class="form-control" id="stock" th:value="${promotion.stock}">
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="active" th:checked="${promotion.active == true}">
+                            <label class="custom-control-label" for="active">Kích hoạt khuyến mãi</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<th:block id="js-resources">
+    <script th:src="@{/js/generateApi.js}"></script>
+    <script th:src="@{/styles/admin/adminlte/plugins/summernote/summernote-bs4.js}"></script>
+    <script th:src="@{/styles/admin/adminlte/plugins/list/list.min.js}"></script>
+    <script th:src="@{/styles/admin/script/upload.js}"></script>
+    <script th:inline="javascript">
+        // Gọi hàm formatToVND để format giá trị khi trang được tải
+        document.addEventListener('DOMContentLoaded', function() {
+            let minOrderValueInput = document.getElementById('min-order-value');
+            minOrderValueInput.value = formatToVND(parseFloat(minOrderValueInput.value));
+
+            let maxValueInput = document.getElementById('max-value');
+            maxValueInput.value = formatToVND(parseFloat(maxValueInput.value));
+        });
+        let minOrderValueFomat = "";
+        let maxValueFormat = "";
+        // Sự kiện input cho ô input min-order-value
+        $('#min-order-value').on('input', function () {
+            let value = $('#min-order-value').val();
+            value = value.replace(/\u00A0\u20AB/g, '').replace(/\./g, '');
+            if (!isNaN(value) && parseFloat(value) >= 0) {
+                minOrderValueFomat = formatToVND(value);
+                $(this).val(minOrderValueFomat);
+            }
+        });
+
+        // Sự kiện input cho ô input max-value
+        $('#max-value').on('input', function () {
+            let value = $('#max-value').val();
+            value = value.replace(/\u00A0\u20AB/g, '').replace(/\./g, '');
+            if (!isNaN(value) && parseFloat(value) >= 0) {
+                maxValueFormat = formatToVND(value);
+                $(this).val(maxValueFormat);
+            }
+        });
+
+        function formatToVND(number) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+        }
+        $('.btn-create-promotion').click(function () {
+            $('.invalid-feedback').hide();
+            let idPromotion = $('#id').val();
+            let code = $('#code').val();
+            let name = $('#name').val();
+            let description = $('#description').val();
+            let discount = $('#discount').val();
+            let promotionType = $('#promotion-type').val();
+            let minOrderValue = $('#min-order-value').val();
+            let maxValue = $('#max-value').val();
+            let startDate = $('#start-date').val();
+            let endDate = $('#end-date').val();
+            let stock = $('#stock').val();
+            let active = $('#active').is(':checked');
+
+            let isValid = true;
+
+            let processedMinOrderValue = parseInt(minOrderValue.replace(/\D/g, ''));
+            let processedMaxValue = parseInt(maxValue.replace(/\D/g, ''));
+
+            let regex = new RegExp("^[0-9A-Z-]+$");
+            if (code.length == 0 || regex.test(code) == false) {
+                $('#invalid-feedback-code').show();
+                isValid = false;
+            }
+            if (name.length == 0 || name.length > 300) {
+                $('#invalid-feedback-name').show();
+                isValid = false;
+            }
+            if (description.length == 0 || description.length > 300) {
+                $('#invalid-feedback-description').show();
+                isValid = false;
+            }
+
+            if (promotionType === 'PERCENTAGE' && discount > 100) {
+                $('#invalid-feedback-discount').show();
+                isValid = false;
+            }
+            let startDateObj = new Date(startDate);
+            let endDateObj = new Date(endDate);
+            if (!startDateObj || !endDateObj) {
+                $('#invalid-feedback-start-date').show();
+                isValid = false;
+            }
+            if (startDateObj > endDateObj) {
+                $('#invalid-feedback-end-date').show();
+                isValid = false;
+            }
+            if (stock < 0) {
+                $('#invalid-feedback-stock').show();
+                isValid = false;
+            }
+            if (isValid) {
+                let req = {
+                    promotionId : idPromotion,
+                    code: code,
+                    name: name,
+                    description: description,
+                    type: promotionType,
+                    discount: discount,
+                    minOrderAmount: processedMinOrderValue,
+                    maxValue: processedMaxValue,
+                    active: active,
+                    stock: stock,
+                    startDate: startDate,
+                    endDate: endDate,
+                }
+                callApi('PUT', '/v1/promotion/update', req,
+                    function (data) {
+                        toastr.success("Cập nhật khuyến mãi thành công", "", {timeOut: 2000});
+                        window.location.href = '/admin/promotion';
+                    },
+                    function (data) {
+                        toastr.warning(data.responseJSON.message);
+                    },
+                    function (data) {
+                        $('#invalid-feedback').hide();
+                    }
+                )
+            }
+        })
+    </script>
+</th:block>
+</body>
+</html>

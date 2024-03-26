@@ -36,11 +36,12 @@ public class Promotion extends BaseEntity implements Serializable {
     @Column(name = "DISCOUNT")
     private int discount;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "PROMOTION_TYPE")
     private PromotionType promotionType;
 
     @Column(name = "MIN_ORDER_AMOUNT")
-    private int minOrderAmount;
+    private Integer minOrderAmount;
 
     @Column(name = "MAX_VALUE", nullable = true)
     private Integer maxValue;

@@ -32,10 +32,10 @@ public class Blog extends BaseEntity implements Serializable {
     @Column(name = "SLUG")
     private String slug;
 
-    @Column(name = "DESCRIPTION" , columnDefinition = "TEXT")
+    @Column(name = "DESCRIPTION" , columnDefinition = "LONGTEXT")
     private String description;
 
-    @Column(name = "CONTENT" , columnDefinition = "TEXT")
+    @Column(name = "CONTENT" , columnDefinition = "LONGTEXT")
     private String content;
 
     @Column(name = "STATUS", columnDefinition = "int default 0")

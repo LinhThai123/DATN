@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+
 @Service
 @AllArgsConstructor
 public class CreatePromotionCommandHandller implements IRequestHandler<CreatePromotionCommand, String> {
@@ -31,9 +33,10 @@ public class CreatePromotionCommandHandller implements IRequestHandler<CreatePro
         promotion.setStock(command.getStock());
         promotion.setStartDate(command.getStartDate());
         promotion.setDiscount(command.getDiscount());
-        promotion.setMaxValue(command.getMaxValue());
         promotion.setMinOrderAmount(command.getMinOrderAmount());
+        promotion.setMaxValue(command.getMaxValue());
         promotion.setPromotionType(command.getType());
+        promotion.setCreatedDate(new Timestamp(System.currentTimeMillis()));
         promotionRepository.save(promotion);
         return HandleResponse.ok(promotion.getId());
     }

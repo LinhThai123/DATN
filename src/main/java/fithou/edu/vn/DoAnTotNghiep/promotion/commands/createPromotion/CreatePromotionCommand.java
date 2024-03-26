@@ -30,10 +30,9 @@ public class CreatePromotionCommand implements IRequest<String> {
     @NotNull(message = "Loại khuyến mãi không được để trống")
     private PromotionType type;
 
-    @Min(value = 0, message = "Giá trị đơn hàng tối thiểu không hợp lệ")
-    private int minOrderAmount;
+    private Integer minOrderAmount;
 
-    private Integer maxValue;
+    private int maxValue;
 
     @NotNull(message = "Ngày bắt đầu không được để trống")
     private Date startDate;
@@ -43,5 +42,5 @@ public class CreatePromotionCommand implements IRequest<String> {
 
     private boolean active = true;
 
-    private int stock = 0;
+    private int stock ;
 }
